@@ -1,0 +1,325 @@
+{
+  "meta": {
+    "title": "Antonio Lisboa — Portafolio",
+    "description": "Fullstack · TypeScript · Next.js — proyectos, experiencia y contacto"
+  },
+  "Nav": {
+    "aria": "Navegación principal",
+    "home": "Inicio",
+    "work": "Trabajos",
+    "lab": "Laboratorio",
+    "contact": "Contacto",
+    "footerTagline": "Portafolio personal · código abierto en GitHub",
+    "yearSecretAria": "Año del copyright (easter egg)"
+  },
+  "Easter": {
+    "kickerToast": "Encontraste el rincón adecuado. La curiosidad es la mitad del trabajo de ingeniería.",
+    "snakeTitle": "Snake — modo Konami",
+    "snakeScore": "Puntos",
+    "snakeControls": "Flechas para jugar · Esc para cerrar",
+    "snakeOver": "Game over — inténtalo otra vez.",
+    "close": "Cerrar",
+    "yearToast": "10 clics en el año: me gusta quien lee la letra pequeña. Gracias por explorar."
+  },
+  "Lab": {
+    "meta": {
+      "title": "Laboratorio — Antonio Lisboa",
+      "description": "Demos prácticas: React 19, Server Actions, Suspense y next-intl funcionando juntos."
+    },
+    "kicker": "En producción en este dominio",
+    "title": "Laboratorio",
+    "intro": "Esta página muestra lo que el portafolio usa de verdad: islas cliente, acciones de servidor, streaming con Suspense y rutas localizadas—sin diapositivas.",
+    "streaming": {
+      "title": "Streaming con Suspense",
+      "body": "El bloque inferior viene de un Server Component asíncrono con retraso intencional—el fallback aparece mientras el segmento resuelve.",
+      "ready": "Contenido asíncrono listo—simula datos lentos o llamadas a API sin bloquear el resto de la página."
+    },
+    "action": {
+      "title": "Server Action + useActionState",
+      "body": "El formulario llama a una función marcada con \"use server\" en el mismo monolito Next.js. El estado devuelto re-renderiza esta tarjeta sin una API REST explícita.",
+      "label": "Tu nombre (opcional)",
+      "placeholder": "ej.: equipo de producto",
+      "submit": "Pedir saludo",
+      "pending": "Procesando…",
+      "resultPrefix": "Respuesta del servidor:"
+    },
+    "path": {
+      "title": "Rutas tipadas (next-intl)",
+      "body": "El pathname inferior viene de createNavigation—útil para estados activos y analytics sin strings mágicos.",
+      "label": "usePathname() en este locale",
+      "hint": "Cambia al alternar PT / EN / ES—el prefijo sigue localePrefix: as-needed."
+    },
+    "terminal": {
+      "sectionTitle": "Terminal ficticio",
+      "body": "Animación solo en cliente—útil para microinteracciones y onboarding de devtools.",
+      "title": "zsh — portfolio"
+    },
+    "eggs": {
+      "title": "Easter eggs",
+      "body": "Hay al menos tres sorpresas: un acorde de teclas clásico, clics en el subtítulo del héroe y una secuencia en el pie. Explora con calma."
+    }
+  },
+  "Work": {
+    "meta": {
+      "title": "Trabajos — Antonio Lisboa",
+      "description": "Casos reales: healthtech, edtech y proyecto público con integraciones e IA."
+    },
+    "kicker": "Selección de trabajos",
+    "title": "Trabajos en detalle",
+    "intro": "Cada bloque resume contexto, mi rol e impacto técnico. El código privado solo se describe a alto nivel.",
+    "labLink": "Ver cómo está hecho el sitio (Laboratorio)",
+    "impactHeading": "Impacto y entregas",
+    "items": [
+      {
+        "id": "vittahub",
+        "status": "En curso",
+        "title": "Vittahub — marketplace de salud",
+        "role": "Tech Lead · Fullstack",
+        "period": "01/2025 — presente · Ceará, Brasil",
+        "context": "Startup temprana que construye un marketplace para clínicas y cuidados continuos. Foco en discovery, requisitos y ritmo de entrega con equipo pequeño y QA.",
+        "impact": [
+          "System design alineado a negocio y roadmap incremental.",
+          "Cultura de releases frecuentes con DevOps y revisiones de datos/modelo.",
+          "Mentoría técnica y pair programming con becarios."
+        ],
+        "stack": "Next.js, TypeScript, Node.js, PostgreSQL",
+        "note": "Repositorio y datos internos—sin demo pública."
+      },
+      {
+        "id": "ussin",
+        "status": "Completado",
+        "title": "Ussin — plataforma educativa",
+        "role": "Fullstack Web Developer",
+        "period": "03/2024 — 12/2024 · Ceará, Brasil",
+        "context": "Producto educativo con flujos gráficos complejos y requisitos de inclusión e i18n.",
+        "impact": [
+          "Migración web → mobile con rediseño de flujos.",
+          "Motor gráfico con React Flow y mejoras claras de rendimiento.",
+          "Idioma automático por locale y accesibilidad según referencias internacionales."
+        ],
+        "stack": "React, React Flow, Node.js, MariaDB, i18n"
+      },
+      {
+        "id": "ufc",
+        "status": "Proyecto entregado",
+        "title": "App UFC — módulo con Gobierno de Ceará",
+        "role": "Fullstack (proyecto ~6 meses)",
+        "period": "02/2025 — 08/2025 · Brasil",
+        "context": "Módulo institucional en la app oficial de la UFC: reservas, agenda y soporte a estudiantes con IA y automatización.",
+        "impact": [
+          "Reservas de salas y generación automática de cronogramas por sala.",
+          "IA para FAQs conectada a la app y WhatsApp vía N8N.",
+          "Operación en Docker en servidores de la universidad."
+        ],
+        "stack": "Docker on-prem, N8N, integraciones, IA aplicada"
+      }
+    ]
+  },
+  "Home": {
+    "skip": "Ir al contenido",
+    "hero": {
+      "kicker": "Portafolio online",
+      "role": "Junior Fullstack Software Engineer",
+      "title": "Antonio Lisboa de Carvalho",
+      "summary": "Fullstack centrado en TypeScript, entrega colaborativa y envío continuo. Liderazgo técnico con equipos de hasta 6 developers, con foco en calidad y escalabilidad.",
+      "siteUrl": "https://antoniolisboa.site",
+      "siteLabel": "antoniolisboa.site",
+      "ctaProjects": "Proyectos",
+      "ctaContact": "Contacto",
+      "ctaEmail": "Email",
+      "ctaLab": "Laboratorio"
+    },
+    "homeWorkTeaser": {
+      "kicker": "Trabajos",
+      "title": "Casos en profundidad",
+      "body": "Narrativa, impacto y stack por proyecto."
+    },
+    "highlights": [
+      { "label": "Experiencia", "value": "2+ años en producción" },
+      { "label": "Liderazgo", "value": "Equipos hasta 6 devs" },
+      { "label": "Stack principal", "value": "TypeScript · React · Node" }
+    ],
+    "experience": {
+      "title": "Experiencia",
+      "items": [
+        {
+          "id": "vittahub",
+          "period": "01/2025 — presente",
+          "title": "Tech Lead · Fullstack",
+          "company": "Vittahub",
+          "location": "Ceará, Brasil · healthtech",
+          "stack": "Next.js, TypeScript, Node.js, PostgreSQL",
+          "bullets": [
+            "System design e ingeniería de requisitos.",
+            "Liderazgo técnico en discovery y desarrollo.",
+            "Pair programming y mentoría de becarios."
+          ]
+        },
+        {
+          "id": "ussin",
+          "period": "03/2024 — 12/2024",
+          "title": "Fullstack Web Developer",
+          "company": "Ussin",
+          "location": "Ceará, Brasil · edtech",
+          "stack": "React, React Flow, Node.js, MariaDB, i18n",
+          "bullets": [
+            "Migración web → mobile y rediseño de flujos.",
+            "Motor gráfico con React Flow (~4× más rápido en flujos).",
+            "Idioma automático por locale y accesibilidad alineada a estándares internacionales."
+          ]
+        },
+        {
+          "id": "ufc",
+          "period": "02/2025 — 08/2025",
+          "title": "Módulo institucional en la app UFC",
+          "company": "Gobierno de Ceará + UFC",
+          "location": "Brasil · proyecto ~6 meses",
+          "stack": "Docker on-prem, N8N, WhatsApp, IA (FAQs)",
+          "bullets": [
+            "Reservas de salas y cronograma automático por sala (algoritmo).",
+            "IA + N8N para FAQs de estudiantes, integrada a la app y WhatsApp.",
+            "Despliegue en Docker en servidores de la universidad."
+          ]
+        }
+      ]
+    },
+    "education": {
+      "title": "Formación",
+      "items": [
+        {
+          "id": "ufc-cs",
+          "period": "02/2022 — 01/2026",
+          "title": "Grado en Ciencias de la Computación",
+          "institution": "Universidad Federal de Ceará (UFC)",
+          "meta": "3200 h",
+          "bullets": [
+            "Algoritmos, estructuras de datos, ingeniería de software.",
+            "Bases de datos, redes, IA y computación aplicada."
+          ]
+        },
+        {
+          "id": "ufc-mentor",
+          "period": "04/2025 — 12/2025",
+          "title": "Mentoría en emprendimiento",
+          "institution": "UFC",
+          "meta": "144 h",
+          "bullets": [
+            "Ideas, pitch y vínculo con el ecosistema de innovación."
+          ]
+        },
+        {
+          "id": "senai",
+          "period": "02/2019 — 02/2022",
+          "title": "Técnico en Redes de Computadores",
+          "institution": "SENAI Rondônia",
+          "meta": "1200 h",
+          "bullets": ["LAN, servidores locales y seguridad de red."]
+        }
+      ]
+    },
+    "skills": {
+      "title": "Competencias",
+      "groups": [
+        {
+          "id": "stack",
+          "label": "Producción",
+          "items": [
+            "TypeScript",
+            "JavaScript",
+            "React",
+            "Next.js",
+            "Node.js",
+            "PostgreSQL",
+            "MySQL / MariaDB",
+            "Docker",
+            "N8N",
+            "Tailwind CSS"
+          ]
+        },
+        {
+          "id": "languages",
+          "label": "Idiomas",
+          "items": [
+            "Portugués (nativo)",
+            "Español (fluido)",
+            "Inglés (B1)",
+            "Alemán (A1)"
+          ]
+        },
+        {
+          "id": "collab",
+          "label": "Equipo y producto",
+          "items": [
+            "Pair programming y mentoría",
+            "Mentalidad de producto accesible e inclusivo",
+            "Discovery y requisitos"
+          ]
+        }
+      ]
+    },
+    "detection": {
+      "summary": "Detección técnica (idioma y CDN)",
+      "sectionLabel": "Detección de idioma y región",
+      "title": "Cómo el sitio interpreta el contexto",
+      "pageLocale": "Idioma de la página: {locale}",
+      "acceptLanguage": "Cabecera Accept-Language: {value}",
+      "country": "País (Vercel / CDN): {value}",
+      "unknown": "(no enviado)",
+      "localOnly": "(solo en deploy con edge, p. ej. Vercel)"
+    },
+    "projects": {
+      "title": "Proyectos destacados",
+      "viewCase": "Ver caso",
+      "items": [
+        {
+          "id": "vittahub",
+          "title": "Vittahub",
+          "role": "Tech Lead · Fullstack",
+          "description": "Marketplace para clínicas y cuidados. Arquitectura, requisitos y ritmo de entrega en una startup temprana.",
+          "stack": "Next.js, TypeScript, Node.js, PostgreSQL",
+          "bullets": [
+            "System design y discovery con stakeholders.",
+            "Cultura de releases frecuentes con QA, DevOps y equipo en crecimiento."
+          ]
+        },
+        {
+          "id": "ussin",
+          "title": "Ussin",
+          "role": "Fullstack Web Developer",
+          "description": "Plataforma educativa con foco en rendimiento, inclusión y UX multilingüe.",
+          "stack": "React, React Flow, Node.js, MariaDB",
+          "bullets": [
+            "React Flow con mejoras medibles en flujos.",
+            "Accesibilidad e i18n de extremo a extremo."
+          ]
+        },
+        {
+          "id": "ufc",
+          "title": "App UFC · módulo Estado/Ceará",
+          "role": "Fullstack · proyecto institucional",
+          "description": "Extensión de la app oficial de la UFC con integraciones omnicanal e IA aplicada a soporte.",
+          "stack": "Docker, N8N, WhatsApp, IA",
+          "bullets": [
+            "Reservas y agenda automática por sala.",
+            "Automatización e IA orquestadas con N8N."
+          ]
+        }
+      ]
+    },
+    "contact": {
+      "title": "Contacto",
+      "body": "Abierto a conversaciones sobre producto, ingeniería fullstack u oportunidades en Europa.",
+      "email": "antoniol.carvalho49@gmail.com"
+    },
+    "social": {
+      "github": "https://github.com/LisboaAnt",
+      "linkedin": "https://www.linkedin.com/in/antonio-lisboa-de-carvalho-b5a5a4194/",
+      "githubLabel": "GitHub",
+      "linkedinLabel": "LinkedIn"
+    },
+    "contribute": {
+      "title": "Contribuir",
+      "body": "Pull requests e issues son bienvenidos."
+    }
+  }
+}
