@@ -17,7 +17,7 @@ Este ficheiro é **documentação de contexto** para humanos e para assistentes 
 
 - **Framework:** Next.js 16 (App Router), React 19, TypeScript.
 - **Estilos:** Tailwind CSS v4 (`app/globals.css`).
-- **i18n:** `next-intl`; rotas em `app/[locale]/`; locales `pt`, `en`, `es`; `localePrefix: as-needed`; textos em `messages/*.json` (ex.: namespace `Home`, metadados em `meta`).
+- **i18n:** `next-intl`; rotas em `app/[locale]/`; locales `pt`, `en`, `es`, `de`; `localePrefix: as-needed`; textos em `messages/*.json` (ex.: namespace `Home`, metadados em `meta`).
 - **Proxy (Next 16):** `proxy.ts` chama `createMiddleware` do `next-intl` com `i18n/routing.ts` (substitui o antigo `middleware.ts`).
 - **Navegação tipada:** `i18n/navigation.ts` (`Link`, `useRouter`, `usePathname`, …).
 - **Roadmap:** ver `ROADMAP.md` (ciclos, tarefas e estado).

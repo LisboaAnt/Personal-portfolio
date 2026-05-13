@@ -1,26 +1,155 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes proj-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
   }
 }
 
+.proj-float-inner {
+  animation: proj-float 6.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proj-float-inner {
+    animation: none !important;
+  }
+
+  .site-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@keyframes site-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.site-reveal {
+  animation: site-reveal 0.75s ease-out both;
+}
+
+@keyframes aurora-shift {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+
+:root {
+  color-scheme: light;
+  --surface: #f4f6fb;
+  --surface-elevated: #ffffff;
+  --foreground: #0f172a;
+  --muted: #64748b;
+  --border: rgba(15, 23, 42, 0.08);
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.12);
+  --glow: radial-gradient(
+    1200px 600px at 80% -10%,
+    rgba(99, 102, 241, 0.22),
+    transparent 55%
+  );
+  --grid: linear-gradient(
+      rgba(15, 23, 42, 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+}
+
+.dark {
+  color-scheme: dark;
+  --surface: #070b14;
+  --surface-elevated: rgba(15, 23, 42, 0.55);
+  --foreground: #e2e8f0;
+  --muted: #94a3b8;
+  --border: rgba(148, 163, 184, 0.12);
+  --accent: #818cf8;
+  --accent-soft: rgba(129, 140, 248, 0.14);
+  --glow: radial-gradient(
+    1000px 520px at 15% 0%,
+    rgba(99, 102, 241, 0.35),
+    transparent 50%
+  );
+  --grid: linear-gradient(
+      rgba(148, 163, 184, 0.06) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+}
+
 body {
-  background: var(--background);
+  background-color: var(--surface);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-image: var(--glow), var(--grid);
+  background-size: auto, 48px 48px;
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.08), transparent 45%),
+    radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.06), transparent 40%);
+  animation: aurora-shift 18s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--foreground);
+}
+
+main#content > section:nth-child(1) {
+  animation-delay: 0.03s;
+}
+main#content > section:nth-child(2) {
+  animation-delay: 0.08s;
+}
+main#content > section:nth-child(3) {
+  animation-delay: 0.12s;
+}
+main#content > section:nth-child(4) {
+  animation-delay: 0.16s;
+}
+main#content > section:nth-child(5) {
+  animation-delay: 0.2s;
+}
+main#content > section:nth-child(6) {
+  animation-delay: 0.24s;
+}
+main#content > section:nth-child(7) {
+  animation-delay: 0.28s;
+}
+main#content > section:nth-child(8) {
+  animation-delay: 0.32s;
+}
+main#content > details {
+  animation-delay: 0.36s;
 }

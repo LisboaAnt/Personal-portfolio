@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" fill="none">
+  <defs>
+    <linearGradient id="ug" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="50%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="480" fill="#0b1020"/>
+  <circle cx="640" cy="120" r="160" fill="url(#ug)" opacity="0.35"/>
+  <g transform="translate(120 70)">
+    <rect x="80" y="140" width="80" height="80" rx="10" fill="#a78bfa" transform="skewY(-8)"/>
+    <rect x="200" y="100" width="80" height="80" rx="10" fill="#c084fc" transform="skewY(-8)"/>
+    <rect x="320" y="60" width="80" height="80" rx="10" fill="#e879f9" transform="skewY(-8)"/>
+    <path stroke="#fde68a" stroke-width="5" opacity="0.7" d="M120 220 C200 260 300 180 420 220"/>
+    <path stroke="#67e8f9" stroke-width="4" opacity="0.6" d="M140 250 C240 300 340 200 460 240"/>
+  </g>
+  <text x="48" y="420" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="22" font-weight="600">Edtech · flows</text>
+</svg>

@@ -12,6 +12,13 @@
     "footerTagline": "Portafolio personal · código abierto en GitHub",
     "yearSecretAria": "Año del copyright (easter egg)"
   },
+  "Theme": {
+    "aria": "Tema: claro, oscuro o sistema",
+    "cycleHint": "Ciclar: claro → oscuro → sistema (sigue el SO)",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
   "Easter": {
     "kickerToast": "Encontraste el rincón adecuado. La curiosidad es la mitad del trabajo de ingeniería.",
     "snakeTitle": "Snake — modo Konami",
@@ -47,7 +54,7 @@
       "title": "Rutas tipadas (next-intl)",
       "body": "El pathname inferior viene de createNavigation—útil para estados activos y analytics sin strings mágicos.",
       "label": "usePathname() en este locale",
-      "hint": "Cambia al alternar PT / EN / ES—el prefijo sigue localePrefix: as-needed."
+      "hint": "Cambia al alternar PT / EN / ES / DE—el prefijo sigue localePrefix: as-needed."
     },
     "terminal": {
       "sectionTitle": "Terminal ficticio",
@@ -57,6 +64,12 @@
     "eggs": {
       "title": "Easter eggs",
       "body": "Hay al menos tres sorpresas: un acorde de teclas clásico, clics en el subtítulo del héroe y una secuencia en el pie. Explora con calma."
+    },
+    "themeDemo": {
+      "title": "Detección de tema (next-themes)",
+      "body": "El interruptor del encabezado pone la clase en <html>. Aquí ves el aspecto resuelto frente a tu elección.",
+      "loading": "Leyendo tema…",
+      "line": "Elección: {chosen} · resuelto (SO): {resolved}"
     }
   },
   "Work": {
@@ -83,7 +96,9 @@
           "Mentoría técnica y pair programming con becarios."
         ],
         "stack": "Next.js, TypeScript, Node.js, PostgreSQL",
-        "note": "Repositorio y datos internos—sin demo pública."
+        "note": "Repositorio y datos internos—sin demo pública.",
+        "cover": "/projects/vittahub.svg",
+        "coverAlt": "Ilustración 3D abstracta — salud"
       },
       {
         "id": "ussin",
@@ -97,7 +112,9 @@
           "Motor gráfico con React Flow y mejoras claras de rendimiento.",
           "Idioma automático por locale y accesibilidad según referencias internacionales."
         ],
-        "stack": "React, React Flow, Node.js, MariaDB, i18n"
+        "stack": "React, React Flow, Node.js, MariaDB, i18n",
+        "cover": "/projects/ussin.svg",
+        "coverAlt": "Ilustración 3D abstracta — educación"
       },
       {
         "id": "ufc",
@@ -111,7 +128,9 @@
           "IA para FAQs conectada a la app y WhatsApp vía N8N.",
           "Operación en Docker en servidores de la universidad."
         ],
-        "stack": "Docker on-prem, N8N, integraciones, IA aplicada"
+        "stack": "Docker on-prem, N8N, integraciones, IA aplicada",
+        "cover": "/projects/ufc.svg",
+        "coverAlt": "Ilustración 3D abstracta — campus público"
       }
     ]
   },
@@ -277,6 +296,8 @@
           "role": "Tech Lead · Fullstack",
           "description": "Marketplace para clínicas y cuidados. Arquitectura, requisitos y ritmo de entrega en una startup temprana.",
           "stack": "Next.js, TypeScript, Node.js, PostgreSQL",
+          "cover": "/projects/vittahub.svg",
+          "coverAlt": "Arte 3D abstracto — Vittahub",
           "bullets": [
             "System design y discovery con stakeholders.",
             "Cultura de releases frecuentes con QA, DevOps y equipo en crecimiento."
@@ -288,6 +309,8 @@
           "role": "Fullstack Web Developer",
           "description": "Plataforma educativa con foco en rendimiento, inclusión y UX multilingüe.",
           "stack": "React, React Flow, Node.js, MariaDB",
+          "cover": "/projects/ussin.svg",
+          "coverAlt": "Arte 3D abstracto — Ussin",
           "bullets": [
             "React Flow con mejoras medibles en flujos.",
             "Accesibilidad e i18n de extremo a extremo."
@@ -299,6 +322,8 @@
           "role": "Fullstack · proyecto institucional",
           "description": "Extensión de la app oficial de la UFC con integraciones omnicanal e IA aplicada a soporte.",
           "stack": "Docker, N8N, WhatsApp, IA",
+          "cover": "/projects/ufc.svg",
+          "coverAlt": "Arte 3D abstracto — UFC",
           "bullets": [
             "Reservas y agenda automática por sala.",
             "Automatización e IA orquestadas con N8N."
