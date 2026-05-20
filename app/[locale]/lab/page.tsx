@@ -1,11 +1,13 @@
 import { Suspense } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
+import { Link } from "@/i18n/navigation";
 import { LabCounterDemo } from "@/components/LabCounterDemo";
 import { LabPathnameBadge } from "@/components/LabPathnameBadge";
 import { FakeTerminal } from "@/components/FakeTerminal";
 import { LabThemeBadge } from "@/components/LabThemeBadge";
 import { SlowGreeting } from "./SlowGreeting";
+import { WorldModePanel } from "@/components/world/WorldModePanel";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -28,11 +30,18 @@ export default async function LabPage({ params }: Props) {
 
   return (
     <div className="mx-auto max-w-3xl space-y-10 px-4 py-12 sm:px-6 sm:py-16">
-      <header className="space-y-3">
+      <header data-world-room="lab" className="space-y-3">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">{t("kicker")}</p>
         <h1 className="text-3xl font-semibold tracking-tight">{t("title")}</h1>
         <p className="max-w-2xl text-sm leading-relaxed text-[var(--muted)]">{t("intro")}</p>
       </header>
+
+      <section data-world-room="lab" className={`${card} space-y-3`} aria-labelledby="world3d-heading">
+        <h2 id="world3d-heading" className="text-lg font-semibold">
+          {t("world3d.title")}
+        </h2>
+        <WorldModePanel />
+      </section>
 
       <section className={`${card} space-y-3`} aria-labelledby="stream-heading">
         <h2 id="stream-heading" className="text-lg font-semibold">

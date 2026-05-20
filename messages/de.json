@@ -8,9 +8,40 @@
     "home": "Start",
     "work": "Arbeiten",
     "lab": "Labor",
+    "flow": "Fluss",
     "contact": "Kontakt",
+    "cv": {
+      "profile": "Profil",
+      "experience": "Erfahrung",
+      "projects": "Projekte",
+      "education": "Ausbildung",
+      "skills": "Kompetenzen",
+      "contact": "Kontakt"
+    },
     "footerTagline": "Persönliches Portfolio · Open Source auf GitHub",
     "yearSecretAria": "Copyright-Jahr (Easter Egg)"
+  },
+  "World": {
+    "navigatingTo": "Reise nach {room}",
+    "viewingRoom": "Ansicht: {room}",
+    "rooms": {
+      "profile": "Profil",
+      "experience": "Erfahrung",
+      "projects": "Projekte",
+      "education": "Ausbildung",
+      "skills": "Kompetenzen",
+      "contact": "Kontakt"
+    },
+    "modeAria": "Zwischen 3D-Welt und klassischer 2D-Seite wechseln",
+    "mode3d": "3D",
+    "modeClassic": "2D",
+    "mode3dHint": "3D-Welt mit Kamera und Scroll aktivieren",
+    "modeClassicHint": "3D-Welt deaktivieren — klassische Seite",
+    "mobileUnavailable": "3D-Welt auf diesem Bildschirm nicht verfügbar (Desktop oder 2D-Modus).",
+    "panelBody": "Spielartige Navigation: Scrollen bewegt die Kamera; Inhalt bleibt in HTML.",
+    "panelActive": "3D-Welt in dieser Sitzung aktiv.",
+    "panelInactive": "Klassischer Modus — kein WebGL-Canvas.",
+    "demoLink": "Isolierte Demo"
   },
   "Theme": {
     "aria": "Farbschema: hell, dunkel oder System",
@@ -70,6 +101,47 @@
       "body": "Der Schalter im Header setzt eine Klasse auf <html>. Hier siehst du das aufgelöste Erscheinungsbild gegenüber deiner Wahl.",
       "loading": "Theme wird gelesen…",
       "line": "Wahl: {chosen} · aufgelöst (OS): {resolved}"
+    },
+    "world3d": {
+      "title": "3D-Welt (Spike)",
+      "body": "Proof of Concept: drei Inseln, Kamera-Zoom und React Three Fiber — Basis für spielähnliche Navigation.",
+      "cta": "3D-Demo öffnen"
+    },
+    "world": {
+      "meta": {
+        "title": "3D-Welt — Labor",
+        "description": "Spike Phase 1: 3D-Navigation mit Home-, Work- und Lab-Inseln."
+      },
+      "back": "Zurück zum Labor",
+      "title": "3D-Welt — Spike",
+      "intro": "Klicke auf eine Insel. Die Kamera fährt weich heran — später: jede Route wird ein Raum in diesem Raum.",
+      "hint": "Ziehen zum Orbitieren · Klick auf eine Kugel zum Reisen",
+      "fallbackTitle": "WebGL nicht verfügbar",
+      "fallbackBody": "Dein Browser oder Gerät unterstützt kein WebGL. Nutze die klassische Labor-Seite.",
+      "classicLabel": "Zurück zum Labor"
+    }
+  },
+  "ProfileFlow": {
+    "meta": {
+      "title": "Profil im Fluss — Antonio Lisboa",
+      "description": "Vertikale Zeitleiste: Erfahrung, Ausbildung und Skills vom Neuesten zum Ältesten."
+    },
+    "kicker": "Profil im Fluss",
+    "title": "Zeitleiste",
+    "intro": "Werdegang zum Durchlesen — von der Gegenwart zurück, mit dem Wesentlichen pro Etappe.",
+    "scrollHint": "Sortiert vom Neuesten (oben) zum Ältesten (unten).",
+    "backHome": "Zurück zur Startseite",
+    "hoverHint": "Hover für mehr Details",
+    "minorHint": "Nebenmeilenstein — mit der Maus über den Punkt fahren für Details",
+    "present": "aktuell",
+    "minorIds": ["ufc-mentor"],
+    "extraMinors": [],
+    "skillsCardTitle": "Aktuelle Kompetenzen",
+    "types": {
+      "profile": "Profil",
+      "experience": "Erfahrung",
+      "education": "Ausbildung",
+      "skills": "Kompetenzen"
     }
   },
   "Work": {
@@ -135,7 +207,6 @@
     ]
   },
   "Home": {
-    "skip": "Zum Inhalt springen",
     "hero": {
       "kicker": "Online-Portfolio",
       "role": "Junior Fullstack Software Engineer",
@@ -146,7 +217,8 @@
       "ctaProjects": "Projekte",
       "ctaContact": "Kontakt",
       "ctaEmail": "E-Mail",
-      "ctaLab": "Labor"
+      "ctaLab": "Labor",
+      "ctaFlow": "Profil im Fluss ansehen"
     },
     "homeWorkTeaser": {
       "kicker": "Arbeiten",

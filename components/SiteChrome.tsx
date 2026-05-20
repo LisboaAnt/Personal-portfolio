@@ -1,11 +1,11 @@
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 import { SecretYear } from "@/components/SecretYear";
 import { ThemeToggle } from "@/components/ThemeToggle";
-
-const link =
-  "rounded-lg px-2.5 py-1.5 text-sm font-medium text-[var(--muted)] transition hover:bg-[var(--surface-elevated)] hover:text-[var(--foreground)]";
+import { WorldModeToggle } from "@/components/world/WorldModeToggle";
+import { WorldBrandLink } from "@/components/world/WorldBrandLink";
+import { WorldNav } from "@/components/world/WorldNav";
+import { WorldOverlay } from "@/components/world/WorldOverlay";
 
 export async function SiteChrome({
   locale,
@@ -18,35 +18,25 @@ export async function SiteChrome({
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--surface)]/75 backdrop-blur-xl">
+      <header className="site-chrome-header sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--surface)]/75 backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-          <Link href="/" className="shrink-0 text-sm font-semibold tracking-tight text-[var(--foreground)]">
+          <WorldBrandLink className="shrink-0 text-sm font-semibold tracking-tight text-[var(--foreground)]">
             Antonio Lisboa
-          </Link>
-          <nav className="flex flex-1 items-center justify-end gap-0.5 sm:justify-center sm:gap-2" aria-label={t("aria")}>
-            <Link href="/" className={link}>
-              {t("home")}
-            </Link>
-            <Link href="/work" className={link}>
-              {t("work")}
-            </Link>
-            <Link href="/lab" className={link}>
-              {t("lab")}
-            </Link>
-            <Link href="/#contact" className={link}>
-              {t("contact")}
-            </Link>
-          </nav>
+          </WorldBrandLink>
+          <WorldNav />
           <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+            <WorldModeToggle />
             <ThemeToggle />
             <LocaleSwitcher />
           </div>
         </div>
       </header>
 
-      <div className="flex-1">{children}</div>
+      <WorldOverlay>
+        <div className="flex-1">{children}</div>
+      </WorldOverlay>
 
-      <footer className="mt-auto border-t border-[var(--border)] bg-[var(--surface)]/60 py-8 text-center text-xs text-[var(--muted)] backdrop-blur-sm">
+      <footer className="site-chrome-footer relative z-50 mt-auto border-t border-[var(--border)] bg-[var(--surface)]/60 py-8 text-center text-xs text-[var(--muted)] backdrop-blur-sm">
         <div className="mx-auto max-w-5xl space-y-2 px-4 sm:px-6">
           <p>
             © <SecretYear label={t("yearSecretAria")} /> · {t("footerTagline")}

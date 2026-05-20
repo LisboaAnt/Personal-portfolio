@@ -1,0 +1,49 @@
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import {
+  WORLD_PREFERENCE_EVENT,
+  isWorldBlockedOnMobile,
+  resolveWorld3DRequested,
+} from "@/world/world-preference";
+
+export function useWorldEnabled(): boolean | null {
+  const [enabled, setEnabled] = useState<boolean | null>(null);
+
+  const sync = useCallback(() => {
+    const requested = resolveWorld3DRequested();
+    const blocked = requested && isWorldBlockedOnMobile();
+    setEnabled(requested && !blocked);
+  }, []);
+
+  useEffect(() => {
+    sync();
+    window.addEventListener(WORLD_PREFERENCE_EVENT, sync);
+    window.addEventListener("resize", sync);
+    return () => {
+      window.removeEventListener(WORLD_PREFERENCE_EVENT, sync);
+      window.removeEventListener("resize", sync);
+    };
+  }, [sync]);
+
+  return enabled;
+}
+
+export function useWorldMobileBlocked(): boolean {
+  const [blocked, setBlocked] = useState(false);
+
+  useEffect(() => {
+    const update = () => {
+      setBlocked(resolveWorld3DRequested() && isWorldBlockedOnMobile());
+    };
+    update();
+    window.addEventListener(WORLD_PREFERENCE_EVENT, update);
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener(WORLD_PREFERENCE_EVENT, update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return blocked;
+}

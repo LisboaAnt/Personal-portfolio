@@ -67,16 +67,12 @@ export default async function HomePage({ params }: Props) {
   const email = t("contact.email");
 
   return (
-    <>
-      <a
-        href="#content"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--accent)] focus:px-3 focus:py-2 focus:text-sm focus:text-white"
-      >
-        {t("skip")}
-      </a>
-
-      <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 px-4 pb-20 pt-10 sm:px-6 sm:pt-14 lg:gap-16">
-        <header className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+    <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 px-4 pb-20 pt-10 sm:px-6 sm:pt-14 lg:gap-16">
+        <header
+          id="profile"
+          data-world-room="profile"
+          className="flex flex-col gap-6 scroll-mt-24 lg:flex-row lg:items-start lg:justify-between"
+        >
           <div className={`${card} relative max-w-2xl overflow-hidden`}>
             <div
               className="pointer-events-none absolute -right-16 -top-24 h-48 w-48 rounded-full bg-[var(--accent-soft)] blur-3xl"
@@ -117,6 +113,12 @@ export default async function HomePage({ params }: Props) {
               >
                 {t("hero.ctaContact")}
               </a>
+              <Link
+                href="/flow"
+                className="inline-flex items-center justify-center rounded-full border border-[var(--accent)]/35 bg-[var(--accent-soft)] px-4 py-2 text-sm font-medium text-[var(--accent)] transition hover:border-[var(--accent)]/60 hover:brightness-110"
+              >
+                {t("hero.ctaFlow")}
+              </Link>
               <Link
                 href="/lab"
                 className="text-sm font-medium text-[var(--muted)] underline-offset-4 hover:text-[var(--accent)] hover:underline"
@@ -159,7 +161,12 @@ export default async function HomePage({ params }: Props) {
         </header>
 
         <main id="content" className="flex flex-col gap-16">
-          <section id="experience" className="site-reveal scroll-mt-24 space-y-6" aria-labelledby="exp-heading">
+          <section
+            id="experience"
+            data-world-room="experience"
+            className="site-reveal scroll-mt-24 space-y-6"
+            aria-labelledby="exp-heading"
+          >
             <div className="flex items-end justify-between gap-4">
               <h2
                 id="exp-heading"
@@ -199,6 +206,7 @@ export default async function HomePage({ params }: Props) {
 
           <section
             id="education"
+            data-world-room="education"
             className="site-reveal scroll-mt-24 space-y-6"
             aria-labelledby="edu-heading"
           >
@@ -226,7 +234,12 @@ export default async function HomePage({ params }: Props) {
             </div>
           </section>
 
-          <section id="skills" className="site-reveal scroll-mt-24 space-y-6" aria-labelledby="skills-heading">
+          <section
+            id="skills"
+            data-world-room="skills"
+            className="site-reveal scroll-mt-24 space-y-6"
+            aria-labelledby="skills-heading"
+          >
             <h2 id="skills-heading" className="text-xl font-semibold tracking-tight sm:text-2xl">
               {t("skills.title")}
             </h2>
@@ -250,7 +263,12 @@ export default async function HomePage({ params }: Props) {
             </div>
           </section>
 
-          <section id="projects" className="site-reveal scroll-mt-24 space-y-6" aria-labelledby="proj-heading">
+          <section
+            id="projects"
+            data-world-room="projects"
+            className="site-reveal scroll-mt-24 space-y-6"
+            aria-labelledby="proj-heading"
+          >
             <h2 id="proj-heading" className="text-xl font-semibold tracking-tight sm:text-2xl">
               {t("projects.title")}
             </h2>
@@ -283,7 +301,12 @@ export default async function HomePage({ params }: Props) {
             </ul>
           </section>
 
-          <section id="contact" className={`${card} site-reveal scroll-mt-24`} aria-labelledby="contact-heading">
+          <section
+            id="contact"
+            data-world-room="contact"
+            className={`${card} site-reveal scroll-mt-24`}
+            aria-labelledby="contact-heading"
+          >
             <h2 id="contact-heading" className="text-lg font-semibold">
               {t("contact.title")}
             </h2>
@@ -349,7 +372,6 @@ export default async function HomePage({ params }: Props) {
             </div>
           </details>
         </main>
-      </div>
-    </>
+    </div>
   );
 }

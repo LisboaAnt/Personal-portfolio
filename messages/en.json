@@ -8,9 +8,40 @@
     "home": "Home",
     "work": "Work",
     "lab": "Lab",
+    "flow": "Flow",
     "contact": "Contact",
+    "cv": {
+      "profile": "Profile",
+      "experience": "Experience",
+      "projects": "Projects",
+      "education": "Education",
+      "skills": "Skills",
+      "contact": "Contact"
+    },
     "footerTagline": "Personal portfolio · open source on GitHub",
     "yearSecretAria": "Copyright year (easter egg)"
+  },
+  "World": {
+    "navigatingTo": "Traveling to {room}",
+    "viewingRoom": "Viewing {room}",
+    "rooms": {
+      "profile": "profile",
+      "experience": "experience",
+      "projects": "projects",
+      "education": "education",
+      "skills": "skills",
+      "contact": "contact"
+    },
+    "modeAria": "Toggle between 3D world and classic 2D site",
+    "mode3d": "3D",
+    "modeClassic": "2D",
+    "mode3dHint": "Enable 3D world with camera and scroll",
+    "modeClassicHint": "Disable 3D world — classic site",
+    "mobileUnavailable": "3D world unavailable on this screen (use desktop or 2D mode).",
+    "panelBody": "Game-style navigation: scroll moves the camera; content stays in HTML.",
+    "panelActive": "3D world active this session.",
+    "panelInactive": "Classic mode — no WebGL canvas.",
+    "demoLink": "Isolated demo"
   },
   "Theme": {
     "aria": "Theme: light, dark, or system",
@@ -70,6 +101,47 @@
       "body": "The header toggle sets class on <html>. Here is the resolved appearance versus your choice.",
       "loading": "Reading theme…",
       "line": "Choice: {chosen} · resolved (OS): {resolved}"
+    },
+    "world3d": {
+      "title": "3D world (spike)",
+      "body": "Proof of concept: three islands, camera zoom, React Three Fiber — foundation for game-like navigation.",
+      "cta": "Open 3D demo"
+    },
+    "world": {
+      "meta": {
+        "title": "3D world — Lab",
+        "description": "Phase 1 spike: 3D navigation with Home, Work, and Lab islands."
+      },
+      "back": "Back to lab",
+      "title": "3D world — spike",
+      "intro": "Click an island. The camera moves in smoothly — next: each site route becomes a room in this space.",
+      "hint": "Drag to orbit · click a sphere to travel",
+      "fallbackTitle": "WebGL unavailable",
+      "fallbackBody": "Your browser or device does not support WebGL. Use the classic lab page.",
+      "classicLabel": "Back to lab"
+    }
+  },
+  "ProfileFlow": {
+    "meta": {
+      "title": "Profile flow — Antonio Lisboa",
+      "description": "Vertical timeline of experience, education, and skills from newest to oldest."
+    },
+    "kicker": "Profile flow",
+    "title": "Timeline",
+    "intro": "A continuous read of your path — from the present backward, with the essentials at each step.",
+    "scrollHint": "Ordered from newest (top) to oldest (bottom).",
+    "backHome": "Back to home",
+    "hoverHint": "Hover to see more details",
+    "minorHint": "Secondary milestone — hover the dot to see details",
+    "present": "present",
+    "minorIds": ["ufc-mentor"],
+    "extraMinors": [],
+    "skillsCardTitle": "Current skills",
+    "types": {
+      "profile": "Profile",
+      "experience": "Experience",
+      "education": "Education",
+      "skills": "Skills"
     }
   },
   "Work": {
@@ -135,7 +207,6 @@
     ]
   },
   "Home": {
-    "skip": "Skip to content",
     "hero": {
       "kicker": "Online portfolio",
       "role": "Junior Fullstack Software Engineer",
@@ -146,7 +217,8 @@
       "ctaProjects": "Projects",
       "ctaContact": "Contact",
       "ctaEmail": "Email",
-      "ctaLab": "Lab"
+      "ctaLab": "Lab",
+      "ctaFlow": "View profile flow"
     },
     "homeWorkTeaser": {
       "kicker": "Work",

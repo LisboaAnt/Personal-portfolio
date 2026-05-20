@@ -8,6 +8,7 @@ import { routing } from "@/i18n/routing";
 import { SiteChrome } from "@/components/SiteChrome";
 import { EasterEggHost } from "@/components/EasterEggHost";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { WorldProvider } from "@/components/world/WorldProvider";
 import "../globals.css";
 
 const dmSans = DM_Sans({
@@ -49,12 +50,15 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${dmSans.className} ${dmSans.variable} min-h-screen bg-[var(--surface)] text-[var(--foreground)] antialiased`}
       >
         <ThemeProvider>
           <NextIntlClientProvider messages={messages}>
             <EasterEggHost />
-            <SiteChrome locale={locale}>{children}</SiteChrome>
+            <WorldProvider>
+              <SiteChrome locale={locale}>{children}</SiteChrome>
+            </WorldProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

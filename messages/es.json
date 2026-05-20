@@ -8,9 +8,40 @@
     "home": "Inicio",
     "work": "Trabajos",
     "lab": "Laboratorio",
+    "flow": "Flujo",
     "contact": "Contacto",
+    "cv": {
+      "profile": "Perfil",
+      "experience": "Experiencia",
+      "projects": "Proyectos",
+      "education": "Formación",
+      "skills": "Competencias",
+      "contact": "Contacto"
+    },
     "footerTagline": "Portafolio personal · código abierto en GitHub",
     "yearSecretAria": "Año del copyright (easter egg)"
+  },
+  "World": {
+    "navigatingTo": "Viajando a {room}",
+    "viewingRoom": "Viendo {room}",
+    "rooms": {
+      "profile": "perfil",
+      "experience": "experiencia",
+      "projects": "proyectos",
+      "education": "formación",
+      "skills": "competencias",
+      "contact": "contacto"
+    },
+    "modeAria": "Alternar entre mundo 3D y sitio clásico 2D",
+    "mode3d": "3D",
+    "modeClassic": "2D",
+    "mode3dHint": "Activar mundo 3D con cámara y scroll",
+    "modeClassicHint": "Desactivar mundo 3D — sitio clásico",
+    "mobileUnavailable": "Mundo 3D no disponible en esta pantalla (usa escritorio o modo 2D).",
+    "panelBody": "Navegación tipo juego: el scroll mueve la cámara; el contenido sigue en HTML.",
+    "panelActive": "Mundo 3D activo en esta sesión.",
+    "panelInactive": "Modo clásico — sin canvas WebGL.",
+    "demoLink": "Demo aislada"
   },
   "Theme": {
     "aria": "Tema: claro, oscuro o sistema",
@@ -70,6 +101,47 @@
       "body": "El interruptor del encabezado pone la clase en <html>. Aquí ves el aspecto resuelto frente a tu elección.",
       "loading": "Leyendo tema…",
       "line": "Elección: {chosen} · resuelto (SO): {resolved}"
+    },
+    "world3d": {
+      "title": "Mundo 3D (spike)",
+      "body": "Prueba de concepto: tres islas, zoom de cámara y React Three Fiber — base del portafolio tipo juego.",
+      "cta": "Abrir demo 3D"
+    },
+    "world": {
+      "meta": {
+        "title": "Mundo 3D — Laboratorio",
+        "description": "Spike fase 1: navegación 3D con islas Home, Work y Lab."
+      },
+      "back": "Volver al laboratorio",
+      "title": "Mundo 3D — spike",
+      "intro": "Haz clic en una isla. La cámara se acerca con suavidad — después: cada ruta será una sala en este espacio.",
+      "hint": "Arrastra para orbitar · clic en una esfera para viajar",
+      "fallbackTitle": "WebGL no disponible",
+      "fallbackBody": "Tu navegador o dispositivo no soporta WebGL. Usa la versión clásica del laboratorio.",
+      "classicLabel": "Volver al laboratorio"
+    }
+  },
+  "ProfileFlow": {
+    "meta": {
+      "title": "Perfil en flujo — Antonio Lisboa",
+      "description": "Línea de tiempo vertical: experiencia, formación y competencias de lo más reciente a lo más antiguo."
+    },
+    "kicker": "Perfil en flujo",
+    "title": "Línea de tiempo",
+    "intro": "Trayectoria en lectura continua — del presente al pasado, con lo esencial en cada etapa.",
+    "scrollHint": "Ordenado de lo más reciente (arriba) a lo más antiguo (abajo).",
+    "backHome": "Volver al inicio",
+    "hoverHint": "Pasa el cursor para ver más detalles",
+    "minorHint": "Hito secundario — pasa el cursor sobre el punto para ver detalles",
+    "present": "actual",
+    "minorIds": ["ufc-mentor"],
+    "extraMinors": [],
+    "skillsCardTitle": "Competencias actuales",
+    "types": {
+      "profile": "Perfil",
+      "experience": "Experiencia",
+      "education": "Formación",
+      "skills": "Competencias"
     }
   },
   "Work": {
@@ -135,7 +207,6 @@
     ]
   },
   "Home": {
-    "skip": "Ir al contenido",
     "hero": {
       "kicker": "Portafolio online",
       "role": "Junior Fullstack Software Engineer",
@@ -146,7 +217,8 @@
       "ctaProjects": "Proyectos",
       "ctaContact": "Contacto",
       "ctaEmail": "Email",
-      "ctaLab": "Laboratorio"
+      "ctaLab": "Laboratorio",
+      "ctaFlow": "Ver perfil en flujo"
     },
     "homeWorkTeaser": {
       "kicker": "Trabajos",

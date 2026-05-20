@@ -24,6 +24,17 @@ Documento vivo: marca com `[x]` o que já estiver feito. Ajusta datas e priorida
 
 ---
 
+## Ciclo 3D — Mundo 3D (diorama + transições de câmara)
+
+Projeto paralelo de grande escopo: navegação estilo jogo (R3F), não evoluir o sistema de fundos CSS rotativos.
+
+- **Documentação:** [`docs/3d-world/README.md`](docs/3d-world/README.md)
+- **Roadmap detalhado:** [`docs/3d-world/ROADMAP.md`](docs/3d-world/ROADMAP.md)
+- **Tarefas (72 itens):** [`docs/3d-world/tasks/README.md`](docs/3d-world/tasks/README.md)
+- **Estado:** documentado; implementação não iniciada (Fase 0 por fazer)
+
+---
+
 ## Ciclo 1 — Navegação, SEO e páginas base
 
 - [ ] `sitemap.xml` / `robots.txt` (App Router ou `metadata` + rotas estáticas)

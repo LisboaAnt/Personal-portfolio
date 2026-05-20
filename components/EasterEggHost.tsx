@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { SnakeGame } from "@/components/SnakeGame";
+import { useWorldStore } from "@/stores/world-store";
 
 const KONAMI = [
   "ArrowUp",
@@ -19,9 +20,15 @@ const KONAMI = [
 
 export function EasterEggHost() {
   const t = useTranslations("Easter");
+  const setWorldPaused = useWorldStore((s) => s.setPaused);
   const bufRef = useRef<string[]>([]);
   const [snake, setSnake] = useState(false);
   const [yearToast, setYearToast] = useState(false);
+
+  useEffect(() => {
+    setWorldPaused(snake);
+    return () => setWorldPaused(false);
+  }, [snake, setWorldPaused]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
