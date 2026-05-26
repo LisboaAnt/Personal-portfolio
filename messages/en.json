@@ -85,7 +85,7 @@
       "title": "Typed routes (next-intl)",
       "body": "The pathname below comes from createNavigation—handy for active states and analytics without magic strings.",
       "label": "usePathname() in this locale",
-      "hint": "Updates when you switch PT / EN / ES / DE—the prefix follows localePrefix: as-needed."
+      "hint": "Updates when you switch EN / ES / DE—the prefix follows localePrefix: as-needed."
     },
     "terminal": {
       "sectionTitle": "Fake terminal",

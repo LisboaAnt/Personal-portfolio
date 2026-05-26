@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { useWorldPaused } from "@/hooks/useWorldPaused";
 import { useWorldCameraInputStore } from "@/stores/world-camera-input-store";
 import { useWorldCameraLookStore } from "@/stores/world-camera-look-store";
-import { BLENDER_VIEW_POSITION, BLENDER_VIEW_TARGET } from "@/world/blender-camera";
+import { BLENDER_ORBIT_TARGET } from "@/world/blender-camera";
 import { WORLD_WASD_MOVE_SPEED } from "@/world/constants";
 
 const LOOK_AHEAD = 80;
@@ -35,14 +35,30 @@ function isTypingTarget(target: EventTarget | null): boolean {
   );
 }
 
+const ORBIT_RESUME_MS = 1500;
+
 export function WorldFreeCameraControls() {
   const { camera, invalidate } = useThree();
   const paused = useWorldPaused();
   const shiftMouse = useWorldCameraInputStore((s) => s.shiftMouse);
+  const setOrbitPaused = useWorldCameraInputStore((s) => s.setOrbitPaused);
   const setLookTarget = useWorldCameraLookStore((s) => s.setTarget);
   const drag = useRef<"left" | "right" | null>(null);
   const keys = useRef<KeyMap>({ w: false, a: false, s: false, d: false, q: false, e: false });
   const fast = useRef(false);
+  const orbitResumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const pauseOrbit = () => {
+    setOrbitPaused(true);
+    if (orbitResumeTimer.current) clearTimeout(orbitResumeTimer.current);
+    orbitResumeTimer.current = setTimeout(() => {
+      const k = keys.current;
+      const moving = k.w || k.a || k.s || k.d || k.q || k.e;
+      if (!moving && !useWorldCameraInputStore.getState().shiftMouse) {
+        setOrbitPaused(false);
+      }
+    }, ORBIT_RESUME_MS);
+  };
 
   const syncLookTarget = () => {
     camera.getWorldDirection(_dir);
@@ -53,6 +69,7 @@ export function WorldFreeCameraControls() {
   };
 
   const moveAlongView = (amount: number) => {
+    pauseOrbit();
     camera.getWorldDirection(_dir);
     camera.position.addScaledVector(_dir, amount);
     syncLookTarget();
@@ -60,6 +77,7 @@ export function WorldFreeCameraControls() {
   };
 
   const applyPan = (dx: number, dy: number) => {
+    pauseOrbit();
     camera.getWorldDirection(_dir);
     _right.crossVectors(_dir, _up).normalize();
     _pan.set(0, 0, 0);
@@ -162,6 +180,7 @@ export function WorldFreeCameraControls() {
       if (!drag.current) return;
 
       if (drag.current === "left") {
+        pauseOrbit();
         _euler.setFromQuaternion(camera.quaternion, "YXZ");
         _euler.y -= e.movementX * ROTATE_SENS;
         _euler.x -= e.movementY * ROTATE_SENS;
@@ -186,10 +205,7 @@ export function WorldFreeCameraControls() {
       drag.current = null;
     };
 
-    camera.position.set(...BLENDER_VIEW_POSITION);
-    camera.lookAt(...BLENDER_VIEW_TARGET);
-    setLookTarget(...BLENDER_VIEW_TARGET);
-    invalidate();
+    setLookTarget(...BLENDER_ORBIT_TARGET);
 
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
@@ -201,6 +217,7 @@ export function WorldFreeCameraControls() {
     window.addEventListener("blur", onBlur);
 
     return () => {
+      if (orbitResumeTimer.current) clearTimeout(orbitResumeTimer.current);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
       window.removeEventListener("wheel", onWheel);
@@ -232,6 +249,7 @@ export function WorldFreeCameraControls() {
     if (k.q) _move.sub(_up);
 
     if (_move.lengthSq() === 0) return;
+    pauseOrbit();
     _move.normalize().multiplyScalar(speed);
     camera.position.add(_move);
     syncLookTarget();

@@ -85,7 +85,7 @@
       "title": "Typisierte Routen (next-intl)",
       "body": "Der pathname unten kommt von createNavigation — praktisch für aktive Zustände und Analytics ohne Magic Strings.",
       "label": "usePathname() in diesem Locale",
-      "hint": "Ändert sich bei PT / EN / ES / DE — das Präfix folgt localePrefix: as-needed."
+      "hint": "Ändert sich bei EN / ES / DE — das Präfix folgt localePrefix: as-needed."
     },
     "terminal": {
       "sectionTitle": "Fake-Terminal",

@@ -48,7 +48,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} className="dark" suppressHydrationWarning>
       <body
         suppressHydrationWarning
         className={`${dmSans.className} ${dmSans.variable} min-h-screen bg-[var(--surface)] text-[var(--foreground)] antialiased`}

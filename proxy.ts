@@ -6,7 +6,7 @@ const handleI18n = createMiddleware(routing);
 
 /**
  * Next.js 16+: convenção `proxy.ts` (substitui `middleware.ts`).
- * Locale: cookie `NEXT_LOCALE` → Accept-Language → `defaultLocale` (pt).
+ * Locale: cookie `NEXT_LOCALE` → Accept-Language → `defaultLocale` (en).
  */
 export function proxy(request: NextRequest) {
   return handleI18n(request);

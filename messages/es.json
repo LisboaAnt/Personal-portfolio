@@ -85,7 +85,7 @@
       "title": "Rutas tipadas (next-intl)",
       "body": "El pathname inferior viene de createNavigation—útil para estados activos y analytics sin strings mágicos.",
       "label": "usePathname() en este locale",
-      "hint": "Cambia al alternar PT / EN / ES / DE—el prefijo sigue localePrefix: as-needed."
+      "hint": "Cambia al alternar EN / ES / DE—el prefijo sigue localePrefix: as-needed."
     },
     "terminal": {
       "sectionTitle": "Terminal ficticio",

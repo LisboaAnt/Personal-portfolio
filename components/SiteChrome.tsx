@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 import { SecretYear } from "@/components/SecretYear";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { WorldModeToggle } from "@/components/world/WorldModeToggle";
 import { WorldBrandLink } from "@/components/world/WorldBrandLink";
 import { WorldNav } from "@/components/world/WorldNav";
@@ -26,7 +25,6 @@ export async function SiteChrome({
           <WorldNav />
           <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
             <WorldModeToggle />
-            <ThemeToggle />
             <LocaleSwitcher />
           </div>
         </div>
