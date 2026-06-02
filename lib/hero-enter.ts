@@ -7,3 +7,4 @@ export function isHeroFastEnter(): boolean {
 export function isHeroDrawTitle(): boolean {
   return process.env.NEXT_PUBLIC_HERO_DRAW_TITLE !== "0";
 }
+/**atualizando */
