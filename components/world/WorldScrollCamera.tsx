@@ -22,15 +22,21 @@ function lerpPose(a: CameraPose, b: CameraPose, t: number): CameraPose {
   };
 }
 
-function getScrollRoot(): HTMLElement | typeof window {
+type ScrollRoot = HTMLElement | Window;
+
+function getScrollRoot(): ScrollRoot {
   if (typeof document === "undefined") return window;
   const snap = document.querySelector<HTMLElement>(".cv-world-document");
   return snap ?? window;
 }
 
-function getScrollTop(root: HTMLElement | typeof window): number {
-  if (root === window) return window.scrollY;
-  return root.scrollTop;
+function isElementScrollRoot(root: ScrollRoot): root is HTMLElement {
+  return root !== window;
+}
+
+function getScrollTop(root: ScrollRoot): number {
+  if (isElementScrollRoot(root)) return root.scrollTop;
+  return window.scrollY;
 }
 
 function getScrollSegment(): { index: number; t: number } {
@@ -41,7 +47,7 @@ function getScrollSegment(): { index: number; t: number } {
   const tops = CV_SCROLL_SECTION_ORDER.map((id) => {
     const el = document.getElementById(id);
     if (!el) return 0;
-    if (root === window) return el.offsetTop;
+    if (!isElementScrollRoot(root)) return el.offsetTop;
     const rootRect = root.getBoundingClientRect();
     const elRect = el.getBoundingClientRect();
     return elRect.top - rootRect.top + root.scrollTop;
@@ -72,11 +78,11 @@ export function WorldScrollCamera() {
     const root = getScrollRoot();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
-    if (root !== window) root.addEventListener("scroll", onScroll, { passive: true });
+    if (isElementScrollRoot(root)) root.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-      if (root !== window) root.removeEventListener("scroll", onScroll);
+      if (isElementScrollRoot(root)) root.removeEventListener("scroll", onScroll);
     };
   }, [invalidate]);
 

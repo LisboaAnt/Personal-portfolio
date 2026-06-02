@@ -54,7 +54,7 @@ export function useWorldNavigate() {
           window.location.hash = hash;
           scrollToSection(section);
         } else {
-          router.push({ pathname: "/", hash: section } as Parameters<typeof router.push>[0]);
+          router.push(homePathWithSectionHash("/", section));
         }
         return;
       }
