@@ -44,6 +44,6 @@ export function triangleStatus(triangles: number): "ok" | "warn" | "bad" {
   return "bad";
 }
 
-export function qualityLabel(quality: WorldQuality): string {
-  return quality === "high" ? "alto" : "baixo";
+export function qualityLevel(quality: WorldQuality): "high" | "low" {
+  return quality === "high" ? "high" : "low";
 }

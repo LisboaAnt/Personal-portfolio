@@ -1,21 +1,13 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
 import { hasLocale } from "next-intl";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { DocumentLang } from "@/components/DocumentLang";
 import { SiteChrome } from "@/components/SiteChrome";
 import { EasterEggHost } from "@/components/EasterEggHost";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { WorldProvider } from "@/components/world/WorldProvider";
-import "../globals.css";
-
-const dmSans = DM_Sans({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-dm-sans",
-  display: "swap",
-});
+import { WorldIntlSync } from "@/components/world/WorldIntlSync";
 
 type Props = {
   children: React.ReactNode;
@@ -48,20 +40,11 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className="dark" suppressHydrationWarning>
-      <body
-        suppressHydrationWarning
-        className={`${dmSans.className} ${dmSans.variable} min-h-screen bg-[var(--surface)] text-[var(--foreground)] antialiased`}
-      >
-        <ThemeProvider>
-          <NextIntlClientProvider messages={messages}>
-            <EasterEggHost />
-            <WorldProvider>
-              <SiteChrome locale={locale}>{children}</SiteChrome>
-            </WorldProvider>
-          </NextIntlClientProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <DocumentLang locale={locale} />
+      <WorldIntlSync />
+      <EasterEggHost />
+      <SiteChrome locale={locale}>{children}</SiteChrome>
+    </NextIntlClientProvider>
   );
 }

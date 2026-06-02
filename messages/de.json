@@ -41,7 +41,27 @@
     "panelBody": "Spielartige Navigation: Scrollen bewegt die Kamera; Inhalt bleibt in HTML.",
     "panelActive": "3D-Welt in dieser Sitzung aktiv.",
     "panelInactive": "Klassischer Modus — kein WebGL-Canvas.",
-    "demoLink": "Isolierte Demo"
+    "demoLink": "Isolierte Demo",
+    "loader": "Laden {percent}%",
+    "hud": {
+      "aria": "3D-Kamerakoordinaten und Leistung",
+      "expand": "Debug-Panel erweitern",
+      "minimize": "Debug-Panel minimieren",
+      "controls": "WASD + Q/E bewegen · Shift + Maus = schauen/schwenken · Shift + Rad = Zoom · Shift/Alt = schnell",
+      "frame": "Frame",
+      "triangles": "Dreiecke",
+      "draws": "Draws",
+      "geo": "Geo",
+      "tex": "Tex",
+      "profile": "Profil",
+      "qualityHigh": "hoch",
+      "qualityLow": "niedrig",
+      "section": "Abschnitt",
+      "render": "Render",
+      "position": "Position",
+      "target": "Ziel",
+      "rotation": "Rotation°"
+    }
   },
   "Theme": {
     "aria": "Farbschema: hell, dunkel oder System",
@@ -208,10 +228,28 @@
   },
   "Home": {
     "hero": {
+      "greeting": "Hi",
+      "intro": "Hallo, mein Name ist Antonio",
+      "headlinePrefix": "Ich ",
+      "headlinePhrases": [
+        "leite Tech-Teams.",
+        "plane Sprints.",
+        "plane Roadmaps.",
+        "gestalte die Systemarchitektur.",
+        "liefere Fullstack-Produkte.",
+        "entwickle Mobile und Web.",
+        "mentore Praktikanten.",
+        "strukturiere Backlogs.",
+        "moderiere agile Zeremonien.",
+        "verbinde Discovery mit Delivery."
+      ],
+      "headlineAria": "Ich leite Tech-Teams, plane Sprints und Roadmaps, gestalte Systemarchitektur, liefere Fullstack-Produkte, entwickle Mobile und Web, mentore Praktikanten, strukturiere Backlogs, moderiere agile Zeremonien und verbinde Discovery mit Delivery.",
       "kicker": "Online-Portfolio",
-      "role": "Junior Fullstack Software Engineer",
-      "title": "Antonio Lisboa de Carvalho",
-      "summary": "Fullstack mit Fokus auf TypeScript, kollaborative Lieferung und kontinuierliches Shippen. Technische Führung für Teams bis 6 Entwickler — mit Schwerpunkt auf Qualität und Skalierbarkeit.",
+      "role": "Fullstack-Entwickler",
+      "title": "Antonio Lisboa",
+      "bioLine1": "Ich bin <strong>Fullstack-Entwickler</strong> und bin derzeit <lead>Tech Lead</lead> und <scrum>Scrum Master</scrum> bei <vittahub>Vittahub</vittahub>, einem Healthcare-Marketplace in Brasilien — React, Next.js, TypeScript, Node.js und PostgreSQL mit wiederkehrenden Lieferungen.",
+      "bioLine2": "Ich habe einen <strong>B.Sc. in Informatik</strong> von der <ufc>Universidade Federal do Ceará (UFC)</ufc>, mit Fokus auf <focus>Usability, Accessibility und Performance</focus>. Sieh dir meine <projects>Projekte</projects> oder mein <github>GitHub</github> an.",
+      "summary": "Fullstack-Engineer (React/Next.js, TypeScript, Node.js, SQL) mit technischer Leitung bei Vittahub und Projekten in Healthcare, öffentlichem Sektor und Edtech. Fokus auf Usability, Accessibility, Performance und Qualität.",
       "siteUrl": "https://antoniolisboa.site",
       "siteLabel": "antoniolisboa.site",
       "ctaProjects": "Projekte",
@@ -244,7 +282,17 @@
             "Systemdesign und Requirements Engineering.",
             "Technische Führung in Discovery und Delivery.",
             "Pair Programming und Mentoring von Praktikanten."
-          ]
+          ],
+          "scrum": {
+            "title": "Scrum Master",
+            "period": "Erste 6 Monate · Startup-Ramp-up",
+            "intro": "Backlog strukturiert und Front, Back und Design ausgerichtet, damit das Team schneller Richtung MVP liefern konnte.",
+            "bullets": [
+              "110+ Tasks in Front, Back und Design — klare Scope, Akzeptanzkriterien und Handoffs.",
+              "Discovery-to-Delivery beschleunigt: kürzere Zyklen, weniger Blocker, schnelleres Stakeholder-Feedback.",
+              "Zeremonien, Priorisierung und disziplinübergreifende Abstimmung in der Anfangsphase moderiert."
+            ]
+          }
         },
         {
           "id": "ussin",

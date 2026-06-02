@@ -6,6 +6,7 @@ import { LabCounterDemo } from "@/components/LabCounterDemo";
 import { LabPathnameBadge } from "@/components/LabPathnameBadge";
 import { FakeTerminal } from "@/components/FakeTerminal";
 import { LabThemeBadge } from "@/components/LabThemeBadge";
+import { LabThemeProvider } from "@/components/LabThemeProvider";
 import { SlowGreeting } from "./SlowGreeting";
 import { WorldModePanel } from "@/components/world/WorldModePanel";
 
@@ -78,7 +79,9 @@ export default async function LabPage({ params }: Props) {
           {t("themeDemo.title")}
         </h2>
         <p className="text-sm text-[var(--muted)]">{t("themeDemo.body")}</p>
-        <LabThemeBadge />
+        <LabThemeProvider>
+          <LabThemeBadge />
+        </LabThemeProvider>
       </section>
 
       <section className={`${card} space-y-3`} aria-labelledby="term-heading">

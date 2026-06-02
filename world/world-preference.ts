@@ -52,25 +52,6 @@ export function isWorldBlockedOnMobile(): boolean {
 }
 
 export function resolveWorld3DRequested(): boolean {
-  if (process.env.NEXT_PUBLIC_WORLD_3D === "1") return true;
   if (process.env.NEXT_PUBLIC_WORLD_3D === "0") return false;
-  if (process.env.NEXT_PUBLIC_WORLD_SCENE !== "code") return true;
-
-  const pref = readWorldPreference();
-  if (pref.off) return false;
-  if (pref.on) return true;
-
-  if (typeof window === "undefined") return false;
-
-  try {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("world") === "1") {
-      setWorld3DEnabled(true);
-      return true;
-    }
-  } catch {
-    /* ignore */
-  }
-
-  return false;
+  return true;
 }

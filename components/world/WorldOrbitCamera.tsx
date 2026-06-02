@@ -4,6 +4,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
 import {
+  BLENDER_ORBIT_ENABLED,
   BLENDER_ORBIT_ELEVATION,
   BLENDER_ORBIT_INITIAL_ANGLE,
   BLENDER_ORBIT_RADIUS,
@@ -11,12 +12,25 @@ import {
   BLENDER_ORBIT_LOOK_Y_OFFSET,
   BLENDER_ORBIT_TARGET,
   BLENDER_VIEW_FOV,
+  BLENDER_VIEW_POSITION,
 } from "@/world/blender-camera";
 import { useWorldPaused } from "@/hooks/useWorldPaused";
 import { useWorldCameraInputStore } from "@/stores/world-camera-input-store";
 import { useWorldCameraLookStore } from "@/stores/world-camera-look-store";
 
 const _target = new THREE.Vector3();
+
+function applyFixedCamera(
+  cam: THREE.PerspectiveCamera,
+  setLookTarget: (x: number, y: number, z: number) => void,
+) {
+  cam.position.set(...BLENDER_VIEW_POSITION);
+  _target.set(...BLENDER_ORBIT_TARGET);
+  cam.lookAt(_target);
+  cam.fov = BLENDER_VIEW_FOV;
+  cam.updateProjectionMatrix();
+  setLookTarget(_target.x, _target.y, _target.z);
+}
 
 export function WorldOrbitCamera() {
   const { camera, invalidate } = useThree();
@@ -28,6 +42,15 @@ export function WorldOrbitCamera() {
   const wasManual = useRef(false);
 
   useFrame((_, delta) => {
+    const cam = camera as THREE.PerspectiveCamera;
+
+    if (!BLENDER_ORBIT_ENABLED) {
+      if (paused || orbitPaused || shiftMouse) return;
+      applyFixedCamera(cam, setLookTarget);
+      invalidate();
+      return;
+    }
+
     if (paused || orbitPaused || shiftMouse) {
       wasManual.current = true;
       return;
@@ -44,7 +67,6 @@ export function WorldOrbitCamera() {
 
     angle.current += BLENDER_ORBIT_SPEED * delta;
 
-    const cam = camera as THREE.PerspectiveCamera;
     _target.set(...BLENDER_ORBIT_TARGET);
     _target.y += BLENDER_ORBIT_LOOK_Y_OFFSET;
 

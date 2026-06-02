@@ -25,14 +25,14 @@ export const CV_SECTION_LIGHTING_MODIFIERS: Record<CvSectionId, CvSectionLightin
     directionalMul: 0.9,
     toneExposureMul: 0.85,
   },
-  /** Experiência + secções abaixo no scroll: zona mais clara. */
+  /** Experiência: mais clara que o profile, sem exagerar (meio-termo). */
   experience: {
-    envMul: 5.2,
-    ambientMul: 4,
-    directionalMul: 3.2,
-    toneExposureMul: 4.5,
+    envMul: 8,
+    ambientMul: 6.5,
+    directionalMul: 4.9,
+    toneExposureMul: 6.6,
     ambientTint: "#fffbeb",
-    directionalTint: "#fef08a",
+    directionalTint: "#fde68a",
   },
   education: {
     envMul: 4.2,
@@ -86,6 +86,27 @@ const BRIGHT_SCROLL_SECTIONS = new Set<CvSectionId>([
   "contact",
 ]);
 
+/** Pisos mínimos quando `NEXT_PUBLIC_WORLD_*` está muito escuro no `.env`. */
+const SECTION_LIGHTING_FLOORS: Partial<
+  Record<
+    CvSectionId,
+    Pick<
+      ResolvedSectionLighting,
+      | "environmentIntensity"
+      | "ambientIntensity"
+      | "directionalIntensity"
+      | "toneMappingExposure"
+    >
+  >
+> = {
+  experience: {
+    environmentIntensity: 0.2,
+    ambientIntensity: 0.47,
+    directionalIntensity: 0.52,
+    toneMappingExposure: 0.82,
+  },
+};
+
 function tintFromSection(id: CvSectionId, kind: "ambient" | "directional"): THREE.Color {
   const mod = CV_SECTION_LIGHTING_MODIFIERS[id];
   const hex =
@@ -97,8 +118,8 @@ function tintFromSection(id: CvSectionId, kind: "ambient" | "directional"): THRE
   const whiteMix = bright
     ? id === "experience"
       ? kind === "ambient"
-        ? 0.9
-        : 0.68
+          ? 0.9
+          : 0.7
       : kind === "ambient"
         ? 0.86
         : 0.58
@@ -109,12 +130,31 @@ function tintFromSection(id: CvSectionId, kind: "ambient" | "directional"): THRE
   return c;
 }
 
+function applyLightingFloors(
+  sectionId: CvSectionId,
+  values: ResolvedSectionLighting
+): ResolvedSectionLighting {
+  const floor = SECTION_LIGHTING_FLOORS[sectionId];
+  if (!floor) return values;
+
+  return {
+    ...values,
+    environmentIntensity: Math.max(values.environmentIntensity, floor.environmentIntensity ?? 0),
+    ambientIntensity: Math.max(values.ambientIntensity, floor.ambientIntensity ?? 0),
+    directionalIntensity: Math.max(
+      values.directionalIntensity,
+      floor.directionalIntensity ?? 0
+    ),
+    toneMappingExposure: Math.max(values.toneMappingExposure, floor.toneMappingExposure ?? 0),
+  };
+}
+
 export function resolveSectionLighting(sectionId: CvSectionId): ResolvedSectionLighting {
   const base = getBlenderLightingFromEnv();
   const mod = CV_SECTION_LIGHTING_MODIFIERS[sectionId];
   const toneMul = mod.toneExposureMul ?? 1;
 
-  return {
+  return applyLightingFloors(sectionId, {
     environmentEnabled: base.environmentEnabled,
     environmentIntensity: base.environmentIntensity * mod.envMul,
     ambientIntensity: base.ambientIntensity * mod.ambientMul,
@@ -122,5 +162,5 @@ export function resolveSectionLighting(sectionId: CvSectionId): ResolvedSectionL
     toneMappingExposure: base.toneMappingExposure * toneMul,
     ambientColor: tintFromSection(sectionId, "ambient"),
     directionalColor: tintFromSection(sectionId, "directional"),
-  };
+  });
 }

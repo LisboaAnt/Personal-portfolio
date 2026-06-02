@@ -41,7 +41,27 @@
     "panelBody": "Navegación tipo juego: el scroll mueve la cámara; el contenido sigue en HTML.",
     "panelActive": "Mundo 3D activo en esta sesión.",
     "panelInactive": "Modo clásico — sin canvas WebGL.",
-    "demoLink": "Demo aislada"
+    "demoLink": "Demo aislada",
+    "loader": "Cargando {percent}%",
+    "hud": {
+      "aria": "Coordenadas y rendimiento de la cámara 3D",
+      "expand": "Expandir panel de depuración",
+      "minimize": "Minimizar panel de depuración",
+      "controls": "WASD + Q/E mover · Shift + ratón = mirar/desplazar · Shift + rueda = zoom · Shift/Alt = rápido",
+      "frame": "fotograma",
+      "triangles": "triángulos",
+      "draws": "draws",
+      "geo": "geo",
+      "tex": "tex",
+      "profile": "perfil",
+      "qualityHigh": "alto",
+      "qualityLow": "bajo",
+      "section": "sección",
+      "render": "render",
+      "position": "Posición",
+      "target": "Objetivo",
+      "rotation": "Rotación°"
+    }
   },
   "Theme": {
     "aria": "Tema: claro, oscuro o sistema",
@@ -208,10 +228,28 @@
   },
   "Home": {
     "hero": {
+      "greeting": "Hola",
+      "intro": "Hola, me llamo Antonio",
+      "headlinePrefix": "",
+      "headlinePhrases": [
+        "Lidero equipos técnicos.",
+        "Planeo sprints.",
+        "Planeo roadmaps.",
+        "Diseño la arquitectura del sistema.",
+        "Llevo productos full stack a producción.",
+        "Desarrollo mobile y web.",
+        "Oriento a becarios.",
+        "Estructuro backlogs.",
+        "Facilito ceremonias ágiles.",
+        "Alineo discovery con la entrega."
+      ],
+      "headlineAria": "Lidero equipos técnicos, planeo sprints y roadmaps, diseño arquitectura, llevo productos full stack a producción, desarrollo mobile y web, oriento becarios, estructuro backlogs, facilito ceremonias ágiles y alineo discovery con la entrega.",
       "kicker": "Portafolio online",
-      "role": "Junior Fullstack Software Engineer",
-      "title": "Antonio Lisboa de Carvalho",
-      "summary": "Fullstack centrado en TypeScript, entrega colaborativa y envío continuo. Liderazgo técnico con equipos de hasta 6 developers, con foco en calidad y escalabilidad.",
+      "role": "Desarrollador Fullstack",
+      "title": "Antonio Lisboa",
+      "bioLine1": "Soy <strong>desarrollador full stack</strong> y actualmente actúo como <lead>Tech Lead</lead> y <scrum>Scrum Master</scrum> en <vittahub>Vittahub</vittahub>, un marketplace de salud en Brasil — React, Next.js, TypeScript, Node.js y PostgreSQL con entregas recurrentes.",
+      "bioLine2": "Tengo <strong>licenciatura en Ciencias de la Computación</strong> por la <ufc>Universidad Federal de Ceará (UFC)</ufc>, con foco en <focus>usabilidad, accesibilidad y rendimiento</focus>. Mira mis <projects>proyectos</projects> o mi <github>GitHub</github>.",
+      "summary": "Ingeniero fullstack (React/Next.js, TypeScript, Node.js, SQL) con liderazgo técnico en Vittahub y entregas en salud, sector público y edtech. Foco en usabilidad, accesibilidad, rendimiento y calidad.",
       "siteUrl": "https://antoniolisboa.site",
       "siteLabel": "antoniolisboa.site",
       "ctaProjects": "Proyectos",
@@ -244,7 +282,17 @@
             "System design e ingeniería de requisitos.",
             "Liderazgo técnico en discovery y desarrollo.",
             "Pair programming y mentoría de becarios."
-          ]
+          ],
+          "scrum": {
+            "title": "Scrum Master",
+            "period": "Primeros 6 meses · arranque del startup",
+            "intro": "Organicé el backlog y alineé front, back y diseño para que el equipo avanzara más rápido hacia el MVP.",
+            "bullets": [
+              "110+ tareas redactadas en front, back y diseño — alcance claro, criterios de aceptación y handoffs.",
+              "Aceleré discovery-to-delivery: ciclos más cortos, menos bloqueos y feedback más rápido con stakeholders.",
+              "Facilité ceremonias, priorización y coordinación entre disciplinas en la fase inicial de construcción."
+            ]
+          }
         },
         {
           "id": "ussin",

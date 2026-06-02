@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { WorldLink } from "./WorldLink";
 
 const link =
-  "rounded-lg px-2 py-1.5 text-xs font-medium text-[var(--muted)] transition hover:bg-[var(--surface-elevated)] hover:text-[var(--foreground)] sm:px-2.5 sm:text-sm";
+  "rounded-md px-1.5 py-1 text-[10px] font-medium text-[var(--muted)] transition hover:bg-[var(--surface-elevated)] hover:text-[var(--foreground)] sm:px-2 sm:text-xs";
 
 const SECTIONS = [
   "profile",
@@ -20,7 +20,7 @@ export function WorldNav() {
 
   return (
     <nav
-      className="flex max-w-[52vw] flex-1 items-center justify-end gap-0.5 overflow-x-auto sm:max-w-none sm:justify-center sm:gap-1"
+      className="flex min-w-0 flex-1 items-center justify-center gap-0.5 overflow-x-auto px-0.5 sm:gap-1"
       aria-label={t("aria")}
     >
       {SECTIONS.map((id) => (

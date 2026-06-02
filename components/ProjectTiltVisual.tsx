@@ -12,6 +12,15 @@ export function ProjectTiltVisual({ src, alt }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
   const [rot, setRot] = useState({ rx: 0, ry: 0 });
 
+  if (!src?.trim()) {
+    return (
+      <div
+        className="flex h-40 items-center justify-center rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)]/60 sm:h-44"
+        aria-hidden
+      />
+    );
+  }
+
   const onMove = useCallback((e: React.MouseEvent) => {
     const el = wrap.current;
     if (!el) return;

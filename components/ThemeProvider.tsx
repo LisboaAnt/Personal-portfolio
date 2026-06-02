@@ -1,19 +1,6 @@
-"use client";
-
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-
 type Props = { children: React.ReactNode };
 
+/** Site sempre em dark — classe em `<html className="dark">` no layout raiz (sem script do next-themes). */
 export function ThemeProvider({ children }: Props) {
-  return (
-    <NextThemesProvider
-      attribute="class"
-      defaultTheme="dark"
-      forcedTheme="dark"
-      enableSystem={false}
-      disableTransitionOnChange
-    >
-      {children}
-    </NextThemesProvider>
-  );
+  return children;
 }

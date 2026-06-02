@@ -15,7 +15,7 @@ export function WorldModeToggle() {
     queueMicrotask(() => setMounted(true));
   }, []);
 
-  if (!mounted || enabled === null) {
+  if (!mounted) {
     return (
       <div
         className="h-8 min-w-[3.25rem] rounded-full border border-[var(--border)] bg-[var(--surface-elevated)]/60 sm:min-w-[4.5rem]"

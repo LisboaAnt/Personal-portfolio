@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useLocale } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import styles from "./locale-switcher.module.css";
@@ -189,9 +189,13 @@ export function LocaleSwitcher() {
   const locale = useLocale() as Locale;
   const router = useRouter();
   const pathname = usePathname();
+  const [, startTransition] = useTransition();
 
   const changeLocale = (next: Locale) => {
-    router.replace(pathname, { locale: next });
+    if (next === locale) return;
+    startTransition(() => {
+      router.replace(pathname, { locale: next });
+    });
   };
 
   return (

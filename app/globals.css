@@ -53,6 +53,39 @@
   }
 }
 
+@keyframes wave {
+  0%,
+  60%,
+  100% {
+    transform: rotate(0deg);
+  }
+  10%,
+  30% {
+    transform: rotate(14deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  40% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-4deg);
+  }
+}
+
+.animate-wave {
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: wave 2.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-wave {
+    animation: none;
+  }
+}
+
 :root {
   color-scheme: light;
   --surface: #f4f6fb;
@@ -103,6 +136,32 @@ body {
   background-attachment: fixed;
 }
 
+/* Wallpaper 3D: sem grelha/glow — imagem no primeiro paint (antes do JS) */
+html.world-wallpaper-mode body {
+  background-color: #070b14;
+  background-image: none;
+}
+
+html.world-wallpaper-mode body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  /* Acima do canvas (z-0), abaixo do conteúdo (z-10+) */
+  z-index: 1;
+  background-color: #070b14;
+  background-image: url("/world/wallpaper.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.world-wallpaper-mode.world-wallpaper-fade body::before {
+  opacity: 0;
+}
+
 /* Mundo 3D global — canvas fixo atrás do conteúdo */
 html.world-3d-active body {
   background-color: color-mix(in srgb, var(--surface) 92%, #0f172a);
@@ -129,6 +188,18 @@ html.world-3d-active .world-overlay {
 
 html.world-3d-active .world-overlay--orbit {
   background: transparent;
+}
+
+html.world-wallpaper-mode .world-glb-loader,
+html.world-wallpaper-mode:not(.world-wallpaper-fade) [class*="Loader"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.world-wallpaper-mode body::before {
+    transition: none;
+  }
 }
 
 /* Shift premido: rato controla câmara em todo o ecrã */
@@ -656,5 +727,255 @@ main#content > details {
 @media (prefers-reduced-motion: reduce) {
   .flow-card {
     transition: none;
+  }
+}
+
+/* Hero headline SVG + fallback: MedievalSharp */
+.hero-title-font {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+}
+
+/* Evita tradução automática do browser (ex. ES → PT) na hero */
+.hero-notranslate {
+  translate: no;
+}
+
+/* Hero editorial (kicker + serif headline + lead) */
+.hero-kicker {
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f472b6;
+}
+
+.dark .hero-kicker {
+  color: #f9a8d4;
+}
+
+.hero-headline {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-size: clamp(2.75rem, 9vw, 4.75rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  color: var(--foreground);
+}
+
+/* Headline: várias linhas SVG, quebra por palavras */
+.hero-headline-line {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 100%;
+  line-height: 1.05;
+}
+
+.hero-headline-line-segment {
+  max-width: 100%;
+}
+
+.hero-headline-line-segment svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Texto real (transparente) + SVG na mesma célula — seleção/cópia sem alterar o visual */
+.hero-headline-line-stack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 1fr;
+  max-width: 100%;
+  align-items: start;
+  overflow: visible;
+}
+
+.hero-headline-line-stack > * {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+}
+
+.hero-headline-copy {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-size: clamp(2.75rem, 9vw, 4.75rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: transparent;
+  user-select: text;
+  -webkit-user-select: text;
+  cursor: text;
+  white-space: pre-wrap;
+  word-break: break-word;
+  z-index: 1;
+  overflow: visible;
+  /* Alinhar à caixa do SVG (padding inferior do viewBox) sem cortar descendentes */
+  transform: translateY(-0.01em);
+  padding-bottom: 0.14em;
+}
+
+.hero-headline-copy::selection {
+  color: transparent;
+  background: color-mix(in srgb, var(--foreground) 28%, transparent);
+}
+
+.hero-headline-visual {
+  pointer-events: none;
+  z-index: 0;
+  max-width: 100%;
+}
+
+.hero-headline-static-text {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: var(--foreground);
+  pointer-events: none;
+}
+
+/* Sufixo na mesma linha que o prefixo estável (sem quebra artificial) */
+.hero-headline-suffix-row {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  line-height: 1.05;
+  max-width: 100%;
+}
+
+.hero-headline-smart-row {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  line-height: 1.05;
+  max-width: 100%;
+}
+
+.hero-headline-smart-stable,
+.hero-headline-smart-mutable {
+  display: block;
+  flex-shrink: 0;
+}
+
+.hero-headline-smart-mutable svg,
+.hero-headline-smart-stable svg {
+  display: block;
+  vertical-align: bottom;
+}
+
+
+.hero-bio {
+  white-space: normal;
+  word-spacing: normal;
+}
+
+.hero-bio-line {
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--foreground) 88%, var(--muted));
+}
+
+@media (min-width: 640px) {
+  .hero-bio-line {
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+}
+
+.hero-bio-mark,
+.hero-bio-link {
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0.06em 0.28em;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--foreground) 10%, transparent);
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.hero-bio-link:hover {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* Hero: contorno desenhado letra a letra (SVG + stroke-dashoffset) */
+@keyframes hero-title-draw {
+  from {
+    stroke-dashoffset: var(--path-len);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes hero-title-fill-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-title-stroke {
+  stroke-dasharray: var(--path-len);
+  stroke-dashoffset: var(--path-len);
+  animation: hero-title-draw var(--draw-dur) cubic-bezier(0.22, 1, 0.36, 1) var(--draw-delay) forwards;
+}
+
+/* Traço completo visível entre desenhar e desfazer */
+.hero-title-stroke-rest {
+  stroke-dasharray: var(--path-len);
+  stroke-dashoffset: 0;
+}
+
+@keyframes hero-title-undraw {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: var(--path-len);
+  }
+}
+
+.hero-title-stroke-undraw {
+  stroke-dasharray: var(--path-len);
+  stroke-dashoffset: 0;
+  animation: hero-title-undraw var(--draw-dur) cubic-bezier(0.55, 0, 1, 0.45) var(--draw-delay) forwards;
+}
+
+.hero-title-fill {
+  opacity: 0;
+  animation: hero-title-fill-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) var(--fill-delay) forwards;
+}
+
+@keyframes hero-title-fill-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.hero-title-fill-out {
+  opacity: 1;
+  animation: hero-title-fill-out 0.22s ease-out var(--draw-delay, 0s) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-stroke,
+  .hero-title-stroke-undraw {
+    display: none;
+  }
+
+  .hero-title-fill,
+  .hero-title-fill-out {
+    animation: none !important;
+    opacity: 1;
   }
 }

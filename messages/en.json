@@ -41,7 +41,27 @@
     "panelBody": "Game-style navigation: scroll moves the camera; content stays in HTML.",
     "panelActive": "3D world active this session.",
     "panelInactive": "Classic mode — no WebGL canvas.",
-    "demoLink": "Isolated demo"
+    "demoLink": "Isolated demo",
+    "loader": "Loading {percent}%",
+    "hud": {
+      "aria": "3D camera coordinates and performance",
+      "expand": "Expand debug panel",
+      "minimize": "Minimize debug panel",
+      "controls": "WASD + Q/E move · Shift + mouse = look/pan · Shift + wheel = zoom · Shift/Alt = fast",
+      "frame": "frame",
+      "triangles": "triangles",
+      "draws": "draws",
+      "geo": "geo",
+      "tex": "tex",
+      "profile": "profile",
+      "qualityHigh": "high",
+      "qualityLow": "low",
+      "section": "section",
+      "render": "render",
+      "position": "Position",
+      "target": "Target",
+      "rotation": "Rotation°"
+    }
   },
   "Theme": {
     "aria": "Theme: light, dark, or system",
@@ -208,10 +228,28 @@
   },
   "Home": {
     "hero": {
+      "greeting": "Hi",
+      "intro": "Hello, my name is Antonio",
+      "headlinePrefix": "I ",
+      "headlinePhrases": [
+        "lead technical teams.",
+        "plan sprints.",
+        "plan roadmaps.",
+        "shape system architecture.",
+        "ship fullstack products.",
+        "build mobile and web.",
+        "mentor interns.",
+        "structure backlogs.",
+        "facilitate agile ceremonies.",
+        "align discovery with delivery."
+      ],
+      "headlineAria": "I lead technical teams, plan sprints, plan roadmaps, shape system architecture, ship fullstack products, build mobile and web, mentor interns, structure backlogs, facilitate agile ceremonies, and align discovery with delivery.",
       "kicker": "Online portfolio",
-      "role": "Junior Fullstack Software Engineer",
-      "title": "Antonio Lisboa de Carvalho",
-      "summary": "Fullstack engineer focused on TypeScript, collaborative delivery, and continuous shipping. Technical leadership for teams up to 6 developers, with emphasis on quality and scalability.",
+      "role": "Fullstack Developer",
+      "title": "Antonio Lisboa",
+      "bioLine1": "I'm a <strong>fullstack developer</strong>, currently serving as <lead>Tech Lead</lead> and <scrum>Scrum Master</scrum> at <vittahub>Vittahub</vittahub>, a healthcare marketplace in Brazil — React, Next.js, TypeScript, Node.js, and PostgreSQL with recurring delivery.",
+      "bioLine2": "I hold a <strong>B.Sc. in Computer Science</strong> from <ufc>Federal University of Ceará (UFC)</ufc>, with a focus on <focus>usability, accessibility, and performance</focus>. Browse my <projects>projects</projects> or <github>GitHub</github>.",
+      "summary": "Fullstack engineer (React/Next.js, TypeScript, Node.js, SQL) with technical leadership at Vittahub and delivery across healthcare, public-sector, and edtech. Emphasis on usability, accessibility, performance, and quality.",
       "siteUrl": "https://antoniolisboa.site",
       "siteLabel": "antoniolisboa.site",
       "ctaProjects": "Projects",
@@ -244,7 +282,17 @@
             "System design and requirements engineering.",
             "Technical leadership across discovery and delivery.",
             "Pair programming and mentoring interns."
-          ]
+          ],
+          "scrum": {
+            "title": "Scrum Master",
+            "period": "First 6 months · startup ramp-up",
+            "intro": "Structured the backlog and aligned frontend, backend, and design so the team could move faster toward the MVP.",
+            "bullets": [
+              "110+ tasks written across front, back, and design — clear scope, acceptance criteria, and handoffs.",
+              "Accelerated discovery-to-delivery: shorter cycles, fewer blockers, faster stakeholder feedback.",
+              "Facilitated ceremonies, prioritization, and cross-discipline coordination during the initial build phase."
+            ]
+          }
         },
         {
           "id": "ussin",

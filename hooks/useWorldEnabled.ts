@@ -6,14 +6,16 @@ import {
   isWorldBlockedOnMobile,
   resolveWorld3DRequested,
 } from "@/world/world-preference";
+import {
+  resolveWorldEnabledInitial,
+  resolveWorldEnabledOnClient,
+} from "@/world/world-3d-client";
 
-export function useWorldEnabled(): boolean | null {
-  const [enabled, setEnabled] = useState<boolean | null>(null);
+export function useWorldEnabled(): boolean {
+  const [enabled, setEnabled] = useState(resolveWorldEnabledInitial);
 
   const sync = useCallback(() => {
-    const requested = resolveWorld3DRequested();
-    const blocked = requested && isWorldBlockedOnMobile();
-    setEnabled(requested && !blocked);
+    setEnabled(resolveWorldEnabledOnClient());
   }, []);
 
   useEffect(() => {

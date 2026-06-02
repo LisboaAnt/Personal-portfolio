@@ -9,10 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@fontsource/dm-sans": "^5.2.8",
     "@react-spring/three": "^10.0.3",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "@react-three/postprocessing": "^3.0.4",
+    "fontkit": "^2.0.4",
     "framer-motion": "^12.38.0",
     "next": "16.2.4",
     "next-intl": "^4.5.8",
@@ -24,6 +26,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/fontkit": "^2.0.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -1,8 +1,9 @@
 "use client";
 
 import { useCallback } from "react";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter } from "next/navigation";
 import { useWorldStore } from "@/stores/world-store";
+import { homePathWithSectionHash } from "@/world/locale-path";
 import { resolveCvSection, sectionToHash } from "@/world/path-to-room";
 import { isCvSectionId } from "@/world/scroll-rooms";
 import {
@@ -71,7 +72,11 @@ export function useWorldNavigate() {
       }
 
       beginTravel(section);
-      router.push({ pathname: "/", hash: section } as Parameters<typeof router.push>[0]);
+      const path =
+        typeof window !== "undefined"
+          ? homePathWithSectionHash(window.location.pathname, section)
+          : homePathWithSectionHash("/", section);
+      router.push(path);
       scrollToSection(section);
 
       const totalMs =

@@ -1,8 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 import { SecretYear } from "@/components/SecretYear";
-import { WorldModeToggle } from "@/components/world/WorldModeToggle";
-import { WorldBrandLink } from "@/components/world/WorldBrandLink";
 import { WorldNav } from "@/components/world/WorldNav";
 import { WorldOverlay } from "@/components/world/WorldOverlay";
 
@@ -17,18 +15,16 @@ export async function SiteChrome({
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="site-chrome-header sticky top-0 z-50 border-b border-[var(--border)] bg-[var(--surface)]/75 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-          <WorldBrandLink className="shrink-0 text-sm font-semibold tracking-tight text-[var(--foreground)]">
-            Antonio Lisboa
-          </WorldBrandLink>
-          <WorldNav />
-          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
-            <WorldModeToggle />
-            <LocaleSwitcher />
-          </div>
+      <div className="sticky top-0 z-50">
+        <div className="mx-auto flex max-w-5xl justify-end px-4 sm:px-6">
+          <header className="site-chrome-header flex w-auto max-w-xl items-center justify-between gap-2 rounded-b-2xl border border-t-0 border-[var(--border)] bg-[var(--surface)]/80 px-2.5 py-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-xl sm:max-w-2xl sm:gap-3 sm:px-3 sm:py-2">
+            <WorldNav />
+            <div className="flex shrink-0 items-center justify-end">
+              <LocaleSwitcher />
+            </div>
+          </header>
         </div>
-      </header>
+      </div>
 
       <WorldOverlay>
         <div className="flex-1">{children}</div>

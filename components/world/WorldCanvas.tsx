@@ -1,10 +1,11 @@
 "use client";
 
 import { Canvas, useThree } from "@react-three/fiber";
-import { Loader } from "@react-three/drei";
 import { Suspense, useEffect } from "react";
 import * as THREE from "three";
 import { SpikeScene } from "./SpikeScene";
+import { WorldGlbLoader } from "./WorldGlbLoader";
+import { WorldLoadNotifier } from "./WorldLoadNotifier";
 import { WorldScene } from "./WorldScene";
 import { useWorldQuality } from "@/hooks/useWorldQuality";
 import { isBlenderWorldScene } from "@/world/world-scene-mode";
@@ -18,6 +19,9 @@ import {
 } from "@/world/constants";
 import { BLENDER_VIEW_FOV, BLENDER_VIEW_POSITION } from "@/world/blender-camera";
 import { getBlenderLightingFromEnv } from "@/world/blender-lighting-env";
+import { isWorldPosterCaptureEnabled } from "@/world/world-poster-capture";
+import { isWorldWallpaperEnabled } from "@/world/world-wallpaper";
+import { useWorldPosterStore } from "@/stores/world-poster-store";
 
 type Props = {
   className?: string;
@@ -66,6 +70,9 @@ export function WorldCanvas({ className, scene = "site" }: Props) {
   const paused = useWorldPaused();
   const blenderScene = scene === "site" && isBlenderWorldScene();
   const frameloop = paused ? "never" : blenderScene ? "always" : "demand";
+  const posterCapture = blenderScene && isWorldPosterCaptureEnabled();
+  const wallpaperActive =
+    blenderScene && isWorldWallpaperEnabled() && useWorldPosterStore((s) => !s.sceneReady);
 
   return (
     <div
@@ -85,6 +92,7 @@ export function WorldCanvas({ className, scene = "site" }: Props) {
           antialias: quality === "high",
           alpha: blenderScene,
           powerPreference: "high-performance",
+          preserveDrawingBuffer: posterCapture,
         }}
         onCreated={({ gl }) => {
           if (!blenderScene) return;
@@ -99,14 +107,11 @@ export function WorldCanvas({ className, scene = "site" }: Props) {
           {scene === "spike" ? <SpikeScene /> : <WorldScene />}
         </Suspense>
         {scene === "site" ? <FrameDriver /> : null}
+        {scene === "site" && blenderScene && isWorldWallpaperEnabled() ? (
+          <WorldLoadNotifier />
+        ) : null}
       </Canvas>
-      {showLoader ? (
-        <Loader
-          containerStyles={{ background: "transparent", pointerEvents: "none", zIndex: 15 }}
-          barStyles={{ background: "var(--accent)", height: 3 }}
-          dataInterpolation={(p) => `A carregar ${p.toFixed(0)}%`}
-        />
-      ) : null}
+      {showLoader && !wallpaperActive ? <WorldGlbLoader /> : null}
     </div>
   );
 }
