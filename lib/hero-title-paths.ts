@@ -47,9 +47,13 @@ export function peekTitleLayout(
 
 export const HERO_HEADLINE_FONT_URL = "/fonts/MedievalSharp-Regular.woff2";
 
-/** Headline SVG: alinhado a clamp(2.75rem, 9vw, 4.75rem). */
+/** Headline SVG — mobile: ~clamp(2rem, 7.5vw, 2.65rem); desktop: clamp(2.75rem, 9vw, 4.75rem). */
 export function getHeroHeadlineFontSizePx(): number {
-  if (typeof window === "undefined") return 44;
+  if (typeof window === "undefined") return 36;
+  if (window.matchMedia("(max-width: 639px)").matches) {
+    const vw = window.innerWidth * 0.075;
+    return Math.round(Math.min(Math.max(vw, 32), 42));
+  }
   const vw = window.innerWidth * 0.09;
   return Math.round(Math.min(Math.max(vw, 44), 76));
 }

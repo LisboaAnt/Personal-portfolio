@@ -28,7 +28,7 @@ export default async function HomePage({ params }: Props) {
   const email = t("contact.email");
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-20 px-4 pb-24 pt-12 sm:px-6 sm:pt-20 lg:gap-28">
+    <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-14 px-4 pb-20 pt-8 sm:gap-20 sm:px-6 sm:pb-24 sm:pt-12 md:pt-20 lg:gap-28">
       <HeroAnimated
         intro={t("hero.intro")}
         headlinePrefix={t("hero.headlinePrefix")}
@@ -45,7 +45,7 @@ export default async function HomePage({ params }: Props) {
           className="scroll-mt-24 space-y-8"
           aria-labelledby="exp-heading"
         >
-          <SectionTitle id="exp-heading" kicker="01" title={t("experience.title")} />
+          <SectionTitle id="exp-heading" title={t("experience.title")} />
           <ExperienceTimeline items={experience} />
         </section>
 

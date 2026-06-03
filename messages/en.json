@@ -18,6 +18,14 @@
       "skills": "Skills",
       "contact": "Contact"
     },
+    "cvShort": {
+      "profile": "Profile",
+      "experience": "Exp.",
+      "projects": "Projects",
+      "education": "Edu.",
+      "skills": "Skills",
+      "contact": "Contact"
+    },
     "footerTagline": "Personal portfolio · open source on GitHub",
     "yearSecretAria": "Copyright year (easter egg)"
   },
@@ -248,6 +256,7 @@
       "role": "Fullstack Developer",
       "title": "Antonio Lisboa",
       "bioLine1": "I'm a <strong>fullstack developer</strong>, currently serving as <lead>Tech Lead</lead> and <scrum>Scrum Master</scrum> at <vittahub>Vittahub</vittahub>, a healthcare marketplace in Brazil — React, Next.js, TypeScript, Node.js, and PostgreSQL with recurring delivery.",
+      "bioLine1Mobile": "I'm a <strong>fullstack developer</strong>, <lead>Tech Lead</lead> and <scrum>Scrum Master</scrum> at <vittahub>Vittahub</vittahub> — a healthcare marketplace in Brazil.",
       "bioLine2": "I hold a <strong>B.Sc. in Computer Science</strong> from <ufc>Federal University of Ceará (UFC)</ufc>, with a focus on <focus>usability, accessibility, and performance</focus>. Browse my <projects>projects</projects> or <github>GitHub</github>.",
       "summary": "Fullstack engineer (React/Next.js, TypeScript, Node.js, SQL) with technical leadership at Vittahub and delivery across healthcare, public-sector, and edtech. Emphasis on usability, accessibility, performance, and quality.",
       "siteUrl": "https://antoniolisboa.site",

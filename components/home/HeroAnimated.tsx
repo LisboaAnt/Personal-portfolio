@@ -2,9 +2,12 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { useLocale } from "next-intl";
-import type { ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { isHeroFastEnter } from "@/lib/hero-enter";
 import { HeroRotatingHeadline } from "@/components/home/HeroRotatingHeadline";
+
+const MOBILE_HEADLINE_PHRASE_COUNT = 6;
 
 type Props = {
   intro: string;
@@ -26,7 +29,14 @@ export function HeroAnimated({
   const locale = useLocale();
   const reduced = useReducedMotion();
   const fastEnter = isHeroFastEnter();
+  const isMobile = useIsMobile();
   const motionInitial = reduced || fastEnter ? false : { opacity: 0, y: 10 };
+
+  const headlinePhrasesForViewport = useMemo(
+    () =>
+      isMobile ? headlinePhrases.slice(0, MOBILE_HEADLINE_PHRASE_COUNT) : headlinePhrases,
+    [headlinePhrases, isMobile],
+  );
 
   return (
     <header
@@ -50,11 +60,11 @@ export function HeroAnimated({
           initial={motionInitial}
           animate={reduced ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: fastEnter ? 0 : 0.06, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-1 sm:mt-1.5"
+          className="mt-0.5 sm:mt-1.5"
         >
           <HeroRotatingHeadline
             prefix={headlinePrefix}
-            phrases={headlinePhrases}
+            phrases={headlinePhrasesForViewport}
             ariaLabel={`${name}. ${headlineAria}`}
           />
         </motion.div>

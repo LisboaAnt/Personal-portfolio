@@ -33,22 +33,18 @@ function makeRichTags(githubHref: string) {
   };
 }
 
-const LINES = ["bioLine1", "bioLine2"] as const;
-
-/** Bio da hero — duas linhas, estilo editorial (referência Max Böck). */
+/** Bio da hero — mobile: 1 linha curta; desktop: 2 linhas. */
 export async function HeroBioServer() {
   const t = await getTranslations("Home.hero");
   const tHome = await getTranslations("Home");
   const tags = makeRichTags(tHome("social.github"));
 
   return (
-    <div className="hero-bio mt-8 sm:mt-10">
-      <div className="space-y-4 sm:space-y-5">
-        {LINES.map((key) => (
-          <p key={key} className="hero-bio-line">
-            {t.rich(key, tags)}
-          </p>
-        ))}
+    <div className="hero-bio mt-5 sm:mt-10">
+      <div className="space-y-3 sm:space-y-5">
+        <p className="hero-bio-line sm:hidden">{t.rich("bioLine1Mobile", tags)}</p>
+        <p className="hero-bio-line hidden sm:block">{t.rich("bioLine1", tags)}</p>
+        <p className="hero-bio-line hidden sm:block">{t.rich("bioLine2", tags)}</p>
       </div>
     </div>
   );

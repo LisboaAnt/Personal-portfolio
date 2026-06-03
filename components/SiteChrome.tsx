@@ -16,10 +16,10 @@ export async function SiteChrome({
   return (
     <div className="flex min-h-screen flex-col">
       <div className="sticky top-0 z-50">
-        <div className="mx-auto flex max-w-5xl justify-end px-4 sm:px-6">
-          <header className="site-chrome-header flex w-auto max-w-xl items-center justify-between gap-2 rounded-b-2xl border border-t-0 border-[var(--border)] bg-[var(--surface)]/80 px-2.5 py-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-xl sm:max-w-2xl sm:gap-3 sm:px-3 sm:py-2">
+        <div className="mx-auto flex w-full max-w-5xl justify-end px-2 sm:px-6">
+          <header className="site-chrome-header flex h-8 min-w-0 max-w-full items-center gap-1 rounded-b-xl border border-t-0 border-[var(--border)] bg-[var(--surface)]/80 px-1.5 shadow-[0_6px_20px_rgba(0,0,0,0.16)] backdrop-blur-xl sm:h-9 sm:max-w-2xl sm:gap-2 sm:rounded-b-2xl sm:px-2.5">
             <WorldNav />
-            <div className="flex shrink-0 items-center justify-end">
+            <div className="flex shrink-0 items-center border-l border-[var(--border)]/60 pl-1 sm:pl-1.5">
               <LocaleSwitcher />
             </div>
           </header>
@@ -35,7 +35,7 @@ export async function SiteChrome({
           <p>
             © <SecretYear label={t("yearSecretAria")} /> · {t("footerTagline")}
           </p>
-          <p className="flex flex-wrap items-center justify-center gap-2">
+          <p className="hidden flex-wrap items-center justify-center gap-2 sm:flex">
             <span className="rounded-full border border-[var(--border)] bg-[var(--surface-elevated)]/60 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-[var(--foreground)]">
               Next.js 16
             </span>
