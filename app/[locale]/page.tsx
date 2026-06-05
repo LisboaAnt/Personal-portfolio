@@ -42,7 +42,7 @@ export default async function HomePage({ params }: Props) {
         <section
           id="experience"
           data-world-room="experience"
-          className="scroll-mt-24 space-y-8"
+          className="experience-section scroll-mt-24 space-y-8"
           aria-labelledby="exp-heading"
         >
           <SectionTitle id="exp-heading" title={t("experience.title")} />

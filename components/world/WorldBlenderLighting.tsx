@@ -2,16 +2,17 @@
 
 import { Environment } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import * as THREE from "three";
+import { useWorldCameraTravelStore } from "@/stores/world-camera-travel-store";
 import { useWorldStore } from "@/stores/world-store";
 import { getBlenderLightingFromEnv } from "@/world/blender-lighting-env";
 import {
+  lerpSectionLighting,
   resolveSectionLighting,
   type ResolvedSectionLighting,
 } from "@/world/cv-section-lighting";
-
-const LERP_SPEED = 5;
+const LIGHT_LERP_SPEED = 2.4;
 
 function cloneLightingState(src: ResolvedSectionLighting) {
   return {
@@ -24,43 +25,57 @@ function cloneLightingState(src: ResolvedSectionLighting) {
   };
 }
 
-/** Luzes React + HDR; intensidades mudam ao trocar de secção CV (`focusRoomId`). */
+/** Luzes React + HDR; intensidades seguem a viagem da câmara entre secções. */
 export function WorldBlenderLighting() {
   const focusRoomId = useWorldStore((s) => s.focusRoomId);
+  const travelProgress = useWorldCameraTravelStore((s) => s.progress);
+  const lightingFrom = useWorldCameraTravelStore((s) => s.lightingFrom);
+  const lightingTo = useWorldCameraTravelStore((s) => s.lightingTo);
+  const isTraveling = useWorldCameraTravelStore((s) => s.isTraveling);
   const scene = useThree((s) => s.scene);
   const invalidate = useThree((s) => s.invalidate);
   const gl = useThree((s) => s.gl);
 
   const base = getBlenderLightingFromEnv();
-  const targetRef = useRef(resolveSectionLighting("profile"));
-  const currentRef = useRef(cloneLightingState(targetRef.current));
+  const currentRef = useRef(cloneLightingState(resolveSectionLighting("profile")));
 
   const ambRef = useRef<THREE.AmbientLight>(null);
   const dirRef = useRef<THREE.DirectionalLight>(null);
 
-  useEffect(() => {
-    targetRef.current = resolveSectionLighting(focusRoomId);
-  }, [focusRoomId]);
-
   useFrame((_, dt) => {
-    const t = 1 - Math.exp(-LERP_SPEED * dt);
     const cur = currentRef.current;
-    const tgt = targetRef.current;
 
-    cur.environmentIntensity = THREE.MathUtils.lerp(cur.environmentIntensity, tgt.environmentIntensity, t);
-    cur.ambientIntensity = THREE.MathUtils.lerp(cur.ambientIntensity, tgt.ambientIntensity, t);
+    let target: ResolvedSectionLighting;
+    if (
+      isTraveling &&
+      lightingFrom &&
+      lightingTo &&
+      lightingFrom !== lightingTo
+    ) {
+      target = lerpSectionLighting(lightingFrom, lightingTo, travelProgress);
+    } else {
+      target = resolveSectionLighting(focusRoomId);
+    }
+
+    const t = 1 - Math.exp(-LIGHT_LERP_SPEED * dt);
+    cur.environmentIntensity = THREE.MathUtils.lerp(
+      cur.environmentIntensity,
+      target.environmentIntensity,
+      t,
+    );
+    cur.ambientIntensity = THREE.MathUtils.lerp(cur.ambientIntensity, target.ambientIntensity, t);
     cur.directionalIntensity = THREE.MathUtils.lerp(
       cur.directionalIntensity,
-      tgt.directionalIntensity,
-      t
+      target.directionalIntensity,
+      t,
     );
     cur.toneMappingExposure = THREE.MathUtils.lerp(
       cur.toneMappingExposure,
-      tgt.toneMappingExposure,
-      t
+      target.toneMappingExposure,
+      t,
     );
-    cur.ambientColor.lerp(tgt.ambientColor, t);
-    cur.directionalColor.lerp(tgt.directionalColor, t);
+    cur.ambientColor.lerp(target.ambientColor, t);
+    cur.directionalColor.lerp(target.directionalColor, t);
 
     if (ambRef.current) {
       ambRef.current.intensity = cur.ambientIntensity;

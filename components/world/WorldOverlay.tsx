@@ -37,7 +37,7 @@ export function WorldOverlay({ children }: Props) {
 
   return (
     <div
-      className={`world-overlay relative z-10 min-h-[calc(100dvh-8rem)] transition-opacity ease-out ${blenderScene ? "world-overlay--orbit pointer-events-none" : ""}`}
+      className={`world-overlay relative z-10 flex min-h-0 flex-1 flex-col transition-opacity ease-out ${blenderScene ? "world-overlay--orbit pointer-events-none" : ""}`}
       style={{
         opacity,
         transitionDuration: `${fadeMs}ms`,
@@ -45,7 +45,15 @@ export function WorldOverlay({ children }: Props) {
       }}
       aria-busy={phase === "traveling"}
     >
-      <div className={blenderScene ? "pointer-events-auto" : undefined}>{children}</div>
+      <div
+        className={
+          blenderScene
+            ? "pointer-events-auto flex min-h-0 flex-1 flex-col"
+            : "flex min-h-0 flex-1 flex-col"
+        }
+      >
+        {children}
+      </div>
     </div>
   );
 }

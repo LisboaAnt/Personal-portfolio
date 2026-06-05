@@ -25,12 +25,12 @@ export const CV_SECTION_LIGHTING_MODIFIERS: Record<CvSectionId, CvSectionLightin
     directionalMul: 0.9,
     toneExposureMul: 0.85,
   },
-  /** Experiência: mais clara que o profile, sem exagerar (meio-termo). */
+  /** Experiência: um pouco mais clara que o profile — transição suave, sem “flash”. */
   experience: {
-    envMul: 8,
-    ambientMul: 6.5,
-    directionalMul: 4.9,
-    toneExposureMul: 6.6,
+    envMul: 2.2,
+    ambientMul: 1.85,
+    directionalMul: 1.65,
+    toneExposureMul: 1.75,
     ambientTint: "#fffbeb",
     directionalTint: "#fde68a",
   },
@@ -146,6 +146,31 @@ function applyLightingFloors(
       floor.directionalIntensity ?? 0
     ),
     toneMappingExposure: Math.max(values.toneMappingExposure, floor.toneMappingExposure ?? 0),
+  };
+}
+
+function lerpNumber(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
+
+export function lerpSectionLighting(
+  fromId: CvSectionId,
+  toId: CvSectionId,
+  t: number,
+): ResolvedSectionLighting {
+  const a = resolveSectionLighting(fromId);
+  const b = resolveSectionLighting(toId);
+  const ambientColor = a.ambientColor.clone().lerp(b.ambientColor, t);
+  const directionalColor = a.directionalColor.clone().lerp(b.directionalColor, t);
+
+  return {
+    environmentEnabled: b.environmentEnabled,
+    environmentIntensity: lerpNumber(a.environmentIntensity, b.environmentIntensity, t),
+    ambientIntensity: lerpNumber(a.ambientIntensity, b.ambientIntensity, t),
+    directionalIntensity: lerpNumber(a.directionalIntensity, b.directionalIntensity, t),
+    toneMappingExposure: lerpNumber(a.toneMappingExposure, b.toneMappingExposure, t),
+    ambientColor,
+    directionalColor,
   };
 }
 

@@ -13,6 +13,12 @@ import {
   WORLD_TRIANGLE_BUDGET,
 } from "@/stores/world-perf-store";
 import { useWorldStore } from "@/stores/world-store";
+import {
+  WORLD_CAMERA_MOVE_SPEED_DEFAULT,
+  WORLD_CAMERA_MOVE_SPEED_MAX,
+  WORLD_CAMERA_MOVE_SPEED_MIN,
+  WORLD_CAMERA_MOVE_SPEED_STEP,
+} from "@/world/constants";
 
 const HUD_MINIMIZED_KEY = "portfolio-hud-minimized";
 
@@ -30,6 +36,13 @@ export function WorldCameraCoordsHud() {
   const t = useTranslations("World.hud");
   const { position, target, rotationDeg, fov } = useWorldCameraDebugStore();
   const shiftMouse = useWorldCameraInputStore((s) => s.shiftMouse);
+  const freeCameraEnabled = useWorldCameraInputStore((s) => s.freeCameraEnabled);
+  const setFreeCameraEnabled = useWorldCameraInputStore((s) => s.setFreeCameraEnabled);
+  const moveSpeed = useWorldCameraInputStore((s) => s.moveSpeed);
+  const adjustMoveSpeed = useWorldCameraInputStore((s) => s.adjustMoveSpeed);
+  const setMoveSpeed = useWorldCameraInputStore((s) => s.setMoveSpeed);
+  const hydrateMoveSpeed = useWorldCameraInputStore((s) => s.hydrateMoveSpeed);
+  const hydrateFreeCamera = useWorldCameraInputStore((s) => s.hydrateFreeCamera);
   const focusRoomId = useWorldStore((s) => s.focusRoomId);
   const quality = useWorldQuality();
   const { fps, frameMs, triangles, drawCalls, geometries, textures } = useWorldPerfStore();
@@ -45,8 +58,10 @@ export function WorldCameraCoordsHud() {
     } catch {
       /* ignore */
     }
+    hydrateMoveSpeed();
+    hydrateFreeCamera();
     queueMicrotask(() => setMounted(true));
-  }, []);
+  }, [hydrateFreeCamera, hydrateMoveSpeed]);
 
   const toggleMinimized = () => {
     setMinimized((prev) => {
@@ -60,11 +75,18 @@ export function WorldCameraCoordsHud() {
     });
   };
 
+  const moveSpeedPct = Math.round(moveSpeed * 100);
+  const atMinSpeed = moveSpeed <= WORLD_CAMERA_MOVE_SPEED_MIN + 1e-6;
+  const atMaxSpeed = moveSpeed >= WORLD_CAMERA_MOVE_SPEED_MAX - 1e-6;
+  const atDefaultSpeed = Math.abs(moveSpeed - WORLD_CAMERA_MOVE_SPEED_DEFAULT) < 1e-6;
+
+  const speedBtnClass =
+    "rounded border border-[var(--border)] px-1.5 py-0.5 font-sans text-[9px] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--foreground)] disabled:cursor-not-allowed disabled:opacity-40";
   const fpsSt = perfStatus(fps);
   const triSt = triangleStatus(triangles);
 
   const panelClass = `pointer-events-auto max-w-[min(100%,20rem)] rounded-lg border font-mono text-[10px] leading-relaxed shadow-lg backdrop-blur-md sm:max-w-xs sm:text-xs ${
-    shiftMouse
+    freeCameraEnabled && shiftMouse
       ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--foreground)]"
       : "border-[var(--border)] bg-[var(--surface)]/90 text-[var(--foreground)]"
   }`;
@@ -108,9 +130,66 @@ export function WorldCameraCoordsHud() {
                 −
               </button>
             </div>
+            <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] pb-1.5 font-sans text-[9px] sm:text-[10px]">
+              <span className="text-[var(--muted)]">{t("freeCamera")}</span>
+              <button
+                type="button"
+                onClick={() => setFreeCameraEnabled(!freeCameraEnabled)}
+                aria-pressed={freeCameraEnabled}
+                className={[
+                  "rounded-full border px-2.5 py-0.5 font-sans text-[9px] font-medium transition",
+                  freeCameraEnabled
+                    ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--foreground)]"
+                    : "border-[var(--border)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--foreground)]",
+                ].join(" ")}
+              >
+                {freeCameraEnabled ? t("freeCameraOn") : t("freeCameraOff")}
+              </button>
+            </div>
             <p className="mb-1.5 border-b border-[var(--border)] pb-1.5 text-[9px] font-sans sm:text-[10px]">
-              {t("controls")}
+              {freeCameraEnabled ? t("controlsFree") : t("controlsScripted")}
             </p>
+            <div
+              className={[
+                "mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-[var(--border)] pb-1.5 font-sans text-[9px] sm:text-[10px]",
+                freeCameraEnabled ? "" : "opacity-45",
+              ].join(" ")}
+            >
+              <span className="text-[var(--muted)]">{t("moveSpeed")}</span>
+              <span className="inline-flex items-center gap-1">
+                <button
+                  type="button"
+                  className={speedBtnClass}
+                  disabled={!freeCameraEnabled || atMinSpeed}
+                  onClick={() => adjustMoveSpeed(-WORLD_CAMERA_MOVE_SPEED_STEP)}
+                  aria-label={t("moveSpeedDown")}
+                  title={t("moveSpeedDown")}
+                >
+                  −
+                </button>
+                <span aria-live="polite">{moveSpeedPct}%</span>
+                <button
+                  type="button"
+                  className={speedBtnClass}
+                  disabled={!freeCameraEnabled || atMaxSpeed}
+                  onClick={() => adjustMoveSpeed(WORLD_CAMERA_MOVE_SPEED_STEP)}
+                  aria-label={t("moveSpeedUp")}
+                  title={t("moveSpeedUp")}
+                >
+                  +
+                </button>
+                <button
+                  type="button"
+                  className={speedBtnClass}
+                  disabled={!freeCameraEnabled || atDefaultSpeed}
+                  onClick={() => setMoveSpeed(WORLD_CAMERA_MOVE_SPEED_DEFAULT)}
+                  aria-label={t("moveSpeedReset")}
+                  title={t("moveSpeedReset")}
+                >
+                  {t("moveSpeedResetShort")}
+                </button>
+              </span>
+            </div>
             <p className="mb-1.5 border-b border-[var(--border)] pb-1.5">
               <span className="text-[var(--muted)]">FPS</span>{" "}
               <span className={statusClass(fpsSt)}>{fps || "—"}</span>
@@ -135,6 +214,9 @@ export function WorldCameraCoordsHud() {
             <p>
               <span className="text-[var(--muted)]">{t("rotation")}</span> {fmt(rotationDeg)}
               <span className="text-[var(--muted)]"> · FOV</span> {fov}
+            </p>
+            <p className="mt-1.5 border-t border-[var(--border)] pt-1.5 text-[9px] leading-snug text-[var(--muted)] font-sans sm:text-[10px]">
+              {t("poseHint")}
             </p>
           </div>
         )}

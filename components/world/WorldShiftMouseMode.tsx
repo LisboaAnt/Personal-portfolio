@@ -17,15 +17,22 @@ function isTypingTarget(target: EventTarget | null): boolean {
 }
 
 export function WorldShiftMouseMode() {
+  const freeCameraEnabled = useWorldCameraInputStore((s) => s.freeCameraEnabled);
   const setShiftMouse = useWorldCameraInputStore((s) => s.setShiftMouse);
 
   useEffect(() => {
     const activate = (active: boolean) => {
+      if (!useWorldCameraInputStore.getState().freeCameraEnabled) {
+        setShiftMouse(false);
+        document.documentElement.classList.remove(CLASS);
+        return;
+      }
       setShiftMouse(active);
       document.documentElement.classList.toggle(CLASS, active);
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
+      if (!useWorldCameraInputStore.getState().freeCameraEnabled) return;
       if (isTypingTarget(e.target)) return;
       if (e.code !== "ShiftLeft" && e.code !== "ShiftRight") return;
       if (e.repeat) return;
@@ -39,6 +46,11 @@ export function WorldShiftMouseMode() {
 
     const onBlur = () => activate(false);
 
+    if (!freeCameraEnabled) {
+      activate(false);
+      return;
+    }
+
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
     window.addEventListener("blur", onBlur);
@@ -49,7 +61,7 @@ export function WorldShiftMouseMode() {
       window.removeEventListener("blur", onBlur);
       activate(false);
     };
-  }, [setShiftMouse]);
+  }, [freeCameraEnabled, setShiftMouse]);
 
   return null;
 }

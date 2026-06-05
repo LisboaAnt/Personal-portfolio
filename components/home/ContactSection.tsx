@@ -14,14 +14,12 @@ export function ContactSection({ title, body, email, github, linkedin }: Props) 
   const reduced = useReducedMotion();
 
   return (
-    <motion.section
-      id="contact"
-      data-world-room="contact"
+    <motion.div
       initial={reduced ? false : { opacity: 0, y: 30 }}
       whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className="relative scroll-mt-24 overflow-hidden rounded-3xl border border-[var(--border)] bg-gradient-to-br from-[var(--surface-elevated)]/90 via-[var(--surface-elevated)]/70 to-[var(--accent-soft)]/30 p-7 backdrop-blur-md sm:p-10"
+      className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-gradient-to-br from-[var(--surface-elevated)]/90 via-[var(--surface-elevated)]/70 to-[var(--accent-soft)]/30 p-7 backdrop-blur-md sm:p-10"
       aria-labelledby="contact-heading"
     >
       <span
@@ -69,6 +67,6 @@ export function ContactSection({ title, body, email, github, linkedin }: Props) 
           </a>
         </div>
       </div>
-    </motion.section>
+    </motion.div>
   );
 }

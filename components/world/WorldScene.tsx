@@ -4,7 +4,7 @@ import { CameraRig } from "./CameraRig";
 import { WorldBlenderScene } from "./WorldBlenderScene";
 import { WorldCameraDebugSync } from "./WorldCameraDebugSync";
 import { WorldFreeCameraControls } from "./WorldFreeCameraControls";
-import { WorldOrbitCamera } from "./WorldOrbitCamera";
+import { WorldBlenderCamera } from "./WorldBlenderCamera";
 import { WorldEnvironment } from "./WorldEnvironment";
 import { WorldIsland } from "./WorldIsland";
 import { WorldBlenderLighting } from "./WorldBlenderLighting";
@@ -67,7 +67,7 @@ export function WorldScene() {
 
       {blenderScene ? (
         <>
-          <WorldOrbitCamera />
+          <WorldBlenderCamera />
           <WorldFreeCameraControls />
           <WorldCameraDebugSync />
           <WorldPerfSync />

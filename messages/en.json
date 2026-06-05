@@ -56,6 +56,11 @@
       "expand": "Expand debug panel",
       "minimize": "Minimize debug panel",
       "controls": "WASD + Q/E move · Shift + mouse = look/pan · Shift + wheel = zoom · Shift/Alt = fast",
+      "freeCamera": "Free camera",
+      "freeCameraOn": "On",
+      "freeCameraOff": "Off",
+      "controlsFree": "WASD + Q/E move · Shift + mouse = look/pan · Shift + wheel = zoom",
+      "controlsScripted": "Scripted camera — enable free camera above to explore",
       "frame": "frame",
       "triangles": "triangles",
       "draws": "draws",
@@ -67,8 +72,14 @@
       "section": "section",
       "render": "render",
       "position": "Position",
-      "target": "Target",
-      "rotation": "Rotation°"
+      "target": "Target (lookAt)",
+      "rotation": "Rotation°",
+      "poseHint": "Poses use Position + Target + FOV only — not rotation. Copy both lines with the view still.",
+      "moveSpeed": "Move speed",
+      "moveSpeedDown": "Decrease move speed",
+      "moveSpeedUp": "Increase move speed",
+      "moveSpeedReset": "Reset move speed to 100%",
+      "moveSpeedResetShort": "100%"
     }
   },
   "Theme": {
@@ -188,7 +199,7 @@
         "status": "In progress",
         "title": "Vittahub — healthcare marketplace",
         "role": "Tech Lead · Fullstack",
-        "period": "01/2025 — present · Ceará, Brazil",
+        "period": "01/2025 — present · Brazil",
         "context": "Early-stage startup building a marketplace for clinics and continuous care. Focus on discovery, requirements, and delivery cadence with a small team and QA.",
         "impact": [
           "System design aligned with business requirements and an incremental roadmap.",
@@ -205,7 +216,7 @@
         "status": "Completed",
         "title": "Ussin — educational platform",
         "role": "Fullstack Web Developer",
-        "period": "03/2024 — 12/2024 · Ceará, Brazil",
+        "period": "03/2024 — 12/2024 · Brazil",
         "context": "Educational product with complex graph flows and strong inclusion and multilingual requirements.",
         "impact": [
           "Web-to-mobile migration with redesigned flows.",
@@ -219,18 +230,18 @@
       {
         "id": "ufc",
         "status": "Delivered project",
-        "title": "UFC app — module with State of Ceará",
-        "role": "Fullstack (~6 month project)",
+        "title": "Federal University of Ceará — institutional module",
+        "role": "Freelance · Fullstack",
         "period": "02/2025 — 08/2025 · Brazil",
-        "context": "Institutional module in the official UFC app: bookings, schedules, and student support with AI and automation.",
+        "context": "Freelance project for the university: institutional module in the official app with bookings, schedules, and student support with AI and automation.",
         "impact": [
           "Room reservations and automatic per-room schedules.",
           "AI for FAQs connected to the app and WhatsApp via N8N.",
-          "Operations on Docker on university-owned servers."
+          "Full stack deployed with Docker on the university's own servers."
         ],
-        "stack": "On-prem Docker, N8N, integrations, applied AI",
+        "stack": "Docker, N8N, integrations, applied AI",
         "cover": "/projects/ufc.svg",
-        "coverAlt": "Abstract 3D illustration — public campus module"
+        "coverAlt": "Abstract 3D illustration — Federal University institutional module"
       }
     ]
   },
@@ -279,54 +290,107 @@
     ],
     "experience": {
       "title": "Experience",
+      "stageNavLabel": "Experience stages",
+      "stagePrev": "Previous stage",
+      "stageNext": "Next stage",
+      "stageProjectDescription": "Project description",
+      "stagePosition": "Stage {current} of {total}",
+      "stageMoment": "Moment {n}",
       "items": [
         {
           "id": "vittahub",
           "period": "01/2025 — present",
-          "title": "Tech Lead · Fullstack",
+          "title": "Co-founder · Tech Lead",
           "company": "Vittahub",
-          "location": "Ceará, Brazil · healthtech",
+          "location": "Brazil · healthtech",
           "stack": "Next.js, TypeScript, Node.js, PostgreSQL",
-          "bullets": [
-            "System design and requirements engineering.",
-            "Technical leadership across discovery and delivery.",
-            "Pair programming and mentoring interns."
-          ],
-          "scrum": {
-            "title": "Scrum Master",
-            "period": "First 6 months · startup ramp-up",
-            "intro": "Structured the backlog and aligned frontend, backend, and design so the team could move faster toward the MVP.",
-            "bullets": [
-              "110+ tasks written across front, back, and design — clear scope, acceptance criteria, and handoffs.",
-              "Accelerated discovery-to-delivery: shorter cycles, fewer blockers, faster stakeholder feedback.",
-              "Facilitated ceremonies, prioritization, and cross-discipline coordination during the initial build phase."
-            ]
-          }
+          "bullets": [],
+          "stages": [
+            {
+              "title": "Overview",
+              "text": "I'm a co-founder of Vittahub, a healthcare marketplace in Brazil. What started as a lean startup has grown into a team of more than 12 collaborators — including 8 developers. Today I combine product design, Scrum Master, Tech Lead, and software architecture design: shaping the product vision, structuring the backlog, facilitating ceremonies, guiding technical decisions, and staying hands-on in fullstack delivery with the team."
+            },
+            {
+              "title": "From startup to team",
+              "text": "What started as a lean startup has grown into a team of more than 12 collaborators — including 8 developers. I helped shape hiring, onboarding, and delivery cadence as the product scaled."
+            },
+            {
+              "title": "Product & tech leadership",
+              "text": "I combine product design, Scrum Master, Tech Lead, and software architecture: shaping the product vision, structuring the backlog, facilitating ceremonies, guiding technical decisions, and staying hands-on in fullstack delivery."
+            }
+          ]
+        },
+        {
+          "id": "alemsys",
+          "period": "08/2025 — 02/2026",
+          "title": "Founder & CEO · Fullstack",
+          "company": "Alémsys Digital",
+          "location": "Brazil · software studio",
+          "stack": "Next.js, TypeScript, Node.js, web & mobile",
+          "bullets": [],
+          "stages": [
+            {
+              "title": "Overview",
+              "text": "As founder of Alémsys Digital I run a software studio delivering custom web and mobile products for regional businesses — from discovery through build, maintenance, and iteration — including the studio platform at alemys.digital."
+            },
+            {
+              "title": "Custom products",
+              "text": "End-to-end delivery of tailored web and mobile products for regional businesses, with direct client discovery and iterative releases."
+            },
+            {
+              "title": "Studio platform",
+              "text": "Built and launched the studio platform at alemys.digital — portfolio, lead capture, and the operational backbone for client work."
+            }
+          ]
+        },
+        {
+          "id": "ufc",
+          "period": "02/2025 — 08/2025",
+          "title": "Freelance · Fullstack",
+          "company": "Federal University of Ceará (UFC)",
+          "location": "Brazil · freelance · ~6 months",
+          "stack": "Docker, N8N, WhatsApp, AI (FAQs)",
+          "bullets": [],
+          "stages": [
+            {
+              "title": "Overview",
+              "text": "Freelance delivery of an institutional module for the university app: room booking with automated per-room schedules, AI-powered student FAQs wired to the app and WhatsApp via N8N, all hosted on the university's own servers with Docker."
+            },
+            {
+              "title": "Room booking",
+              "text": "Designed and shipped room reservations with an algorithm that generates automatic per-room schedules inside the official university app."
+            },
+            {
+              "title": "AI & automation",
+              "text": "Built an AI + N8N pipeline for student FAQs, connected to the mobile app and WhatsApp so support scales without losing context."
+            },
+            {
+              "title": "On-premise deploy",
+              "text": "Packaged the full stack for Docker and deployed on the university's own infrastructure — respecting data residency and IT policies."
+            }
+          ]
         },
         {
           "id": "ussin",
           "period": "03/2024 — 12/2024",
           "title": "Fullstack Web Developer",
           "company": "Ussin",
-          "location": "Ceará, Brazil · edtech",
+          "location": "Brazil · edtech",
           "stack": "React, React Flow, Node.js, MariaDB, i18n",
-          "bullets": [
-            "Web → mobile migration and flow redesign.",
-            "Graph engine on React Flow (~4× faster flows).",
-            "Automatic language from user locale and accessibility aligned to international standards."
-          ]
-        },
-        {
-          "id": "ufc",
-          "period": "02/2025 — 08/2025",
-          "title": "Institutional module on the UFC app",
-          "company": "State of Ceará + UFC",
-          "location": "Brazil · ~6 month project",
-          "stack": "On-prem Docker, N8N, WhatsApp, AI (FAQs)",
-          "bullets": [
-            "Room booking and per-room automated schedules (algorithm).",
-            "AI + N8N for student FAQs, wired to the app and WhatsApp.",
-            "Docker deployment on university-owned servers."
+          "bullets": [],
+          "stages": [
+            {
+              "title": "Overview",
+              "text": "Fullstack role on an educational platform with complex graph flows, multilingual requirements, and a web-to-mobile migration — replacing the graph engine with React Flow and improving accessibility aligned to international standards."
+            },
+            {
+              "title": "React Flow migration",
+              "text": "Migrated the graph engine to React Flow and redesigned flows for mobile — roughly 4× faster rendering on the heaviest learning paths."
+            },
+            {
+              "title": "i18n & accessibility",
+              "text": "Automatic language from user locale plus accessibility improvements aligned to international references across the learning experience."
+            }
           ]
         }
       ]
@@ -445,15 +509,16 @@
         },
         {
           "id": "ufc",
-          "title": "UFC app · State of Ceará module",
-          "role": "Fullstack · institutional project",
-          "description": "Extension of the official UFC app with omnichannel integrations and applied AI for support.",
+          "title": "Federal University of Ceará",
+          "role": "Freelance · fullstack",
+          "description": "Freelance institutional module for the university — omnichannel integrations and AI, all on the university's servers via Docker.",
           "stack": "Docker, N8N, WhatsApp, AI",
           "cover": "/projects/ufc.svg",
-          "coverAlt": "Abstract 3D art — UFC institutional module",
+          "coverAlt": "Abstract 3D art — Federal University institutional module",
           "bullets": [
+            "Freelance project for the official university app.",
             "Room booking and automated per-room scheduling.",
-            "Automation and AI orchestrated with N8N."
+            "Automation and AI orchestrated with N8N on university-owned infrastructure."
           ]
         }
       ]

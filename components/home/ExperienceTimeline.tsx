@@ -1,13 +1,22 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useTranslations } from "next-intl";
+import { useWorldExperienceStore } from "@/stores/world-experience-store";
+import { useWorldStore } from "@/stores/world-store";
+import { isExperienceJobId } from "@/world/experience-cameras";
 
 export type ExperienceScrumBlock = {
   title: string;
   period: string;
   intro: string;
   bullets: string[];
+};
+
+export type ExperienceStage = {
+  title: string;
+  text: string;
 };
 
 export type ExperienceItem = {
@@ -18,162 +27,373 @@ export type ExperienceItem = {
   location: string;
   stack: string;
   bullets: string[];
+  narrative?: string[];
+  stages?: ExperienceStage[];
   scrum?: ExperienceScrumBlock;
 };
 
 type Props = { items: ExperienceItem[] };
 
-function ExperienceCard({
-  job,
-  index,
-  reduced,
+function resolveStages(job: ExperienceItem): ExperienceStage[] {
+  if (job.stages?.length) return job.stages;
+  if (job.narrative?.length) {
+    return job.narrative.map((text) => ({ title: "", text }));
+  }
+  if (job.bullets.length > 0) {
+    return job.bullets.map((text) => ({ title: "", text }));
+  }
+  return [{ title: "", text: "" }];
+}
+
+function stageLabel(
+  stage: ExperienceStage,
+  stageIndex: number,
+  t: (key: string, values?: Record<string, string | number>) => string,
+) {
+  if (stageIndex === 0) return t("stageProjectDescription");
+  return stage.title || t("stageMoment", { n: stageIndex });
+}
+
+function StageArrowButton({
+  direction,
+  onClick,
+  label,
 }: {
-  job: ExperienceItem;
-  index: number;
-  reduced: boolean | null;
+  direction: "prev" | "next";
+  onClick: () => void;
+  label: string;
 }) {
   return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)]/70 text-[var(--muted)] transition hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] hover:text-[var(--foreground)]"
+    >
+      <svg
+        aria-hidden
+        viewBox="0 0 20 20"
+        fill="none"
+        className="h-4 w-4"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {direction === "prev" ? (
+          <path d="M12.5 4.5 7.5 10l5 5.5" />
+        ) : (
+          <path d="M7.5 4.5 12.5 10l-5 5.5" />
+        )}
+      </svg>
+    </button>
+  );
+}
+
+function ExperienceCard({
+  job,
+  stage,
+  stageIndex,
+  stageCount,
+  reduced,
+  withStageNav = false,
+  onPrevStage,
+  onNextStage,
+}: {
+  job: ExperienceItem;
+  stage: ExperienceStage;
+  stageIndex: number;
+  stageCount: number;
+  reduced: boolean | null;
+  withStageNav?: boolean;
+  onPrevStage?: () => void;
+  onNextStage?: () => void;
+}) {
+  const t = useTranslations("Home.experience");
+  const isOverview = stageIndex === 0;
+  const headerTitle = stageLabel(stage, stageIndex, t);
+
+  return (
     <motion.article
-      initial={reduced ? false : { opacity: 0, y: 12 }}
-      whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-      className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]/85 p-4 backdrop-blur-md sm:p-5"
+      layout
+      className={[
+        "relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]/85 backdrop-blur-md",
+        isOverview
+          ? "experience-card--overview p-4 sm:p-5"
+          : "experience-card--moment p-3 sm:p-3.5",
+      ].join(" ")}
     >
       <span
         aria-hidden
-        className="pointer-events-none absolute -right-16 -top-16 h-32 w-32 rounded-full bg-[var(--accent)]/10 blur-3xl"
+        className={[
+          "pointer-events-none absolute -right-16 -top-16 rounded-full bg-[var(--accent)]/10 blur-3xl",
+          isOverview ? "h-32 w-32" : "h-20 w-20 opacity-60",
+        ].join(" ")}
       />
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
-          {job.period}
-        </p>
-        <p className="text-xs text-[var(--muted)]">{job.location}</p>
-      </div>
-      <h3 className="mt-2 text-base font-semibold text-[var(--foreground)] sm:text-lg">
-        {job.title}
-      </h3>
-      <p className="text-sm text-[var(--muted)]">{job.company}</p>
-      <ul className="mt-3 space-y-1.5 text-sm text-[var(--muted)]">
-        {job.bullets.map((b) => (
-          <li key={b} className="flex gap-2 leading-relaxed">
-            <span
-              aria-hidden
-              className="mt-2 inline-block h-1 w-1 shrink-0 rounded-full bg-[var(--accent)]/60"
-            />
-            <span>{b}</span>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-3 flex flex-wrap gap-1.5">
-        {job.stack.split(",").map((tech) => (
-          <span
-            key={tech.trim()}
-            className="rounded-full border border-[var(--border)] bg-[var(--surface)]/50 px-2 py-0.5 text-[10px] font-medium text-[var(--muted)]"
-          >
-            {tech.trim()}
-          </span>
-        ))}
-      </div>
 
-      {job.scrum ? (
-        <section
-          id={job.id === "vittahub" ? "scrum-master" : undefined}
-          aria-labelledby={`${job.id}-scrum-title`}
-          className="mt-5 scroll-mt-28 rounded-xl border border-[var(--accent)]/30 bg-[var(--accent-soft)]/50 p-4"
+      {withStageNav && stageCount > 1 && onPrevStage && onNextStage ? (
+        <nav
+          aria-label={t("stageNavLabel")}
+          className={[
+            "experience-stage-header -mx-0.5 flex items-center gap-2 border-b border-[var(--border)]/60",
+            isOverview ? "mb-4 pb-3" : "mb-2.5 pb-2",
+          ].join(" ")}
         >
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <h4
-              id={`${job.id}-scrum-title`}
-              className="text-sm font-semibold text-[var(--foreground)]"
-            >
-              {job.scrum.title}
-            </h4>
-            <p className="text-xs font-medium text-[var(--accent)]">{job.scrum.period}</p>
+          <StageArrowButton direction="prev" onClick={onPrevStage} label={t("stagePrev")} />
+          <div className="min-w-0 flex-1 text-center">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.p
+                key={`${stageIndex}-${headerTitle}`}
+                initial={reduced ? false : { opacity: 0, y: 5 }}
+                animate={reduced ? undefined : { opacity: 1, y: 0 }}
+                exit={reduced ? undefined : { opacity: 0, y: -5 }}
+                transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                className="truncate text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)] sm:text-xs"
+              >
+                {headerTitle}
+              </motion.p>
+            </AnimatePresence>
+            <p className="sr-only">
+              {t("stagePosition", { current: stageIndex + 1, total: stageCount })}
+            </p>
           </div>
-          <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{job.scrum.intro}</p>
-          <ul className="mt-3 space-y-1.5 text-sm text-[var(--muted)]">
-            {job.scrum.bullets.map((b) => (
-              <li key={b} className="flex gap-2 leading-relaxed">
+          <StageArrowButton direction="next" onClick={onNextStage} label={t("stageNext")} />
+        </nav>
+      ) : (
+        <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
+            {job.period}
+          </p>
+          <p className="text-xs text-[var(--muted)]">{job.location}</p>
+        </div>
+      )}
+
+      {isOverview ? (
+        <>
+          <h3 className="text-base font-semibold text-[var(--foreground)] sm:text-lg">{job.title}</h3>
+          <p className="text-sm text-[var(--muted)]">{job.company}</p>
+        </>
+      ) : (
+        <span className="sr-only">
+          {job.title} · {job.company}
+        </span>
+      )}
+
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={`${job.id}-stage-${stageIndex}`}
+          initial={reduced ? false : { opacity: 0, y: 8 }}
+          animate={reduced ? undefined : { opacity: 1, y: 0 }}
+          exit={reduced ? undefined : { opacity: 0, y: -8 }}
+          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {isOverview ? (
+            <div className="mt-3 space-y-3 text-sm leading-relaxed text-[var(--muted)]">
+              <p>{stage.text}</p>
+            </div>
+          ) : (
+            <p className="text-[13px] leading-snug text-[var(--muted)] sm:text-sm sm:leading-relaxed">
+              {stage.text}
+            </p>
+          )}
+
+          {isOverview ? (
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {job.stack.split(",").map((tech) => (
                 <span
-                  aria-hidden
-                  className="mt-2 inline-block h-1 w-1 shrink-0 rounded-full bg-[var(--accent)]"
-                />
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+                  key={tech.trim()}
+                  className="rounded-full border border-[var(--border)] bg-[var(--surface)]/50 px-2 py-0.5 text-[10px] font-medium text-[var(--muted)]"
+                >
+                  {tech.trim()}
+                </span>
+              ))}
+            </div>
+          ) : null}
+        </motion.div>
+      </AnimatePresence>
     </motion.article>
   );
 }
 
 export function ExperienceTimeline({ items }: Props) {
+  const t = useTranslations("Home.experience");
   const reduced = useReducedMotion();
+  const setFocusRoom = useWorldStore((s) => s.setFocusRoom);
+  const setActiveJob = useWorldExperienceStore((s) => s.setActiveJob);
+  const setActiveStage = useWorldExperienceStore((s) => s.setActiveStage);
+  const storeStageIndex = useWorldExperienceStore((s) => s.activeStageIndex);
+
   const initialId = useMemo(() => {
     if (items.length === 0) return "";
     return items.find((item) => item.id === "vittahub")?.id ?? items[0]!.id;
   }, [items]);
+
   const [activeId, setActiveId] = useState(initialId);
   const active = items.find((item) => item.id === activeId) ?? items[0];
+  const stages = useMemo(() => (active ? resolveStages(active) : []), [active]);
+  const stageIndex =
+    stages.length > 0 ? ((storeStageIndex % stages.length) + stages.length) % stages.length : 0;
+  const currentStage = stages[stageIndex] ?? stages[0];
+  const isMomentStage = stageIndex > 0;
 
-  if (!active) return null;
+  const selectJob = (jobId: string) => {
+    setActiveId(jobId);
+    setFocusRoom("experience");
+    if (isExperienceJobId(jobId)) {
+      setActiveJob(jobId);
+      setActiveStage(0);
+    }
+  };
+
+  const shiftStage = (delta: -1 | 1) => {
+    if (stages.length <= 1) return;
+    const next = (stageIndex + delta + stages.length) % stages.length;
+    setFocusRoom("experience");
+    setActiveStage(next);
+  };
+
+  useEffect(() => {
+    if (isExperienceJobId(initialId)) setActiveJob(initialId);
+  }, [initialId, setActiveJob]);
+
+  if (!active || !currentStage) return null;
 
   return (
     <>
-      {/* Mobile: lista completa, sem menu de seleção */}
-      <div className="flex flex-col gap-4 lg:hidden">
-        {items.map((job, index) => (
-          <ExperienceCard key={job.id} job={job} index={index} reduced={reduced} />
-        ))}
+      {/* Mobile: lista com etapas empilhadas */}
+      <div className="flex flex-col gap-6 lg:hidden">
+        {items.map((job, index) => {
+          const jobStages = resolveStages(job);
+          return (
+            <div key={job.id} className="space-y-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
+                {job.period} · {job.company}
+              </p>
+              {jobStages.map((stage, stageIdx) => (
+                <ExperienceCard
+                  key={`${job.id}-${stageIdx}`}
+                  job={job}
+                  stage={stage}
+                  stageIndex={stageIdx}
+                  stageCount={jobStages.length}
+                  reduced={reduced}
+                />
+              ))}
+              {index < items.length - 1 ? (
+                <hr className="border-[var(--border)]/60" />
+              ) : null}
+            </div>
+          );
+        })}
       </div>
 
-      {/* Desktop: menu + card */}
-      <div className="hidden gap-6 lg:grid lg:grid-cols-[minmax(220px,0.95fr)_minmax(0,1.75fr)] lg:items-start">
-        <aside className="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]/75 p-3 backdrop-blur-md lg:sticky lg:top-24">
-          <ol className="space-y-2">
-            {items.map((job, index) => {
-              const isActive = job.id === active.id;
-              return (
-                <motion.li
-                  key={job.id}
-                  initial={reduced ? false : { opacity: 0, x: -12 }}
-                  whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-                  transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setActiveId(job.id)}
-                    aria-pressed={isActive}
-                    className={[
-                      "group w-full rounded-xl border px-3 py-3 text-left transition-all duration-300",
-                      isActive
-                        ? "border-[var(--accent)]/55 bg-[var(--accent-soft)]/45 shadow-[0_8px_24px_-14px_rgba(99,102,241,0.65)]"
-                        : "border-[var(--border)] bg-[var(--surface)]/50 hover:border-[var(--accent)]/35 hover:bg-[var(--accent-soft)]/25",
-                    ].join(" ")}
+      {/* Desktop: menu + campo alto com etapas e câmara */}
+      <div className="experience-panel hidden gap-10 lg:grid lg:grid-cols-[minmax(200px,0.85fr)_minmax(0,1.85fr)] lg:items-stretch">
+        <aside className="lg:sticky lg:top-24 lg:self-start">
+          <nav aria-label={t("title")}>
+            <ol className="relative space-y-0.5 border-l border-[var(--border)]/80 pl-5">
+              {items.map((job, index) => {
+                const isActive = job.id === active.id;
+                return (
+                  <motion.li
+                    key={job.id}
+                    initial={reduced ? false : { opacity: 0, x: -10 }}
+                    whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+                    transition={{ duration: 0.45, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                    className="group relative"
                   >
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-[var(--accent)]">
-                      {job.period}
-                    </p>
-                    <h3 className="mt-1 text-sm font-semibold text-[var(--foreground)]">{job.title}</h3>
-                    <p className="text-xs text-[var(--muted)]">{job.company}</p>
-                  </button>
-                </motion.li>
-              );
-            })}
-          </ol>
+                    <span
+                      aria-hidden
+                      className={[
+                        "absolute -left-px top-[1.125rem] h-2 w-2 -translate-x-1/2 rounded-full ring-4 ring-[var(--background)] transition-colors duration-300",
+                        isActive
+                          ? "bg-[var(--accent)] shadow-[0_0_0_3px_var(--accent-soft)]"
+                          : "bg-[var(--border)] group-hover:bg-[var(--accent)]/40",
+                      ].join(" ")}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => selectJob(job.id)}
+                      aria-pressed={isActive}
+                      className={[
+                        "group w-full border-l-2 py-3 pl-4 text-left transition-colors duration-300",
+                        isActive
+                          ? "border-[var(--accent)]"
+                          : "border-transparent hover:border-[var(--accent)]/25",
+                      ].join(" ")}
+                    >
+                      <p
+                        className={[
+                          "text-[10px] font-medium uppercase tracking-[0.14em] transition-colors",
+                          isActive ? "text-[var(--accent)]" : "text-[var(--muted)]",
+                        ].join(" ")}
+                      >
+                        {job.period}
+                      </p>
+                      <p
+                        className={[
+                          "mt-1 text-sm leading-snug transition-colors",
+                          isActive
+                            ? "font-semibold text-[var(--foreground)]"
+                            : "font-medium text-[var(--foreground)]/75 group-hover:text-[var(--foreground)]",
+                        ].join(" ")}
+                      >
+                        {job.company}
+                      </p>
+                      <p
+                        className={[
+                          "mt-0.5 text-xs leading-snug transition-colors",
+                          isActive ? "text-[var(--muted)]" : "text-[var(--muted)]/80",
+                        ].join(" ")}
+                      >
+                        {job.title}
+                      </p>
+                    </button>
+                  </motion.li>
+                );
+              })}
+            </ol>
+          </nav>
         </aside>
 
-        <motion.div
+        <div
           key={active.id}
-          initial={reduced ? false : { opacity: 0, y: 8 }}
-          animate={reduced ? undefined : { opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="experience-stage-field relative flex min-h-[min(78vh,760px)] flex-col"
         >
-          <ExperienceCard job={active} index={0} reduced={reduced} />
-        </motion.div>
+          <AnimatePresence mode="popLayout">
+            {isMomentStage ? (
+              <motion.div
+                key="peephole"
+                initial={reduced ? false : { height: 0, opacity: 0 }}
+                animate={reduced ? undefined : { height: "48%", opacity: 1 }}
+                exit={reduced ? undefined : { height: 0, opacity: 0 }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                className="experience-peephole experience-peephole--paired mb-1.5 min-h-[220px] flex-shrink-0"
+                aria-hidden
+              />
+            ) : null}
+          </AnimatePresence>
+
+          <motion.div
+            layout
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full flex-shrink-0 self-start"
+          >
+            <ExperienceCard
+              job={active}
+              stage={currentStage}
+              stageIndex={stageIndex}
+              stageCount={stages.length}
+              reduced={reduced}
+              withStageNav
+              onPrevStage={() => shiftStage(-1)}
+              onNextStage={() => shiftStage(1)}
+            />
+          </motion.div>
+
+          {!isMomentStage ? <div className="min-h-0 flex-1" aria-hidden /> : null}
+        </div>
       </div>
     </>
   );

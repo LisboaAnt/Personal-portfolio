@@ -50,6 +50,9 @@ export function WorldScrollSync() {
       return;
     }
 
+    const scrollRoot = document.querySelector<HTMLElement>(".cv-world-document");
+    const useSnapRoot = scrollRoot && getComputedStyle(scrollRoot).overflowY !== "visible";
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -59,8 +62,8 @@ export function WorldScrollSync() {
         rafRef.current = requestAnimationFrame(applyBest);
       },
       {
-        root: null,
-        rootMargin: "-28% 0px -28% 0px",
+        root: useSnapRoot ? scrollRoot : null,
+        rootMargin: useSnapRoot ? "-12% 0px -12% 0px" : "-28% 0px -28% 0px",
         threshold: THRESHOLDS,
       }
     );

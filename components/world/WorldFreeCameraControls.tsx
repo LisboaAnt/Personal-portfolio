@@ -6,13 +6,12 @@ import * as THREE from "three";
 import { useWorldPaused } from "@/hooks/useWorldPaused";
 import { useWorldCameraInputStore } from "@/stores/world-camera-input-store";
 import { useWorldCameraLookStore } from "@/stores/world-camera-look-store";
-import { BLENDER_ORBIT_TARGET } from "@/world/blender-camera";
 import { WORLD_WASD_MOVE_SPEED } from "@/world/constants";
 
 const LOOK_AHEAD = 80;
-const ROTATE_SENS = 0.0022;
-const PAN_SENS = 0.14;
-const WHEEL_SENS = 0.22;
+const ROTATE_SENS = 0.0011;
+const PAN_SENS = 0.07;
+const WHEEL_SENS = 0.11;
 const FAST_MULTIPLIER = 3;
 
 const _dir = new THREE.Vector3();
@@ -41,6 +40,7 @@ export function WorldFreeCameraControls() {
   const { camera, invalidate } = useThree();
   const paused = useWorldPaused();
   const shiftMouse = useWorldCameraInputStore((s) => s.shiftMouse);
+  const freeCameraEnabled = useWorldCameraInputStore((s) => s.freeCameraEnabled);
   const setOrbitPaused = useWorldCameraInputStore((s) => s.setOrbitPaused);
   const setLookTarget = useWorldCameraLookStore((s) => s.setTarget);
   const drag = useRef<"left" | "right" | null>(null);
@@ -77,19 +77,21 @@ export function WorldFreeCameraControls() {
   };
 
   const applyPan = (dx: number, dy: number) => {
+    const moveSpeed = useWorldCameraInputStore.getState().moveSpeed;
     pauseOrbit();
     camera.getWorldDirection(_dir);
     _right.crossVectors(_dir, _up).normalize();
     _pan.set(0, 0, 0);
-    _pan.addScaledVector(_right, -dx * PAN_SENS);
-    _pan.addScaledVector(_up, dy * PAN_SENS);
+    _pan.addScaledVector(_right, -dx * PAN_SENS * moveSpeed);
+    _pan.addScaledVector(_up, dy * PAN_SENS * moveSpeed);
     camera.position.add(_pan);
     syncLookTarget();
     invalidate();
   };
 
   useEffect(() => {
-    if (paused) return;
+    useWorldCameraInputStore.getState().hydrateMoveSpeed();
+    if (paused || !freeCameraEnabled) return;
 
     const setKey = (code: string, down: boolean) => {
       switch (code) {
@@ -162,7 +164,8 @@ export function WorldFreeCameraControls() {
       }
       e.preventDefault();
       const mult = fast.current || shiftMouse ? FAST_MULTIPLIER : 1;
-      moveAlongView(-e.deltaY * WHEEL_SENS * mult);
+      const moveSpeed = useWorldCameraInputStore.getState().moveSpeed;
+      moveAlongView(-e.deltaY * WHEEL_SENS * mult * moveSpeed);
     };
 
     const onPointerDown = (e: PointerEvent) => {
@@ -180,10 +183,11 @@ export function WorldFreeCameraControls() {
       if (!drag.current) return;
 
       if (drag.current === "left") {
+        const moveSpeed = useWorldCameraInputStore.getState().moveSpeed;
         pauseOrbit();
         _euler.setFromQuaternion(camera.quaternion, "YXZ");
-        _euler.y -= e.movementX * ROTATE_SENS;
-        _euler.x -= e.movementY * ROTATE_SENS;
+        _euler.y -= e.movementX * ROTATE_SENS * moveSpeed;
+        _euler.x -= e.movementY * ROTATE_SENS * moveSpeed;
         const limit = Math.PI / 2 - 0.02;
         _euler.x = THREE.MathUtils.clamp(_euler.x, -limit, limit);
         camera.quaternion.setFromEuler(_euler);
@@ -205,8 +209,6 @@ export function WorldFreeCameraControls() {
       drag.current = null;
     };
 
-    setLookTarget(...BLENDER_ORBIT_TARGET);
-
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
     window.addEventListener("wheel", onWheel, { passive: false });
@@ -227,15 +229,21 @@ export function WorldFreeCameraControls() {
       window.removeEventListener("contextmenu", onContextMenu);
       window.removeEventListener("blur", onBlur);
     };
-  }, [camera, invalidate, paused, setLookTarget, shiftMouse]);
+  }, [camera, freeCameraEnabled, invalidate, paused, setLookTarget, shiftMouse]);
+
+  const moveSpeed = useWorldCameraInputStore((s) => s.moveSpeed);
 
   useFrame((_, delta) => {
-    if (paused) return;
+    if (paused || !freeCameraEnabled) return;
 
     const k = keys.current;
     if (!k.w && !k.a && !k.s && !k.d && !k.q && !k.e) return;
 
-    const speed = WORLD_WASD_MOVE_SPEED * delta * (fast.current || shiftMouse ? FAST_MULTIPLIER : 1);
+    const speed =
+      WORLD_WASD_MOVE_SPEED *
+      moveSpeed *
+      delta *
+      (fast.current || shiftMouse ? FAST_MULTIPLIER : 1);
 
     camera.getWorldDirection(_dir);
     _right.crossVectors(_dir, _up).normalize();

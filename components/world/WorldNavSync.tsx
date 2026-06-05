@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "@/i18n/navigation";
 import { useWorldStore } from "@/stores/world-store";
+import { scrollToCvSection } from "@/lib/cv-scroll";
 import { resolveCvSection } from "@/world/path-to-room";
 
 /** Sincroniza pathname/hash → secção CV (voltar/avançar). */
@@ -25,7 +26,7 @@ export function WorldNavSync() {
     if (state.phase === "traveling") return;
 
     useWorldStore.getState().setFocusRoom(sectionId);
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    scrollToCvSection(sectionId, "smooth");
   }, [pathname]);
 
   useEffect(() => {

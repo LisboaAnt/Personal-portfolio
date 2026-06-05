@@ -11,6 +11,7 @@ import {
   WORLD_OVERLAY_ENTER_DELAY_MS,
   WORLD_OVERLAY_FADE_IN_MS,
 } from "@/world/constants";
+import { scrollToCvSection } from "@/lib/cv-scroll";
 import type { CvSectionId } from "@/world/types";
 import { useWorldEnabled } from "./useWorldEnabled";
 
@@ -34,8 +35,7 @@ function parseHref(href: WorldHref): { section: CvSectionId; hash: string } {
 }
 
 function scrollToSection(id: CvSectionId, behavior: ScrollBehavior = "smooth") {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior, block: "start" });
+  scrollToCvSection(id, behavior);
 }
 
 export function useWorldNavigate() {

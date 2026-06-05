@@ -1,4 +1,5 @@
 import type { CameraPose, CvSectionId } from "./types";
+import { EXPERIENCE_DEFAULT_CAMERA } from "./experience-cameras";
 
 /** Posição de referência (HUD / reset explorador). */
 export const BLENDER_VIEW_POSITION: [number, number, number] = [108.054, 173.901, 13.582];
@@ -55,6 +56,15 @@ function buildBlenderCameras(): Record<CvSectionId, CameraPose> {
   const cameras = {} as Record<CvSectionId, CameraPose>;
 
   CV_SCROLL_SECTION_ORDER.forEach((id, index) => {
+    if (id === "experience") {
+      cameras[id] = {
+        position: [...EXPERIENCE_DEFAULT_CAMERA.position],
+        target: [...EXPERIENCE_DEFAULT_CAMERA.target],
+        fov: EXPERIENCE_DEFAULT_CAMERA.fov ?? BLENDER_VIEW_FOV,
+      };
+      return;
+    }
+
     cameras[id] = {
       position: [...BLENDER_VIEW_POSITION],
       target: [

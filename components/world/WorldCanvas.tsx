@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useThree } from "@react-three/fiber";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, type CSSProperties } from "react";
 import * as THREE from "three";
 import { SpikeScene } from "./SpikeScene";
 import { WorldGlbLoader } from "./WorldGlbLoader";
@@ -16,12 +16,14 @@ import {
   WORLD_CAMERA_FAR_BLENDER,
   WORLD_CAMERA_FAR_CODE,
   WORLD_SCROLL_CAMERA_DURATION_S,
+  WORLD_SECTION_CAMERA_DURATION_S,
 } from "@/world/constants";
 import { BLENDER_VIEW_FOV, BLENDER_VIEW_POSITION } from "@/world/blender-camera";
 import { getBlenderLightingFromEnv } from "@/world/blender-lighting-env";
 import { isWorldPosterCaptureEnabled } from "@/world/world-poster-capture";
 import { isWorldWallpaperEnabled } from "@/world/world-wallpaper";
 import { useWorldPosterStore } from "@/stores/world-poster-store";
+import { useWorldCameraTravelStore } from "@/stores/world-camera-travel-store";
 
 type Props = {
   className?: string;
@@ -42,14 +44,20 @@ function FrameDriver() {
   const focusRoomId = useWorldStore((s) => s.focusRoomId);
   const phase = useWorldStore((s) => s.phase);
   const cameraMode = useWorldStore((s) => s.cameraMode);
+  const isTraveling = useWorldCameraTravelStore((s) => s.isTraveling);
   const paused = useWorldPaused();
 
   useEffect(() => {
     if (paused) return;
     invalidate();
     const durationMs =
-      (cameraMode === "scroll" ? WORLD_SCROLL_CAMERA_DURATION_S : WORLD_CAMERA_DURATION_S) * 1000 +
-      80;
+      (isTraveling
+        ? WORLD_SECTION_CAMERA_DURATION_S
+        : cameraMode === "scroll"
+          ? WORLD_SCROLL_CAMERA_DURATION_S
+          : WORLD_CAMERA_DURATION_S) *
+        1000 +
+      120;
     const start = performance.now();
     let raf = 0;
 
@@ -59,7 +67,7 @@ function FrameDriver() {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [cameraMode, focusRoomId, invalidate, paused, phase]);
+  }, [cameraMode, focusRoomId, invalidate, isTraveling, paused, phase]);
 
   return null;
 }
@@ -73,10 +81,17 @@ export function WorldCanvas({ className, scene = "site" }: Props) {
   const posterCapture = blenderScene && isWorldPosterCaptureEnabled();
   const wallpaperActive =
     blenderScene && isWorldWallpaperEnabled() && useWorldPosterStore((s) => !s.sceneReady);
+  const blurPx = useWorldCameraTravelStore((s) => s.blurPx);
+  const isTraveling = useWorldCameraTravelStore((s) => s.isTraveling);
 
   return (
     <div
-      className={`${className ?? "absolute inset-0"} ${blenderScene ? "world-canvas-orbit pointer-events-auto" : ""}`}
+      className={`${className ?? "absolute inset-0"} ${blenderScene ? "world-canvas-orbit pointer-events-auto" : ""} ${blenderScene && isTraveling && blurPx > 0 ? "world-canvas-traveling" : ""}`}
+      style={
+        blenderScene && blurPx > 0
+          ? ({ "--world-travel-blur": `${blurPx}px` } as CSSProperties)
+          : undefined
+      }
       aria-hidden
     >
       <Canvas
