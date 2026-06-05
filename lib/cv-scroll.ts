@@ -1,5 +1,16 @@
 import type { CvSectionId } from "@/world/types";
 
+let cvScrollLockUntil = 0;
+
+export function isCvScrollLocked(): boolean {
+  return typeof performance !== "undefined" && performance.now() < cvScrollLockUntil;
+}
+
+function lockCvScroll(ms = 420) {
+  if (typeof performance === "undefined") return;
+  cvScrollLockUntil = performance.now() + ms;
+}
+
 export function getCvScrollRoot(): HTMLElement | null {
   if (typeof document === "undefined") return null;
   const root = document.querySelector<HTMLElement>(".cv-world-document");
@@ -34,5 +45,6 @@ export function scrollToCvSection(
   const elRect = el.getBoundingClientRect();
   const top = elRect.top - rootRect.top + root.scrollTop;
 
+  lockCvScroll(scrollBehavior === "smooth" ? 520 : 120);
   root.scrollTo({ top, behavior: scrollBehavior });
 }

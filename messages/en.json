@@ -263,6 +263,7 @@
         "align discovery with delivery."
       ],
       "headlineAria": "I lead technical teams, plan sprints, plan roadmaps, shape system architecture, ship fullstack products, build mobile and web, mentor interns, structure backlogs, facilitate agile ceremonies, and align discovery with delivery.",
+      "scrollToExperience": "Go to Experience section",
       "kicker": "Online portfolio",
       "role": "Fullstack Developer",
       "title": "Antonio Lisboa",
@@ -315,6 +316,10 @@
               "text": "What started as a lean startup has grown into a team of more than 12 collaborators — including 8 developers. I helped shape hiring, onboarding, and delivery cadence as the product scaled."
             },
             {
+              "title": "Meetings",
+              "text": "We run weekly ceremonies as a team: sprint planning, daily syncs when needed, sprint review with stakeholders, and retrospectives to adjust process and delivery cadence."
+            },
+            {
               "title": "Product & tech leadership",
               "text": "I combine product design, Scrum Master, Tech Lead, and software architecture: shaping the product vision, structuring the backlog, facilitating ceremonies, guiding technical decisions, and staying hands-on in fullstack delivery."
             }
@@ -340,6 +345,22 @@
             {
               "title": "Studio platform",
               "text": "Built and launched the studio platform at alemys.digital — portfolio, lead capture, and the operational backbone for client work."
+            },
+            {
+              "title": "Mobile version",
+              "text": "Custom mobile apps with the same delivery cadence: direct client discovery, iterative releases, and a focus on performance and usability on small screens."
+            },
+            {
+              "title": "Desktop version",
+              "text": "Web products and management dashboards built for wide screens: architecture, complex flows, and iterative delivery with a focus on clarity and performance on desktop."
+            },
+            {
+              "title": "App in production",
+              "text": "Shipping and evolving mobile apps in production: metrics, user feedback, fixes, and new releases without losing delivery cadence with the client."
+            },
+            {
+              "title": "Support & evolution",
+              "text": "Ongoing maintenance and evolution of shipped products: client support, incremental improvements, and roadmap alignment with the business."
             }
           ]
         },
@@ -348,6 +369,7 @@
           "period": "02/2025 — 08/2025",
           "title": "Freelance · Fullstack",
           "company": "Federal University of Ceará (UFC)",
+          "companyMenu": "Federal University",
           "location": "Brazil · freelance · ~6 months",
           "stack": "Docker, N8N, WhatsApp, AI (FAQs)",
           "bullets": [],
@@ -357,16 +379,12 @@
               "text": "Freelance delivery of an institutional module for the university app: room booking with automated per-room schedules, AI-powered student FAQs wired to the app and WhatsApp via N8N, all hosted on the university's own servers with Docker."
             },
             {
-              "title": "Room booking",
-              "text": "Designed and shipped room reservations with an algorithm that generates automatic per-room schedules inside the official university app."
+              "title": "Official app",
+              "text": "Module integrated into the university's institutional app — the foundation for room booking, AI-powered support, and automation on the campus's own infrastructure."
             },
             {
-              "title": "AI & automation",
-              "text": "Built an AI + N8N pipeline for student FAQs, connected to the mobile app and WhatsApp so support scales without losing context."
-            },
-            {
-              "title": "On-premise deploy",
-              "text": "Packaged the full stack for Docker and deployed on the university's own infrastructure — respecting data residency and IT policies."
+              "title": "Digital ecosystem",
+              "text": "The module in campus context: connected services and flows across the app, WhatsApp, and the university's on-premise infrastructure."
             }
           ]
         },
@@ -385,7 +403,11 @@
             },
             {
               "title": "React Flow migration",
-              "text": "Migrated the graph engine to React Flow and redesigned flows for mobile — roughly 4× faster rendering on the heaviest learning paths."
+              "text": "Migrated the graph engine to React Flow — roughly 4× faster rendering on the heaviest learning paths."
+            },
+            {
+              "title": "Web to mobile",
+              "text": "Web-to-mobile migration with redesigned flows for smaller screens — same learning logic, adapted for touch."
             },
             {
               "title": "i18n & accessibility",

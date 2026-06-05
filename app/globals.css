@@ -172,9 +172,43 @@ html.world-3d-active body {
   );
 }
 
-html.world-3d-active .site-chrome-header,
-html.world-3d-active .site-chrome-footer {
+html.world-3d-active .site-chrome-header {
   background-color: color-mix(in srgb, var(--surface) 72%, transparent);
+}
+
+/* CV scrollável (mundo 3D) — altura fixa por secção, footer só no Contacto */
+html.world-cv-scroll {
+  --site-chrome-header-h: 2rem;
+  --cv-scrollport-h: calc(100dvh - var(--site-chrome-header-h));
+}
+
+@media (min-width: 640px) {
+  html.world-cv-scroll {
+    --site-chrome-header-h: 2.25rem;
+  }
+}
+
+html.world-cv-scroll .site-chrome-shell {
+  height: 100dvh;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
+html.world-cv-scroll body {
+  overflow: hidden;
+}
+
+html.world-cv-scroll .site-chrome-footer {
+  display: none;
+}
+
+html.world-cv-scroll .cv-contact-footer {
+  display: block;
+}
+
+.cv-contact-footer {
+  display: none;
 }
 
 /* Navbar CV — uma linha, scroll horizontal no mobile */
@@ -257,6 +291,259 @@ html.world-shift-camera .world-canvas-orbit:active {
 
 html.world-3d-active .world-overlay .rounded-2xl.border {
   background-color: color-mix(in srgb, var(--surface-elevated) 94%, transparent);
+}
+
+/* Scroll «gelatina» — encaixa em secções (contentor .cv-world-document) */
+.cv-world-document {
+  container-type: size;
+  container-name: cv-scrollport;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+  scroll-padding-top: 2.25rem;
+}
+
+.cv-world-document .cv-page-flow {
+  gap: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+html.world-cv-scroll .cv-world-document .cv-snap-section {
+  box-sizing: border-box;
+  height: var(--cv-scrollport-h);
+  min-height: var(--cv-scrollport-h);
+  max-height: var(--cv-scrollport-h);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+html.world-cv-scroll .cv-world-document .cv-snap-section--hero {
+  justify-content: flex-start;
+  padding-top: clamp(1.25rem, 4vh, 2rem);
+  min-height: var(--cv-scrollport-h);
+}
+
+@media (min-width: 1024px) {
+  html.world-cv-scroll .cv-world-document .cv-snap-section--hero {
+    padding-top: clamp(2rem, 6vh, 3.5rem);
+  }
+}
+
+.cv-world-document .cv-snap-section__inner {
+  width: 100%;
+  max-width: 64rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cv-world-document .cv-snap-section--hero .cv-snap-section__inner {
+  overflow-y: visible;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 1 0;
+}
+
+.cv-world-document .cv-snap-section:not(.cv-snap-section--hero) {
+  justify-content: flex-start;
+  padding-top: 2.25rem;
+}
+
+@media (min-width: 640px) {
+  .cv-world-document .cv-snap-section__inner {
+    padding-inline: 1.5rem;
+  }
+}
+
+/* Modo 2D — hero mais alta em notebooks, sem snap */
+.cv-snap-section--hero {
+  min-height: min(92vh, 860px);
+}
+
+@media (min-width: 640px) {
+  .cv-snap-section--hero {
+    min-height: min(96vh, 940px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cv-snap-section--hero {
+    min-height: min(100vh, 1040px);
+  }
+}
+
+/* Experience — cabe num ecrã com snap activo */
+html.world-cv-scroll .experience-panel,
+html.world-cv-scroll .experience-stage-field {
+  min-height: 0;
+}
+
+html.world-cv-scroll .experience-section > .cv-snap-section__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+html.world-cv-scroll .experience-section .experience-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Botões clicáveis — chip circular */
+.site-chip-btn {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--border) 88%, transparent);
+  background: color-mix(in srgb, var(--surface-elevated) 82%, transparent);
+  color: var(--muted);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--foreground) 5%, transparent),
+    0 4px 14px -8px color-mix(in srgb, var(--foreground) 25%, transparent);
+  transition:
+    border-color 0.22s ease,
+    color 0.22s ease,
+    background 0.22s ease,
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.site-chip-btn:hover {
+  border-color: var(--accent);
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--accent-soft) 72%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--foreground) 6%, transparent),
+    0 6px 18px -6px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.site-chip-btn:active {
+  transform: scale(0.96);
+}
+
+.site-chip-btn:disabled {
+  cursor: default;
+  opacity: 0.38;
+  transform: none;
+}
+
+/* Botões de painel / lista */
+.site-panel-btn {
+  cursor: pointer;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+  background: color-mix(in srgb, var(--surface) 58%, transparent);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--foreground) 4%, transparent);
+  transition:
+    border-color 0.22s ease,
+    background 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.site-panel-btn:hover {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  background: color-mix(in srgb, var(--accent-soft) 48%, transparent);
+  box-shadow: 0 4px 14px -8px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.site-panel-btn:active {
+  transform: scale(0.99);
+}
+
+.site-panel-btn[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent-soft) 62%, transparent);
+}
+
+/* Links de navegação CV — aspecto de botão */
+.site-nav-chip {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  background: color-mix(in srgb, var(--surface) 45%, transparent);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.site-nav-chip:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  background: color-mix(in srgb, var(--accent-soft) 40%, transparent);
+  color: var(--foreground);
+  box-shadow: 0 3px 12px -8px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+/* Botões de conteúdo sem classe dedicada */
+.world-overlay
+  button:where([type="button"]):not(:disabled):not(.site-chip-btn):not(.site-panel-btn):not(
+    [class*="rounded-full"]
+  ):not([aria-hidden]) {
+  cursor: pointer;
+  border-radius: 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+  background: color-mix(in srgb, var(--surface) 52%, transparent);
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.world-overlay
+  button:where([type="button"]):not(:disabled):not(.site-chip-btn):not(.site-panel-btn):not(
+    [class*="rounded-full"]
+  ):hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  background: color-mix(in srgb, var(--accent-soft) 42%, transparent);
+}
+
+.hero-scroll-hint {
+  height: 2.85rem;
+  width: 2.85rem;
+}
+
+.hero-scroll-hint:hover {
+  transform: translateY(3px);
+}
+
+@keyframes hero-scroll-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+.hero-scroll-hint--animate {
+  animation: hero-scroll-bounce 2.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.hero-scroll-hint--animate:hover {
+  animation: none;
 }
 
 ::selection {
@@ -509,6 +796,85 @@ main#content > details {
 
 .experience-card--moment {
   max-width: 100%;
+}
+
+/* Modo telefone — Alemsys etapa «produtos a medida» */
+.experience-stage-field--phone {
+  gap: 1rem;
+  align-items: stretch;
+}
+
+@media (min-width: 1024px) {
+  .experience-stage-field--phone {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}
+
+.experience-peephole--phone {
+  position: relative;
+  width: min(100%, 336px);
+  aspect-ratio: 9 / 18;
+  max-height: min(50vh, 480px);
+  margin-inline: auto;
+  border-radius: 1.85rem;
+  border: 2px solid color-mix(in srgb, var(--border) 82%, transparent);
+  background: transparent;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent),
+    0 12px 40px -20px color-mix(in srgb, var(--foreground) 28%, transparent);
+}
+
+@media (min-width: 1024px) {
+  .experience-stage-field--phone .experience-peephole--phone {
+    width: min(380px, 54%);
+    aspect-ratio: 9 / 19.5;
+    max-height: min(76vh, 680px);
+    margin-inline: 0;
+    align-self: flex-start;
+  }
+}
+
+.experience-peephole--phone::before {
+  content: "";
+  position: absolute;
+  top: 0.55rem;
+  left: 50%;
+  z-index: 1;
+  height: 0.35rem;
+  width: 28%;
+  min-width: 3.5rem;
+  max-width: 5.5rem;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--border) 88%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--foreground) 8%, transparent);
+}
+
+html.world-3d-active .experience-peephole--phone {
+  border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface) 6%, transparent) 0%,
+    transparent 42%,
+    color-mix(in srgb, var(--surface) 10%, transparent) 100%
+  );
+}
+
+.experience-stage-card--phone {
+  flex: 1 1 auto;
+  align-self: stretch;
+}
+
+.experience-card--phone {
+  max-width: 100%;
+  text-align: left;
+}
+
+.experience-card--phone .experience-stage-header {
+  align-items: stretch;
 }
 
 .experience-card--moment .experience-stage-header {

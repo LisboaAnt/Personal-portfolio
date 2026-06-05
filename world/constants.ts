@@ -19,6 +19,9 @@ export const WORLD_EXPERIENCE_JOB_CAMERA_DURATION_S = 1.1;
 /** Troca de etapa dentro da mesma experiência (s). */
 export const WORLD_EXPERIENCE_STAGE_CAMERA_DURATION_S = 0.95;
 
+/** Cada perna do percurso lento da câmara na etapa «descrição do projeto» (s). */
+export const WORLD_EXPERIENCE_ORBIT_SEGMENT_DURATION_S = 14;
+
 /** Blur máximo (px) no canvas durante viagem da câmara. */
 export const WORLD_CAMERA_TRAVEL_BLUR_MAX_PX = 4.5;
 
@@ -39,9 +42,9 @@ export const WORLD_WASD_MOVE_SPEED = 110;
 
 /** Multiplicador de velocidade da câmara livre (1 = 100%). */
 export const WORLD_CAMERA_MOVE_SPEED_DEFAULT = 1;
-export const WORLD_CAMERA_MOVE_SPEED_MIN = 0.25;
+export const WORLD_CAMERA_MOVE_SPEED_MIN = 0.05;
 export const WORLD_CAMERA_MOVE_SPEED_MAX = 3;
-export const WORLD_CAMERA_MOVE_SPEED_STEP = 0.1;
+export const WORLD_CAMERA_MOVE_SPEED_STEP = 0.05;
 export const WORLD_CAMERA_MOVE_SPEED_STORAGE_KEY = "portfolio-camera-move-speed";
 
 /** Câmara livre (WASD / Shift) — só quando activada no HUD. */

@@ -7,6 +7,7 @@ import { EducationGrid, type EducationItem } from "@/components/home/EducationGr
 import { SkillsGrid, type SkillGroup } from "@/components/home/SkillsGrid";
 import { ProjectsGrid, type ProjectItem } from "@/components/home/ProjectsGrid";
 import { ContactSection } from "@/components/home/ContactSection";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SectionTitle } from "@/components/motion/SectionTitle";
 import { MotionReveal } from "@/components/motion/MotionReveal";
 
@@ -28,7 +29,7 @@ export default async function HomePage({ params }: Props) {
   const email = t("contact.email");
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-14 px-4 pb-20 pt-8 sm:gap-20 sm:px-6 sm:pb-24 sm:pt-12 md:pt-20 lg:gap-28">
+    <div className="cv-page-flow mx-auto flex w-full max-w-5xl flex-col gap-14 px-4 pb-20 pt-8 sm:gap-20 sm:px-6 sm:pb-24 sm:pt-12 md:pt-20 lg:gap-28">
       <HeroAnimated
         intro={t("hero.intro")}
         headlinePrefix={t("hero.headlinePrefix")}
@@ -38,85 +39,102 @@ export default async function HomePage({ params }: Props) {
         bio={<HeroBio />}
       />
 
-      <main id="content" className="flex flex-col gap-20 lg:gap-28">
-        <section
-          id="experience"
-          data-world-room="experience"
-          className="experience-section scroll-mt-24 space-y-8"
-          aria-labelledby="exp-heading"
-        >
+      <section
+        id="experience"
+        data-world-room="experience"
+        className="cv-snap-section experience-section scroll-mt-24"
+        aria-labelledby="exp-heading"
+      >
+        <div className="cv-snap-section__inner space-y-8">
           <SectionTitle id="exp-heading" title={t("experience.title")} />
           <ExperienceTimeline items={experience} />
-        </section>
+        </div>
+      </section>
 
-        <section
-          id="education"
-          data-world-room="education"
-          className="scroll-mt-24 space-y-8"
-          aria-labelledby="edu-heading"
-        >
+      <section
+        id="education"
+        data-world-room="education"
+        className="cv-snap-section scroll-mt-24"
+        aria-labelledby="edu-heading"
+      >
+        <div className="cv-snap-section__inner space-y-8">
           <SectionTitle id="edu-heading" kicker="02" title={t("education.title")} />
           <EducationGrid items={education} />
-        </section>
+        </div>
+      </section>
 
-        <section
-          id="skills"
-          data-world-room="skills"
-          className="scroll-mt-24 space-y-8"
-          aria-labelledby="skills-heading"
-        >
+      <section
+        id="skills"
+        data-world-room="skills"
+        className="cv-snap-section scroll-mt-24"
+        aria-labelledby="skills-heading"
+      >
+        <div className="cv-snap-section__inner space-y-8">
           <SectionTitle id="skills-heading" kicker="03" title={t("skills.title")} />
           <SkillsGrid groups={skillGroups} />
-        </section>
+        </div>
+      </section>
 
-        <section
-          id="projects"
-          data-world-room="projects"
-          className="scroll-mt-24 space-y-8"
-          aria-labelledby="proj-heading"
-        >
+      <section
+        id="projects"
+        data-world-room="projects"
+        className="cv-snap-section scroll-mt-24"
+        aria-labelledby="proj-heading"
+      >
+        <div className="cv-snap-section__inner space-y-8">
           <SectionTitle id="proj-heading" kicker="04" title={t("projects.title")} />
           <ProjectsGrid items={projects} viewCaseLabel={t("projects.viewCase")} />
-        </section>
+        </div>
+      </section>
 
-        <ContactSection
-          title={t("contact.title")}
-          body={t("contact.body")}
-          email={email}
-          github={{ href: t("social.github"), label: t("social.githubLabel") }}
-          linkedin={{ href: t("social.linkedin"), label: t("social.linkedinLabel") }}
-        />
+      <section
+        id="contact"
+        data-world-room="contact"
+        className="cv-snap-section scroll-mt-24"
+        aria-labelledby="contact-heading"
+      >
+        <div className="cv-snap-section__inner space-y-8">
+          <ContactSection
+            title={t("contact.title")}
+            body={t("contact.body")}
+            email={email}
+            github={{ href: t("social.github"), label: t("social.githubLabel") }}
+            linkedin={{ href: t("social.linkedin"), label: t("social.linkedinLabel") }}
+          />
 
-        <MotionReveal>
-          <details className="group rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]/50 text-sm backdrop-blur-sm">
-            <summary className="cursor-pointer list-none px-4 py-3 font-medium text-[var(--muted)] [&::-webkit-details-marker]:hidden">
-              <span className="flex items-center justify-between gap-2">
-                {t("detection.summary")}
-                <span className="text-xs text-[var(--muted)] transition group-open:rotate-180">▼</span>
-              </span>
-            </summary>
-            <div
-              className="border-t border-[var(--border)] px-4 py-3 text-[var(--muted)]"
-              aria-label={t("detection.sectionLabel")}
-            >
-              <p className="font-medium text-[var(--foreground)]">{t("detection.title")}</p>
-              <ul className="mt-2 list-inside list-disc space-y-1 text-xs">
-                <li>{t("detection.pageLocale", { locale })}</li>
-                <li>
-                  {t("detection.acceptLanguage", {
-                    value: acceptLanguage ?? t("detection.unknown"),
-                  })}
-                </li>
-                <li>
-                  {t("detection.country", {
-                    value: country ?? t("detection.localOnly"),
-                  })}
-                </li>
-              </ul>
-            </div>
-          </details>
-        </MotionReveal>
-      </main>
+          <MotionReveal>
+            <details className="group rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]/50 text-sm backdrop-blur-sm">
+              <summary className="cursor-pointer list-none px-4 py-3 font-medium text-[var(--muted)] [&::-webkit-details-marker]:hidden">
+                <span className="flex items-center justify-between gap-2">
+                  {t("detection.summary")}
+                  <span className="text-xs text-[var(--muted)] transition group-open:rotate-180">▼</span>
+                </span>
+              </summary>
+              <div
+                className="border-t border-[var(--border)] px-4 py-3 text-[var(--muted)]"
+                aria-label={t("detection.sectionLabel")}
+              >
+                <p className="font-medium text-[var(--foreground)]">{t("detection.title")}</p>
+                <ul className="mt-2 list-inside list-disc space-y-1 text-xs">
+                  <li>{t("detection.pageLocale", { locale })}</li>
+                  <li>
+                    {t("detection.acceptLanguage", {
+                      value: acceptLanguage ?? t("detection.unknown"),
+                    })}
+                  </li>
+                  <li>
+                    {t("detection.country", {
+                      value: country ?? t("detection.localOnly"),
+                    })}
+                  </li>
+                </ul>
+              </div>
+            </details>
+          </MotionReveal>
+
+          <SiteFooter locale={locale} variant="inline" />
+        </div>
+      </section>
     </div>
   );
 }

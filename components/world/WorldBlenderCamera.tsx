@@ -12,8 +12,13 @@ import { useWorldExperienceStore } from "@/stores/world-experience-store";
 import { useWorldStore } from "@/stores/world-store";
 import { resolveBlenderCameraPose } from "@/world/blender-section-camera";
 import {
+  resolveExperienceStageOrbit,
+  resolveExperienceStageOrbitStart,
+} from "@/world/experience-cameras";
+import {
   WORLD_CAMERA_TRAVEL_BLUR_MAX_PX,
   WORLD_EXPERIENCE_JOB_CAMERA_DURATION_S,
+  WORLD_EXPERIENCE_ORBIT_SEGMENT_DURATION_S,
   WORLD_EXPERIENCE_STAGE_CAMERA_DURATION_S,
   WORLD_SECTION_CAMERA_DURATION_S,
 } from "@/world/constants";
@@ -24,6 +29,24 @@ const _target = new THREE.Vector3();
 
 function easeOutCubic(t: number) {
   return 1 - Math.pow(1 - t, 3);
+}
+
+function easeInOutSine(t: number) {
+  return -(Math.cos(Math.PI * t) - 1) / 2;
+}
+
+function lerpPose(a: CameraPose, b: CameraPose, t: number): CameraPose {
+  _pos.set(...a.position).lerp(_target.set(...b.position), t);
+  const target: [number, number, number] = [
+    THREE.MathUtils.lerp(a.target[0], b.target[0], t),
+    THREE.MathUtils.lerp(a.target[1], b.target[1], t),
+    THREE.MathUtils.lerp(a.target[2], b.target[2], t),
+  ];
+  return {
+    position: [_pos.x, _pos.y, _pos.z],
+    target,
+    fov: THREE.MathUtils.lerp(a.fov ?? 42, b.fov ?? 42, t),
+  };
 }
 
 function capturePose(
@@ -67,6 +90,9 @@ export function WorldBlenderCamera() {
   const prevJobId = useRef(activeJobId);
   const prevStage = useRef(activeStageIndex);
   const prevPoseVersion = useRef(cameraPoseVersion);
+  const orbitSegment = useRef(0);
+  const orbitPhase = useRef(0);
+  const orbitTravelSynced = useRef(false);
 
   const beginTransition = (
     to: CameraPose,
@@ -104,6 +130,12 @@ export function WorldBlenderCamera() {
     if (!mounted.current) {
       mounted.current = true;
       applyPoseNow(to);
+      const orbitOnMount = resolveExperienceStageOrbit(activeJobId, activeStageIndex);
+      if (focusRoomId === "experience" && orbitOnMount && orbitOnMount.length >= 2) {
+        orbitSegment.current = resolveExperienceStageOrbitStart(activeJobId, activeStageIndex);
+        orbitPhase.current = 0;
+        orbitTravelSynced.current = false;
+      }
       prevFocusRoom.current = focusRoomId;
       prevJobId.current = activeJobId;
       prevStage.current = activeStageIndex;
@@ -131,6 +163,15 @@ export function WorldBlenderCamera() {
     prevFocusRoom.current = focusRoomId;
     prevJobId.current = activeJobId;
     prevStage.current = activeStageIndex;
+
+    const orbit = resolveExperienceStageOrbit(activeJobId, activeStageIndex);
+    if (focusRoomId === "experience" && orbit && orbit.length >= 2) {
+      orbitSegment.current = resolveExperienceStageOrbitStart(activeJobId, activeStageIndex);
+      orbitPhase.current = 0;
+      orbitTravelSynced.current = false;
+    } else {
+      orbitTravelSynced.current = false;
+    }
 
     let duration = WORLD_EXPERIENCE_JOB_CAMERA_DURATION_S;
     let arc = false;
@@ -174,6 +215,47 @@ export function WorldBlenderCamera() {
     const tr = transition.current;
 
     if (!tr || tr.t >= 1) {
+      const orbit =
+        focusRoomId === "experience" && !reducedMotion
+          ? resolveExperienceStageOrbit(activeJobId, activeStageIndex)
+          : null;
+
+      if (orbit && orbit.length >= 2) {
+        let fromIdx = orbitSegment.current % orbit.length;
+        let toIdx = (fromIdx + 1) % orbit.length;
+
+        orbitPhase.current += delta / WORLD_EXPERIENCE_ORBIT_SEGMENT_DURATION_S;
+        while (orbitPhase.current >= 1) {
+          orbitPhase.current -= 1;
+          orbitSegment.current = toIdx;
+          fromIdx = orbitSegment.current % orbit.length;
+          toIdx = (fromIdx + 1) % orbit.length;
+        }
+
+        const pose = lerpPose(orbit[fromIdx]!, orbit[toIdx]!, easeInOutSine(orbitPhase.current));
+        cam.position.set(...pose.position);
+        lookAt.current.set(...pose.target);
+        cam.lookAt(lookAt.current);
+        const nextFov = pose.fov ?? 42;
+        if (Math.abs(cam.fov - nextFov) > 0.01) {
+          cam.fov = nextFov;
+          cam.updateProjectionMatrix();
+        }
+        setLookTarget(...pose.target);
+        if (!orbitTravelSynced.current) {
+          orbitTravelSynced.current = true;
+          setTravel({
+            blurPx: 0,
+            isTraveling: false,
+            progress: 1,
+            lightingFrom: null,
+            lightingTo: null,
+          });
+        }
+        invalidate();
+        return;
+      }
+
       const pose = resolveBlenderCameraPose(focusRoomId, activeJobId, activeStageIndex);
       cam.position.set(...pose.position);
       lookAt.current.set(...pose.target);

@@ -24,6 +24,8 @@ export type ExperienceItem = {
   period: string;
   title: string;
   company: string;
+  /** Rótulo curto só no menu lateral (opcional). */
+  companyMenu?: string;
   location: string;
   stack: string;
   bullets: string[];
@@ -54,6 +56,13 @@ function stageLabel(
   return stage.title || t("stageMoment", { n: stageIndex });
 }
 
+/** Etapa em modo telefone (vertical) no desktop — volta ao horizontal nas outras. */
+const ALEMSYS_PHONE_STAGE_INDICES = new Set([1, 3, 5]);
+
+function usesVerticalPhoneLayout(jobId: string, stageIndex: number): boolean {
+  return jobId === "alemsys" && ALEMSYS_PHONE_STAGE_INDICES.has(stageIndex);
+}
+
 function StageArrowButton({
   direction,
   onClick,
@@ -68,7 +77,7 @@ function StageArrowButton({
       type="button"
       onClick={onClick}
       aria-label={label}
-      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)]/70 text-[var(--muted)] transition hover:border-[var(--accent)] hover:bg-[var(--accent-soft)] hover:text-[var(--foreground)]"
+      className="site-chip-btn h-9 w-9"
     >
       <svg
         aria-hidden
@@ -97,6 +106,7 @@ function ExperienceCard({
   stageCount,
   reduced,
   withStageNav = false,
+  phoneLayout = false,
   onPrevStage,
   onNextStage,
 }: {
@@ -106,20 +116,22 @@ function ExperienceCard({
   stageCount: number;
   reduced: boolean | null;
   withStageNav?: boolean;
+  phoneLayout?: boolean;
   onPrevStage?: () => void;
   onNextStage?: () => void;
 }) {
   const t = useTranslations("Home.experience");
   const isOverview = stageIndex === 0;
   const headerTitle = stageLabel(stage, stageIndex, t);
+  const useOverviewShell = isOverview || phoneLayout;
 
   return (
     <motion.article
       layout
       className={[
         "relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]/85 backdrop-blur-md",
-        isOverview
-          ? "experience-card--overview p-4 sm:p-5"
+        useOverviewShell
+          ? "experience-card--overview experience-card--phone p-4 sm:p-5"
           : "experience-card--moment p-3 sm:p-3.5",
       ].join(" ")}
     >
@@ -135,29 +147,62 @@ function ExperienceCard({
         <nav
           aria-label={t("stageNavLabel")}
           className={[
-            "experience-stage-header -mx-0.5 flex items-center gap-2 border-b border-[var(--border)]/60",
-            isOverview ? "mb-4 pb-3" : "mb-2.5 pb-2",
+            "experience-stage-header -mx-0.5 border-b border-[var(--border)]/60",
+            phoneLayout
+              ? "mb-3 flex flex-col gap-2 pb-2.5 text-left"
+              : [
+                  "flex items-center gap-2",
+                  isOverview ? "mb-4 pb-3" : "mb-2.5 pb-2",
+                ].join(" "),
           ].join(" ")}
         >
-          <StageArrowButton direction="prev" onClick={onPrevStage} label={t("stagePrev")} />
-          <div className="min-w-0 flex-1 text-center">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.p
-                key={`${stageIndex}-${headerTitle}`}
-                initial={reduced ? false : { opacity: 0, y: 5 }}
-                animate={reduced ? undefined : { opacity: 1, y: 0 }}
-                exit={reduced ? undefined : { opacity: 0, y: -5 }}
-                transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-                className="truncate text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)] sm:text-xs"
-              >
-                {headerTitle}
-              </motion.p>
-            </AnimatePresence>
-            <p className="sr-only">
-              {t("stagePosition", { current: stageIndex + 1, total: stageCount })}
-            </p>
-          </div>
-          <StageArrowButton direction="next" onClick={onNextStage} label={t("stageNext")} />
+          {phoneLayout ? (
+            <>
+              <div className="flex items-center gap-2">
+                <StageArrowButton direction="prev" onClick={onPrevStage} label={t("stagePrev")} />
+                <div className="min-w-0 flex-1 text-left">
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.p
+                      key={`${stageIndex}-${headerTitle}`}
+                      initial={reduced ? false : { opacity: 0, y: 5 }}
+                      animate={reduced ? undefined : { opacity: 1, y: 0 }}
+                      exit={reduced ? undefined : { opacity: 0, y: -5 }}
+                      transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                      className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)] sm:text-xs"
+                    >
+                      {headerTitle}
+                    </motion.p>
+                  </AnimatePresence>
+                  <p className="sr-only">
+                    {t("stagePosition", { current: stageIndex + 1, total: stageCount })}
+                  </p>
+                </div>
+                <StageArrowButton direction="next" onClick={onNextStage} label={t("stageNext")} />
+              </div>
+            </>
+          ) : (
+            <>
+              <StageArrowButton direction="prev" onClick={onPrevStage} label={t("stagePrev")} />
+              <div className="min-w-0 flex-1 text-center">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.p
+                    key={`${stageIndex}-${headerTitle}`}
+                    initial={reduced ? false : { opacity: 0, y: 5 }}
+                    animate={reduced ? undefined : { opacity: 1, y: 0 }}
+                    exit={reduced ? undefined : { opacity: 0, y: -5 }}
+                    transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                    className="truncate text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)] sm:text-xs"
+                  >
+                    {headerTitle}
+                  </motion.p>
+                </AnimatePresence>
+                <p className="sr-only">
+                  {t("stagePosition", { current: stageIndex + 1, total: stageCount })}
+                </p>
+              </div>
+              <StageArrowButton direction="next" onClick={onNextStage} label={t("stageNext")} />
+            </>
+          )}
         </nav>
       ) : (
         <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
@@ -192,7 +237,14 @@ function ExperienceCard({
               <p>{stage.text}</p>
             </div>
           ) : (
-            <p className="text-[13px] leading-snug text-[var(--muted)] sm:text-sm sm:leading-relaxed">
+            <p
+              className={[
+                "text-[var(--muted)]",
+                phoneLayout
+                  ? "text-left text-sm leading-relaxed"
+                  : "text-[13px] leading-snug sm:text-sm sm:leading-relaxed",
+              ].join(" ")}
+            >
               {stage.text}
             </p>
           )}
@@ -235,6 +287,9 @@ export function ExperienceTimeline({ items }: Props) {
     stages.length > 0 ? ((storeStageIndex % stages.length) + stages.length) % stages.length : 0;
   const currentStage = stages[stageIndex] ?? stages[0];
   const isMomentStage = stageIndex > 0;
+  const verticalPhoneLayout = usesVerticalPhoneLayout(active.id, stageIndex);
+  const showHorizontalPeephole = isMomentStage && !verticalPhoneLayout;
+  const showVerticalPeephole = verticalPhoneLayout;
 
   const selectJob = (jobId: string) => {
     setActiveId(jobId);
@@ -317,7 +372,7 @@ export function ExperienceTimeline({ items }: Props) {
                       onClick={() => selectJob(job.id)}
                       aria-pressed={isActive}
                       className={[
-                        "group w-full border-l-2 py-3 pl-4 text-left transition-colors duration-300",
+                        "site-panel-btn group w-full border-l-2 py-3 pl-4 text-left transition-colors duration-300",
                         isActive
                           ? "border-[var(--accent)]"
                           : "border-transparent hover:border-[var(--accent)]/25",
@@ -339,7 +394,7 @@ export function ExperienceTimeline({ items }: Props) {
                             : "font-medium text-[var(--foreground)]/75 group-hover:text-[var(--foreground)]",
                         ].join(" ")}
                       >
-                        {job.company}
+                        {job.companyMenu ?? job.company}
                       </p>
                       <p
                         className={[
@@ -358,13 +413,26 @@ export function ExperienceTimeline({ items }: Props) {
         </aside>
 
         <div
-          key={active.id}
-          className="experience-stage-field relative flex min-h-[min(78vh,760px)] flex-col"
+          key={`${active.id}-${verticalPhoneLayout ? "phone" : "desktop"}`}
+          className={[
+            "experience-stage-field relative flex min-h-[min(78vh,760px)] flex-col",
+            verticalPhoneLayout ? "experience-stage-field--phone" : "",
+          ].join(" ")}
         >
           <AnimatePresence mode="popLayout">
-            {isMomentStage ? (
+            {showVerticalPeephole ? (
               <motion.div
-                key="peephole"
+                key="peephole-phone"
+                initial={reduced ? false : { opacity: 0, scale: 0.94 }}
+                animate={reduced ? undefined : { opacity: 1, scale: 1 }}
+                exit={reduced ? undefined : { opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                className="experience-peephole experience-peephole--phone flex-shrink-0"
+                aria-hidden
+              />
+            ) : showHorizontalPeephole ? (
+              <motion.div
+                key="peephole-horizontal"
                 initial={reduced ? false : { height: 0, opacity: 0 }}
                 animate={reduced ? undefined : { height: "48%", opacity: 1 }}
                 exit={reduced ? undefined : { height: 0, opacity: 0 }}
@@ -378,7 +446,12 @@ export function ExperienceTimeline({ items }: Props) {
           <motion.div
             layout
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full flex-shrink-0 self-start"
+            className={[
+              "min-w-0 flex-shrink-0",
+              verticalPhoneLayout
+                ? "experience-stage-card--phone w-full self-stretch"
+                : "w-full self-start",
+            ].join(" ")}
           >
             <ExperienceCard
               job={active}
@@ -387,12 +460,15 @@ export function ExperienceTimeline({ items }: Props) {
               stageCount={stages.length}
               reduced={reduced}
               withStageNav
+              phoneLayout={verticalPhoneLayout}
               onPrevStage={() => shiftStage(-1)}
               onNextStage={() => shiftStage(1)}
             />
           </motion.div>
 
-          {!isMomentStage ? <div className="min-h-0 flex-1" aria-hidden /> : null}
+          {!showHorizontalPeephole && !showVerticalPeephole ? (
+            <div className="min-h-0 flex-1" aria-hidden />
+          ) : null}
         </div>
       </div>
     </>
