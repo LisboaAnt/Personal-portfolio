@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "@/i18n/navigation";
 import { useWorldStore } from "@/stores/world-store";
+import { isCvScrollLocked } from "@/lib/cv-scroll";
 import { useWorldEnabled } from "@/hooks/useWorldEnabled";
 import { useWorldPaused } from "@/hooks/useWorldPaused";
 import { pathToRoomId } from "@/world/path-to-room";
@@ -26,6 +27,7 @@ export function WorldScrollSync() {
 
     const applyBest = () => {
       if (useWorldStore.getState().phase === "traveling") return;
+      if (isCvScrollLocked()) return;
 
       let bestEl: Element | null = null;
       let bestRatio = 0;

@@ -54,10 +54,37 @@ export const CV_SCROLL_SECTION_ORDER: CvSectionId[] = [
 
 /** Pose da secção Formação (scroll). */
 export const EDUCATION_CAMERA: CameraPose = {
-  position: [-212.291, 149.323, 106.57],
-  target: [-283.453, 154.735, 142.719],
+  position: [-210.84, 150.316, 123.599],
+  target: [-290.819, 152.125, 123.978],
   fov: 42,
 };
+
+/** Formação — bacharelado expandido. */
+export const EDUCATION_BACHELOR_CAMERA: CameraPose = {
+  position: [-219.628, 150.663, 123.631],
+  target: [-299.393, 156.796, 123.628],
+  fov: 42,
+};
+
+export const EDUCATION_BACHELOR_CARD_ID = "ufc-cs";
+
+/** Formação — mentoria em empreendedorismo expandida. */
+export const EDUCATION_MENTOR_CAMERA: CameraPose = {
+  position: [-221.053, 149.516, 112.795],
+  target: [-301.053, 149.543, 112.703],
+  fov: 42,
+};
+
+export const EDUCATION_MENTOR_CARD_ID = "ufc-mentor";
+
+/** Formação — técnico em redes (SENAI) expandido. */
+export const EDUCATION_SENAI_CAMERA: CameraPose = {
+  position: [-221.073, 149.516, 135.06],
+  target: [-300.991, 153.128, 134.806],
+  fov: 42,
+};
+
+export const EDUCATION_SENAI_CARD_ID = "senai";
 
 function buildBlenderCameras(): Record<CvSectionId, CameraPose> {
   const cameras = {} as Record<CvSectionId, CameraPose>;

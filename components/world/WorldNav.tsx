@@ -6,9 +6,9 @@ import { WorldLink } from "./WorldLink";
 const SECTIONS = [
   "profile",
   "experience",
-  "projects",
   "education",
   "skills",
+  "projects",
   "contact",
 ] as const;
 

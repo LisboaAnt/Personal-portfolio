@@ -8,6 +8,7 @@ import { useWorldPaused } from "@/hooks/useWorldPaused";
 import { useWorldCameraInputStore } from "@/stores/world-camera-input-store";
 import { useWorldCameraLookStore } from "@/stores/world-camera-look-store";
 import { useWorldCameraTravelStore } from "@/stores/world-camera-travel-store";
+import { useWorldEducationStore } from "@/stores/world-education-store";
 import { useWorldExperienceStore } from "@/stores/world-experience-store";
 import { useWorldStore } from "@/stores/world-store";
 import { resolveBlenderCameraPose } from "@/world/blender-section-camera";
@@ -83,12 +84,15 @@ export function WorldBlenderCamera() {
   const setTravel = useWorldCameraTravelStore((s) => s.setTravel);
   const activeJobId = useWorldExperienceStore((s) => s.activeJobId);
   const activeStageIndex = useWorldExperienceStore((s) => s.activeStageIndex);
+  const activeEducationCardId = useWorldEducationStore((s) => s.activeCardId);
+  const setActiveEducationCard = useWorldEducationStore((s) => s.setActiveCard);
   const lookAt = useRef(new THREE.Vector3());
   const transition = useRef<Transition | null>(null);
   const mounted = useRef(false);
   const prevFocusRoom = useRef(focusRoomId);
   const prevJobId = useRef(activeJobId);
   const prevStage = useRef(activeStageIndex);
+  const prevEducationCard = useRef(activeEducationCardId);
   const prevPoseVersion = useRef(cameraPoseVersion);
   const orbitSegment = useRef(0);
   const orbitPhase = useRef(0);
@@ -114,7 +118,18 @@ export function WorldBlenderCamera() {
   };
 
   useEffect(() => {
-    const to = resolveBlenderCameraPose(focusRoomId, activeJobId, activeStageIndex);
+    if (focusRoomId !== "education" && activeEducationCardId !== null) {
+      setActiveEducationCard(null);
+    }
+  }, [activeEducationCardId, focusRoomId, setActiveEducationCard]);
+
+  useEffect(() => {
+    const to = resolveBlenderCameraPose(
+      focusRoomId,
+      activeJobId,
+      activeStageIndex,
+      activeEducationCardId,
+    );
     const cam = camera as THREE.PerspectiveCamera;
 
     const applyPoseNow = (pose: CameraPose) => {
@@ -139,6 +154,7 @@ export function WorldBlenderCamera() {
       prevFocusRoom.current = focusRoomId;
       prevJobId.current = activeJobId;
       prevStage.current = activeStageIndex;
+      prevEducationCard.current = activeEducationCardId;
       prevPoseVersion.current = cameraPoseVersion;
       return;
     }
@@ -152,6 +168,7 @@ export function WorldBlenderCamera() {
       prevFocusRoom.current = focusRoomId;
       prevJobId.current = activeJobId;
       prevStage.current = activeStageIndex;
+      prevEducationCard.current = activeEducationCardId;
       return;
     }
 
@@ -159,10 +176,12 @@ export function WorldBlenderCamera() {
     const sectionChanged = fromSection !== focusRoomId;
     const jobChanged = prevJobId.current !== activeJobId;
     const stageChanged = prevStage.current !== activeStageIndex;
+    const educationCardChanged = prevEducationCard.current !== activeEducationCardId;
 
     prevFocusRoom.current = focusRoomId;
     prevJobId.current = activeJobId;
     prevStage.current = activeStageIndex;
+    prevEducationCard.current = activeEducationCardId;
 
     const orbit = resolveExperienceStageOrbit(activeJobId, activeStageIndex);
     if (focusRoomId === "experience" && orbit && orbit.length >= 2) {
@@ -179,7 +198,7 @@ export function WorldBlenderCamera() {
     if (sectionChanged) {
       duration = WORLD_SECTION_CAMERA_DURATION_S;
       arc = true;
-    } else if (stageChanged) {
+    } else if (stageChanged || educationCardChanged) {
       duration = WORLD_EXPERIENCE_STAGE_CAMERA_DURATION_S;
     } else if (jobChanged) {
       duration = WORLD_EXPERIENCE_JOB_CAMERA_DURATION_S;
@@ -193,6 +212,7 @@ export function WorldBlenderCamera() {
       sectionChanged ? focusRoomId : null,
     );
   }, [
+    activeEducationCardId,
     activeJobId,
     activeStageIndex,
     camera,
@@ -256,7 +276,12 @@ export function WorldBlenderCamera() {
         return;
       }
 
-      const pose = resolveBlenderCameraPose(focusRoomId, activeJobId, activeStageIndex);
+      const pose = resolveBlenderCameraPose(
+        focusRoomId,
+        activeJobId,
+        activeStageIndex,
+        activeEducationCardId,
+      );
       cam.position.set(...pose.position);
       lookAt.current.set(...pose.target);
       cam.lookAt(lookAt.current);

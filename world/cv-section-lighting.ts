@@ -25,7 +25,7 @@ export const CV_SECTION_LIGHTING_MODIFIERS: Record<CvSectionId, CvSectionLightin
     directionalMul: 0.9,
     toneExposureMul: 0.85,
   },
-  /** Experiência: um pouco mais clara que o profile — transição suave, sem “flash”. */
+  /** Experiência e secções seguintes — mesma iluminação no scroll. */
   experience: {
     envMul: 2.2,
     ambientMul: 1.85,
@@ -35,36 +35,36 @@ export const CV_SECTION_LIGHTING_MODIFIERS: Record<CvSectionId, CvSectionLightin
     directionalTint: "#fde68a",
   },
   education: {
-    envMul: 4.2,
-    ambientMul: 3.4,
-    directionalMul: 2.8,
-    toneExposureMul: 3.8,
-    ambientTint: "#ecfeff",
-    directionalTint: "#67e8f9",
+    envMul: 2.2,
+    ambientMul: 1.85,
+    directionalMul: 1.65,
+    toneExposureMul: 1.75,
+    ambientTint: "#fffbeb",
+    directionalTint: "#fde68a",
   },
   skills: {
-    envMul: 4,
-    ambientMul: 3.3,
-    directionalMul: 2.7,
-    toneExposureMul: 3.6,
-    ambientTint: "#f5f3ff",
-    directionalTint: "#ddd6fe",
+    envMul: 2.2,
+    ambientMul: 1.85,
+    directionalMul: 1.65,
+    toneExposureMul: 1.75,
+    ambientTint: "#fffbeb",
+    directionalTint: "#fde68a",
   },
   projects: {
-    envMul: 4.1,
-    ambientMul: 3.35,
-    directionalMul: 2.75,
-    toneExposureMul: 3.7,
-    ambientTint: "#faf5ff",
-    directionalTint: "#e9d5ff",
+    envMul: 2.2,
+    ambientMul: 1.85,
+    directionalMul: 1.65,
+    toneExposureMul: 1.75,
+    ambientTint: "#fffbeb",
+    directionalTint: "#fde68a",
   },
   contact: {
-    envMul: 4.3,
-    ambientMul: 3.5,
-    directionalMul: 2.85,
-    toneExposureMul: 3.9,
-    ambientTint: "#ecfdf5",
-    directionalTint: "#6ee7b7",
+    envMul: 2.2,
+    ambientMul: 1.85,
+    directionalMul: 1.65,
+    toneExposureMul: 1.75,
+    ambientTint: "#fffbeb",
+    directionalTint: "#fde68a",
   },
 };
 
@@ -105,6 +105,30 @@ const SECTION_LIGHTING_FLOORS: Partial<
     directionalIntensity: 0.52,
     toneMappingExposure: 0.82,
   },
+  education: {
+    environmentIntensity: 0.2,
+    ambientIntensity: 0.47,
+    directionalIntensity: 0.52,
+    toneMappingExposure: 0.82,
+  },
+  skills: {
+    environmentIntensity: 0.2,
+    ambientIntensity: 0.47,
+    directionalIntensity: 0.52,
+    toneMappingExposure: 0.82,
+  },
+  projects: {
+    environmentIntensity: 0.2,
+    ambientIntensity: 0.47,
+    directionalIntensity: 0.52,
+    toneMappingExposure: 0.82,
+  },
+  contact: {
+    environmentIntensity: 0.2,
+    ambientIntensity: 0.47,
+    directionalIntensity: 0.52,
+    toneMappingExposure: 0.82,
+  },
 };
 
 function tintFromSection(id: CvSectionId, kind: "ambient" | "directional"): THREE.Color {
@@ -116,13 +140,9 @@ function tintFromSection(id: CvSectionId, kind: "ambient" | "directional"): THRE
   const c = new THREE.Color(hex);
   const bright = BRIGHT_SCROLL_SECTIONS.has(id);
   const whiteMix = bright
-    ? id === "experience"
-      ? kind === "ambient"
-          ? 0.9
-          : 0.7
-      : kind === "ambient"
-        ? 0.86
-        : 0.58
+    ? kind === "ambient"
+      ? 0.9
+      : 0.7
     : kind === "ambient"
       ? 0.72
       : 0.35;

@@ -13,6 +13,8 @@ type WorldState = {
   paused: boolean;
   setFocusRoom: (id: CvSectionId) => void;
   setPhase: (phase: WorldPhase) => void;
+  /** Navegação programática (navbar, hints) — bloqueia sync do scroll até terminar. */
+  beginScrollNav: (id: CvSectionId) => void;
   beginTravel: (id: CvSectionId) => void;
   setPaused: (paused: boolean) => void;
 };
@@ -27,6 +29,9 @@ export const useWorldStore = create<WorldState>((set, get) => ({
     set({ focusRoomId: id, cameraMode: "scroll" });
   },
   setPhase: (phase) => set({ phase }),
+  beginScrollNav: (id) => {
+    set({ focusRoomId: id, phase: "traveling", cameraMode: "scroll" });
+  },
   beginTravel: (id) => {
     set({ focusRoomId: id, phase: "traveling", cameraMode: "nav" });
   },

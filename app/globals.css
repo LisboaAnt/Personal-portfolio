@@ -546,6 +546,23 @@ html.world-cv-scroll .experience-section .experience-panel {
   animation: none;
 }
 
+.education-card--open .education-card__chevron {
+  transform: rotate(180deg);
+}
+
+.education-accordion {
+  align-items: start;
+}
+
+.education-card--open {
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--border));
+  box-shadow: 0 14px 34px -18px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.education-card--featured.education-card--open {
+  border-color: color-mix(in srgb, var(--accent) 52%, var(--border));
+}
+
 /* Hint de scroll entre secções — sobreposto, sem alterar o layout */
 .cv-section-scroll-hint--experience {
   padding-bottom: 3rem;

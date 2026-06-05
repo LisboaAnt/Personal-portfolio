@@ -10,6 +10,7 @@ import {
   WORLD_CAMERA_DURATION_S,
   WORLD_OVERLAY_ENTER_DELAY_MS,
   WORLD_OVERLAY_FADE_IN_MS,
+  WORLD_SECTION_CAMERA_DURATION_S,
 } from "@/world/constants";
 import { scrollToCvSection } from "@/lib/cv-scroll";
 import type { CvSectionId } from "@/world/types";
@@ -38,11 +39,23 @@ function scrollToSection(id: CvSectionId, behavior: ScrollBehavior = "smooth") {
   scrollToCvSection(id, behavior);
 }
 
+function releaseScrollNavAfterMs(ms: number) {
+  window.setTimeout(() => {
+    if (useWorldStore.getState().phase === "traveling") {
+      useWorldStore.getState().setPhase("idle");
+    }
+  }, ms);
+}
+
+function scrollNavDurationMs() {
+  return Math.max(WORLD_SECTION_CAMERA_DURATION_S * 1000, 720) + 120;
+}
+
 export function useWorldNavigate() {
   const router = useRouter();
   const enabled = useWorldEnabled();
   const beginTravel = useWorldStore((s) => s.beginTravel);
-  const setFocusRoom = useWorldStore((s) => s.setFocusRoom);
+  const beginScrollNav = useWorldStore((s) => s.beginScrollNav);
   const setPhase = useWorldStore((s) => s.setPhase);
 
   const navigate = useCallback(
@@ -63,10 +76,11 @@ export function useWorldNavigate() {
         typeof href === "string" && (href.startsWith("#") || href.startsWith("/#"));
 
       if (isHashOnly) {
-        setFocusRoom(section);
+        beginScrollNav(section);
         scrollToSection(section);
         if (typeof window !== "undefined") {
           window.history.replaceState(null, "", `${window.location.pathname}${hash}`);
+          releaseScrollNavAfterMs(scrollNavDurationMs());
         }
         return;
       }
@@ -83,7 +97,7 @@ export function useWorldNavigate() {
         WORLD_OVERLAY_ENTER_DELAY_MS + WORLD_OVERLAY_FADE_IN_MS + WORLD_CAMERA_DURATION_S * 1000;
       window.setTimeout(() => setPhase("idle"), totalMs);
     },
-    [beginTravel, enabled, router, setFocusRoom, setPhase]
+    [beginScrollNav, beginTravel, enabled, router, setPhase]
   );
 
   const goToSection = useCallback(

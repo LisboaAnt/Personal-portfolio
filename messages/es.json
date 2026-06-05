@@ -422,6 +422,14 @@
       "title": "Formación",
       "items": [
         {
+          "id": "senai",
+          "period": "02/2019 — 02/2022",
+          "title": "Técnico en Redes de Computadores",
+          "institution": "SENAI Rondônia",
+          "meta": "1200 h",
+          "bullets": ["LAN, servidores locales y seguridad de red."]
+        },
+        {
           "id": "ufc-cs",
           "period": "02/2022 — 01/2026",
           "title": "Grado en Ciencias de la Computación",
@@ -441,14 +449,6 @@
           "bullets": [
             "Ideas, pitch y vínculo con el ecosistema de innovación."
           ]
-        },
-        {
-          "id": "senai",
-          "period": "02/2019 — 02/2022",
-          "title": "Técnico en Redes de Computadores",
-          "institution": "SENAI Rondônia",
-          "meta": "1200 h",
-          "bullets": ["LAN, servidores locales y seguridad de red."]
         }
       ]
     },

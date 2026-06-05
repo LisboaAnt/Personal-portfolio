@@ -422,6 +422,14 @@
       "title": "Education",
       "items": [
         {
+          "id": "senai",
+          "period": "02/2019 — 02/2022",
+          "title": "Computer Networks Technician",
+          "institution": "SENAI Rondônia",
+          "meta": "1200 h",
+          "bullets": ["LAN, local servers, and network security."]
+        },
+        {
           "id": "ufc-cs",
           "period": "02/2022 — 01/2026",
           "title": "B.Sc. Computer Science",
@@ -439,14 +447,6 @@
           "institution": "UFC",
           "meta": "144 h",
           "bullets": ["Ideation, pitching, and ties to the innovation ecosystem."]
-        },
-        {
-          "id": "senai",
-          "period": "02/2019 — 02/2022",
-          "title": "Computer Networks Technician",
-          "institution": "SENAI Rondônia",
-          "meta": "1200 h",
-          "bullets": ["LAN, local servers, and network security."]
         }
       ]
     },
