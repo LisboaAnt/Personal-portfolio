@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { HeroAnimated } from "@/components/home/HeroAnimated";
 import { HeroBio } from "@/components/home/HeroBio";
 import { ExperienceTimeline, type ExperienceItem } from "@/components/home/ExperienceTimeline";
+import { ExperienceScrollHint } from "@/components/home/ExperienceScrollHint";
 import { EducationGrid, type EducationItem } from "@/components/home/EducationGrid";
 import { SkillsGrid, type SkillGroup } from "@/components/home/SkillsGrid";
 import { ProjectsGrid, type ProjectItem } from "@/components/home/ProjectsGrid";
@@ -42,13 +43,14 @@ export default async function HomePage({ params }: Props) {
       <section
         id="experience"
         data-world-room="experience"
-        className="cv-snap-section experience-section scroll-mt-24"
+        className="cv-snap-section experience-section relative scroll-mt-24"
         aria-labelledby="exp-heading"
       >
         <div className="cv-snap-section__inner space-y-8">
           <SectionTitle id="exp-heading" title={t("experience.title")} />
           <ExperienceTimeline items={experience} />
         </div>
+        <ExperienceScrollHint />
       </section>
 
       <section

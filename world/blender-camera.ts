@@ -52,6 +52,13 @@ export const CV_SCROLL_SECTION_ORDER: CvSectionId[] = [
   "contact",
 ];
 
+/** Pose da secção Formação (scroll). */
+export const EDUCATION_CAMERA: CameraPose = {
+  position: [-212.291, 149.323, 106.57],
+  target: [-283.453, 154.735, 142.719],
+  fov: 42,
+};
+
 function buildBlenderCameras(): Record<CvSectionId, CameraPose> {
   const cameras = {} as Record<CvSectionId, CameraPose>;
 
@@ -61,6 +68,15 @@ function buildBlenderCameras(): Record<CvSectionId, CameraPose> {
         position: [...EXPERIENCE_DEFAULT_CAMERA.position],
         target: [...EXPERIENCE_DEFAULT_CAMERA.target],
         fov: EXPERIENCE_DEFAULT_CAMERA.fov ?? BLENDER_VIEW_FOV,
+      };
+      return;
+    }
+
+    if (id === "education") {
+      cameras[id] = {
+        position: [...EDUCATION_CAMERA.position],
+        target: [...EDUCATION_CAMERA.target],
+        fov: EDUCATION_CAMERA.fov ?? BLENDER_VIEW_FOV,
       };
       return;
     }

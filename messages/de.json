@@ -291,6 +291,7 @@
     ],
     "experience": {
       "title": "Erfahrung",
+      "scrollToEducation": "Zur Sektion Ausbildung",
       "stageNavLabel": "Erfahrungsphasen",
       "stagePrev": "Vorherige Phase",
       "stageNext": "Nächste Phase",

@@ -546,6 +546,23 @@ html.world-cv-scroll .experience-section .experience-panel {
   animation: none;
 }
 
+/* Hint de scroll entre secções — sobreposto, sem alterar o layout */
+.cv-section-scroll-hint--experience {
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 640px) {
+  .cv-section-scroll-hint--experience {
+    padding-bottom: 3.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cv-section-scroll-hint--experience {
+    padding-bottom: 4rem;
+  }
+}
+
 ::selection {
   background: var(--accent-soft);
   color: var(--foreground);

@@ -291,6 +291,7 @@
     ],
     "experience": {
       "title": "Experience",
+      "scrollToEducation": "Go to Education section",
       "stageNavLabel": "Experience stages",
       "stagePrev": "Previous stage",
       "stageNext": "Next stage",
