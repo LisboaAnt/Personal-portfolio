@@ -61,6 +61,14 @@ function capturePose(
   };
 }
 
+function posesNearlyEqual(a: CameraPose, b: CameraPose, eps = 0.05): boolean {
+  for (let i = 0; i < 3; i++) {
+    if (Math.abs(a.position[i]! - b.position[i]!) > eps) return false;
+    if (Math.abs(a.target[i]! - b.target[i]!) > eps) return false;
+  }
+  return Math.abs((a.fov ?? 42) - (b.fov ?? 42)) <= eps;
+}
+
 type Transition = {
   from: CameraPose;
   to: CameraPose;
@@ -192,12 +200,17 @@ export function WorldBlenderCamera() {
       orbitTravelSynced.current = false;
     }
 
+    const fromPose = capturePose(cam, lookAt.current);
+    if (posesNearlyEqual(fromPose, to)) {
+      applyPoseNow(to);
+      return;
+    }
+
     let duration = WORLD_EXPERIENCE_JOB_CAMERA_DURATION_S;
     let arc = false;
 
     if (sectionChanged) {
       duration = WORLD_SECTION_CAMERA_DURATION_S;
-      arc = true;
     } else if (stageChanged || educationCardChanged) {
       duration = WORLD_EXPERIENCE_STAGE_CAMERA_DURATION_S;
     } else if (jobChanged) {
@@ -319,13 +332,11 @@ export function WorldBlenderCamera() {
       : Math.sin(tr.t * Math.PI) * WORLD_CAMERA_TRAVEL_BLUR_MAX_PX;
     setTravel({
       blurPx,
-      isTraveling: tr.t < 0.98,
+      isTraveling: tr.t < 1,
       progress: e,
       lightingFrom: tr.lightingFrom,
       lightingTo: tr.lightingTo,
     });
-
-    invalidate();
 
     if (tr.t >= 1) transition.current = null;
   });

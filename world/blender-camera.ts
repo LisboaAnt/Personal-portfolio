@@ -54,8 +54,8 @@ export const CV_SCROLL_SECTION_ORDER: CvSectionId[] = [
 
 /** Pose da secção Formação (scroll). */
 export const EDUCATION_CAMERA: CameraPose = {
-  position: [-210.84, 150.316, 123.599],
-  target: [-290.819, 152.125, 123.978],
+  position: [-207.005, 150.232, 123.581],
+  target: [-286.981, 148.301, 123.863],
   fov: 42,
 };
 
@@ -86,6 +86,15 @@ export const EDUCATION_SENAI_CAMERA: CameraPose = {
 
 export const EDUCATION_SENAI_CARD_ID = "senai";
 
+/** Pose das secções Competências, Projetos e Contacto (scroll). */
+export const SKILLS_CAMERA: CameraPose = {
+  position: [-245.941, 148.893, 95.011],
+  target: [-310.574, 147.781, 47.879],
+  fov: 42,
+};
+
+const SKILLS_PROJECTS_CONTACT_SECTIONS = new Set<CvSectionId>(["skills", "projects", "contact"]);
+
 function buildBlenderCameras(): Record<CvSectionId, CameraPose> {
   const cameras = {} as Record<CvSectionId, CameraPose>;
 
@@ -104,6 +113,15 @@ function buildBlenderCameras(): Record<CvSectionId, CameraPose> {
         position: [...EDUCATION_CAMERA.position],
         target: [...EDUCATION_CAMERA.target],
         fov: EDUCATION_CAMERA.fov ?? BLENDER_VIEW_FOV,
+      };
+      return;
+    }
+
+    if (SKILLS_PROJECTS_CONTACT_SECTIONS.has(id)) {
+      cameras[id] = {
+        position: [...SKILLS_CAMERA.position],
+        target: [...SKILLS_CAMERA.target],
+        fov: SKILLS_CAMERA.fov ?? BLENDER_VIEW_FOV,
       };
       return;
     }

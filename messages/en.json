@@ -420,6 +420,34 @@
     },
     "education": {
       "title": "Education",
+      "diplomas": {
+        "title": "Diplomas",
+        "prev": "Previous diploma",
+        "next": "Next diploma",
+        "items": [
+          {
+            "id": "senai",
+            "title": "Computer Networks Technician",
+            "caption": "SENAI Rondônia",
+            "image": "/diplomas/senai.svg",
+            "alt": "SENAI Rondônia technician diploma"
+          },
+          {
+            "id": "ufc-cs",
+            "title": "B.Sc. Computer Science",
+            "caption": "Federal University of Ceará",
+            "image": "/diplomas/ufc-cs.svg",
+            "alt": "B.Sc. Computer Science diploma — UFC"
+          },
+          {
+            "id": "ufc-mentor",
+            "title": "Entrepreneurship mentoring",
+            "caption": "UFC",
+            "image": "/diplomas/ufc-mentor.svg",
+            "alt": "Entrepreneurship mentoring certificate — UFC"
+          }
+        ]
+      },
       "items": [
         {
           "id": "senai",

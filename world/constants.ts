@@ -25,6 +25,18 @@ export const WORLD_EXPERIENCE_ORBIT_SEGMENT_DURATION_S = 14;
 /** Blur máximo (px) no canvas durante viagem da câmara. */
 export const WORLD_CAMERA_TRAVEL_BLUR_MAX_PX = 4.5;
 
+/** FPS alvo do WebGL durante viagem da câmara (blur esconde perda de nitidez). */
+export const WORLD_TRAVEL_RENDER_FPS = 30;
+
+/** DPR durante viagem — desktop / qualidade alta. */
+export const WORLD_TRAVEL_DPR = 0.75;
+
+/** DPR durante viagem — mobile / qualidade baixa. */
+export const WORLD_TRAVEL_DPR_LOW = 0.65;
+
+/** Atraso antes de restaurar DPR/frameloop após viagem (evita flash). */
+export const WORLD_TRAVEL_DPR_RESTORE_DELAY_MS = 220;
+
 /** Duração da animação da câmara ao mudar de secção com scroll */
 export const WORLD_SCROLL_CAMERA_DURATION_S = 1.35;
 

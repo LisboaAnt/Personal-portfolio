@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" fill="none">
+  <rect width="320" height="180" rx="8" fill="#1e1e24"/>
+  <rect x="16" y="16" width="288" height="148" rx="6" stroke="#6366f1" stroke-width="2" stroke-dasharray="6 5" opacity="0.45"/>
+  <text x="160" y="86" text-anchor="middle" fill="#a1a1aa" font-family="system-ui,sans-serif" font-size="12">UFC � Mentoria</text>
+  <text x="160" y="106" text-anchor="middle" fill="#71717a" font-family="system-ui,sans-serif" font-size="9">16:9 � /diplomas/ufc-mentor.jpg</text>
+</svg>

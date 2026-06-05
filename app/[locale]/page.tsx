@@ -5,6 +5,10 @@ import { HeroBio } from "@/components/home/HeroBio";
 import { ExperienceTimeline, type ExperienceItem } from "@/components/home/ExperienceTimeline";
 import { ExperienceScrollHint } from "@/components/home/ExperienceScrollHint";
 import { EducationGrid, type EducationItem } from "@/components/home/EducationGrid";
+import {
+  EducationDiplomaCarousel,
+  type EducationDiploma,
+} from "@/components/home/EducationDiplomaCarousel";
 import { SkillsGrid, type SkillGroup } from "@/components/home/SkillsGrid";
 import { ProjectsGrid, type ProjectItem } from "@/components/home/ProjectsGrid";
 import { ContactSection } from "@/components/home/ContactSection";
@@ -25,6 +29,7 @@ export default async function HomePage({ params }: Props) {
 
   const experience = t.raw("experience.items") as ExperienceItem[];
   const education = t.raw("education.items") as EducationItem[];
+  const educationDiplomas = t.raw("education.diplomas.items") as EducationDiploma[];
   const skillGroups = t.raw("skills.groups") as SkillGroup[];
   const projects = t.raw("projects.items") as ProjectItem[];
   const email = t("contact.email");
@@ -56,13 +61,19 @@ export default async function HomePage({ params }: Props) {
       <section
         id="education"
         data-world-room="education"
-        className="cv-snap-section scroll-mt-24"
+        className="cv-snap-section education-section scroll-mt-24"
         aria-labelledby="edu-heading"
       >
-        <div className="cv-snap-section__inner space-y-8">
+        <div className="cv-snap-section__inner education-section__inner space-y-6 sm:space-y-8">
           <SectionTitle id="edu-heading" kicker="02" title={t("education.title")} />
           <EducationGrid items={education} />
         </div>
+        <EducationDiplomaCarousel
+          title={t("education.diplomas.title")}
+          prevLabel={t("education.diplomas.prev")}
+          nextLabel={t("education.diplomas.next")}
+          items={educationDiplomas}
+        />
       </section>
 
       <section

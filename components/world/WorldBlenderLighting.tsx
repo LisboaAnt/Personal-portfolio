@@ -91,7 +91,7 @@ export function WorldBlenderLighting() {
     }
 
     gl.toneMappingExposure = cur.toneMappingExposure;
-    invalidate();
+    if (!isTraveling) invalidate();
   });
 
   const init = currentRef.current;
