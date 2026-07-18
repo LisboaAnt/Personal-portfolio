@@ -258,8 +258,7 @@ export function ProjectsMetro({ groups }: Props) {
           const href = itemByIdRef.current[session.key]?.href;
           if (!href) return;
           if (href.startsWith("/work")) {
-            const hash = href.includes("#") ? href.split("#")[1] : undefined;
-            routerRef.current.push({ pathname: "/work", hash });
+            routerRef.current.push(href);
           } else if (href.startsWith("http")) {
             window.open(href, "_blank", "noopener,noreferrer");
           }
