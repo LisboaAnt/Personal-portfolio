@@ -1,5 +1,6 @@
 "use client";
 
+import { isWorldCameraCoordsHudEnabled } from "@/world/world-camera-hud";
 import { isBlenderWorldScene } from "@/world/world-scene-mode";
 import { WorldAnnouncer } from "./WorldAnnouncer";
 import { WorldCameraCoordsHud } from "./WorldCameraCoordsHud";
@@ -13,7 +14,8 @@ import { normalizePathname } from "@/world/path-to-room";
 export function WorldIntlSync() {
   const pathname = usePathname();
   const isSpikeDemo = normalizePathname(pathname) === "/lab/world";
-  const showBlenderHud = !isSpikeDemo && isBlenderWorldScene();
+  const showBlenderHud =
+    !isSpikeDemo && isBlenderWorldScene() && isWorldCameraCoordsHudEnabled();
 
   return (
     <>

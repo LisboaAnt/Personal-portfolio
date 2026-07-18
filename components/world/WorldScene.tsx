@@ -13,6 +13,7 @@ import { WorldRendererSync } from "./WorldRendererSync";
 import { WorldLighting } from "./WorldLighting";
 import { WorldPerfSync } from "./WorldPerfSync";
 import { CV_SECTIONS, getCvSectionCamera } from "@/world/cv-sections";
+import { isWorldCameraCoordsHudEnabled } from "@/world/world-camera-hud";
 import { isBlenderWorldScene } from "@/world/world-scene-mode";
 import { useWorldStore } from "@/stores/world-store";
 import { useWorldNavigate } from "@/hooks/useWorldNavigate";
@@ -26,6 +27,7 @@ import type { CvSectionId } from "@/world/types";
 
 export function WorldScene() {
   const blenderScene = isBlenderWorldScene();
+  const showDebugHud = isWorldCameraCoordsHudEnabled();
   const focusRoomId = useWorldStore((s) => s.focusRoomId);
   const cameraMode = useWorldStore((s) => s.cameraMode);
   const { goToSection } = useWorldNavigate();
@@ -71,8 +73,12 @@ export function WorldScene() {
         <>
           <WorldBlenderCamera />
           <WorldFreeCameraControls />
-          <WorldCameraDebugSync />
-          <WorldPerfSync />
+          {showDebugHud ? (
+            <>
+              <WorldCameraDebugSync />
+              <WorldPerfSync />
+            </>
+          ) : null}
         </>
       ) : (
         <CameraRig
