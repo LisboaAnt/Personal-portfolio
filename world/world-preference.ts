@@ -39,16 +39,24 @@ export function setWorld3DEnabled(enabled: boolean): void {
   dispatchWorldPreferenceChange();
 }
 
-/** `NEXT_PUBLIC_WORLD_3D_MOBILE=0` desliga 3D em viewports estreitas. */
+/** Viewports estreitas (< sm / 640px). */
 export function isMobileViewport(): boolean {
   if (typeof window === "undefined") return false;
-  return window.matchMedia("(max-width: 768px)").matches;
+  return window.matchMedia("(max-width: 639px)").matches;
 }
 
-export function isWorldBlockedOnMobile(): boolean {
+/**
+ * Bloqueia o canvas/GLB 3D no mobile.
+ * Por defeito: bloqueado. Opt-in: `NEXT_PUBLIC_WORLD_3D_MOBILE=1`.
+ */
+export function isWorld3DCanvasBlockedOnMobile(): boolean {
   if (process.env.NEXT_PUBLIC_WORLD_3D_MOBILE === "1") return false;
-  if (process.env.NEXT_PUBLIC_WORLD_3D_MOBILE === "0") return isMobileViewport();
-  return false;
+  return isMobileViewport();
+}
+
+/** @deprecated Use {@link isWorld3DCanvasBlockedOnMobile} — o modo CV/wallpaper continua no mobile. */
+export function isWorldBlockedOnMobile(): boolean {
+  return isWorld3DCanvasBlockedOnMobile();
 }
 
 export function resolveWorld3DRequested(): boolean {

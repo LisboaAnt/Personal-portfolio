@@ -48,11 +48,12 @@ function resolveStages(job: ExperienceItem): ExperienceStage[] {
 }
 
 function stageLabel(
+  job: ExperienceItem,
   stage: ExperienceStage,
   stageIndex: number,
   t: (key: string, values?: Record<string, string | number>) => string,
 ) {
-  if (stageIndex === 0) return t("stageProjectDescription");
+  if (stageIndex === 0) return job.companyMenu ?? job.company;
   return stage.title || t("stageMoment", { n: stageIndex });
 }
 
@@ -61,6 +62,35 @@ const ALEMSYS_PHONE_STAGE_INDICES = new Set([1, 3, 5]);
 
 function usesVerticalPhoneLayout(jobId: string, stageIndex: number): boolean {
   return jobId === "alemsys" && ALEMSYS_PHONE_STAGE_INDICES.has(stageIndex);
+}
+
+const ALEMSYS_INSTAGRAM_URL = "https://www.instagram.com/alemsysdigital/";
+
+function StageText({ text, className }: { text: string; className?: string }) {
+  const parts = text.split(/(alemys\.digital)/gi);
+  if (parts.length === 1) {
+    return <span className={className}>{text}</span>;
+  }
+
+  return (
+    <span className={className}>
+      {parts.map((part, i) =>
+        /^alemys\.digital$/i.test(part) ? (
+          <a
+            key={`${part}-${i}`}
+            href={ALEMSYS_INSTAGRAM_URL}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="experience-inline-link"
+          >
+            {part}
+          </a>
+        ) : (
+          <span key={`${part}-${i}`}>{part}</span>
+        ),
+      )}
+    </span>
+  );
 }
 
 function StageArrowButton({
@@ -122,14 +152,14 @@ function ExperienceCard({
 }) {
   const t = useTranslations("Home.experience");
   const isOverview = stageIndex === 0;
-  const headerTitle = stageLabel(stage, stageIndex, t);
+  const headerTitle = stageLabel(job, stage, stageIndex, t);
   const useOverviewShell = isOverview || phoneLayout;
 
   return (
     <motion.article
       layout
       className={[
-        "relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)]/85 backdrop-blur-md",
+        "experience-card relative overflow-hidden rounded-2xl",
         useOverviewShell
           ? "experience-card--overview experience-card--phone p-4 sm:p-5"
           : "experience-card--moment p-3 sm:p-3.5",
@@ -138,7 +168,7 @@ function ExperienceCard({
       <span
         aria-hidden
         className={[
-          "pointer-events-none absolute -right-16 -top-16 rounded-full bg-[var(--accent)]/10 blur-3xl",
+          "experience-card-glow pointer-events-none absolute -right-16 -top-16 rounded-full blur-3xl",
           isOverview ? "h-32 w-32" : "h-20 w-20 opacity-60",
         ].join(" ")}
       />
@@ -147,7 +177,7 @@ function ExperienceCard({
         <nav
           aria-label={t("stageNavLabel")}
           className={[
-            "experience-stage-header -mx-0.5 border-b border-[var(--border)]/60",
+            "experience-stage-header experience-stage-header--bleed border-b border-[var(--border)]/60",
             phoneLayout
               ? "mb-3 flex flex-col gap-2 pb-2.5 text-left"
               : [
@@ -168,7 +198,12 @@ function ExperienceCard({
                       animate={reduced ? undefined : { opacity: 1, y: 0 }}
                       exit={reduced ? undefined : { opacity: 0, y: -5 }}
                       transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-                      className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)] sm:text-xs"
+                      className={[
+                        "experience-stage-label",
+                        isOverview
+                          ? "experience-stage-label--overview text-xl sm:text-2xl"
+                          : "text-[11px] font-semibold uppercase tracking-[0.14em] sm:text-xs",
+                      ].join(" ")}
                     >
                       {headerTitle}
                     </motion.p>
@@ -191,7 +226,12 @@ function ExperienceCard({
                     animate={reduced ? undefined : { opacity: 1, y: 0 }}
                     exit={reduced ? undefined : { opacity: 0, y: -5 }}
                     transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-                    className="truncate text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)] sm:text-xs"
+                      className={[
+                        "experience-stage-label",
+                        isOverview
+                          ? "experience-stage-label--overview text-xl sm:text-2xl"
+                          : "truncate text-[11px] font-semibold uppercase tracking-[0.14em] sm:text-xs",
+                      ].join(" ")}
                   >
                     {headerTitle}
                   </motion.p>
@@ -205,18 +245,16 @@ function ExperienceCard({
           )}
         </nav>
       ) : (
-        <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
-          <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
-            {job.period}
-          </p>
-          <p className="text-xs text-[var(--muted)]">{job.location}</p>
+        <div className="experience-card-meta mb-3 flex flex-wrap items-baseline justify-between gap-2">
+          <p className="text-xs font-semibold uppercase tracking-wider">{job.period}</p>
+          <p className="text-xs">{job.location}</p>
         </div>
       )}
 
       {isOverview ? (
         <>
-          <h3 className="text-base font-semibold text-[var(--foreground)] sm:text-lg">{job.title}</h3>
-          <p className="text-sm text-[var(--muted)]">{job.company}</p>
+          <h3 className="experience-card-title text-base font-semibold sm:text-lg">{job.title}</h3>
+          <p className="experience-card-company text-sm">{job.company}</p>
         </>
       ) : (
         <span className="sr-only">
@@ -233,19 +271,21 @@ function ExperienceCard({
           transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
         >
           {isOverview ? (
-            <div className="mt-3 space-y-3 text-sm leading-relaxed text-[var(--muted)]">
-              <p>{stage.text}</p>
+            <div className="experience-card-body mt-3 space-y-3 text-sm leading-relaxed">
+              <p>
+                <StageText text={stage.text} />
+              </p>
             </div>
           ) : (
             <p
               className={[
-                "text-[var(--muted)]",
+                "experience-card-body",
                 phoneLayout
                   ? "text-left text-sm leading-relaxed"
                   : "text-[13px] leading-snug sm:text-sm sm:leading-relaxed",
               ].join(" ")}
             >
-              {stage.text}
+              <StageText text={stage.text} />
             </p>
           )}
 
@@ -254,7 +294,7 @@ function ExperienceCard({
               {job.stack.split(",").map((tech) => (
                 <span
                   key={tech.trim()}
-                  className="rounded-full border border-[var(--border)] bg-[var(--surface)]/50 px-2 py-0.5 text-[10px] font-medium text-[var(--muted)]"
+                  className="experience-stack-chip rounded-full px-2 py-0.5 text-[10px] font-medium"
                 >
                   {tech.trim()}
                 </span>
@@ -315,38 +355,28 @@ export function ExperienceTimeline({ items }: Props) {
 
   return (
     <>
-      {/* Mobile: lista com etapas empilhadas */}
-      <div className="flex flex-col gap-6 lg:hidden">
-        {items.map((job, index) => {
-          const jobStages = resolveStages(job);
+      {/* Mobile: um card de overview por experiência */}
+      <div className="experience-mobile-list flex flex-col gap-4 lg:hidden">
+        {items.map((job) => {
+          const overview = resolveStages(job)[0] ?? { title: "", text: "" };
           return (
-            <div key={job.id} className="space-y-3">
-              <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
-                {job.period} · {job.company}
-              </p>
-              {jobStages.map((stage, stageIdx) => (
-                <ExperienceCard
-                  key={`${job.id}-${stageIdx}`}
-                  job={job}
-                  stage={stage}
-                  stageIndex={stageIdx}
-                  stageCount={jobStages.length}
-                  reduced={reduced}
-                />
-              ))}
-              {index < items.length - 1 ? (
-                <hr className="border-[var(--border)]/60" />
-              ) : null}
-            </div>
+            <ExperienceCard
+              key={job.id}
+              job={job}
+              stage={overview}
+              stageIndex={0}
+              stageCount={1}
+              reduced={reduced}
+            />
           );
         })}
       </div>
 
       {/* Desktop: menu + campo alto com etapas e câmara */}
-      <div className="experience-panel hidden gap-10 lg:grid lg:grid-cols-[minmax(200px,0.85fr)_minmax(0,1.85fr)] lg:items-stretch">
-        <aside className="lg:sticky lg:top-24 lg:self-start">
+      <div className="experience-panel hidden gap-10 lg:grid lg:grid-cols-[minmax(200px,0.85fr)_minmax(0,1.85fr)] lg:items-start">
+        <aside className="experience-timeline-aside h-fit w-full lg:sticky lg:top-0 lg:self-start">
           <nav aria-label={t("title")}>
-            <ol className="relative space-y-0.5 border-l border-[var(--border)]/80 pl-5">
+            <ol className="experience-timeline-nav relative">
               {items.map((job, index) => {
                 const isActive = job.id === active.id;
                 return (
@@ -358,48 +388,37 @@ export function ExperienceTimeline({ items }: Props) {
                     transition={{ duration: 0.45, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
                     className="group relative"
                   >
-                    <span
-                      aria-hidden
-                      className={[
-                        "absolute -left-px top-[1.125rem] h-2 w-2 -translate-x-1/2 rounded-full ring-4 ring-[var(--background)] transition-colors duration-300",
-                        isActive
-                          ? "bg-[var(--accent)] shadow-[0_0_0_3px_var(--accent-soft)]"
-                          : "bg-[var(--border)] group-hover:bg-[var(--accent)]/40",
-                      ].join(" ")}
-                    />
                     <button
                       type="button"
                       onClick={() => selectJob(job.id)}
                       aria-pressed={isActive}
                       className={[
-                        "site-panel-btn group w-full border-l-2 py-3 pl-4 text-left transition-colors duration-300",
-                        isActive
-                          ? "border-[var(--accent)]"
-                          : "border-transparent hover:border-[var(--accent)]/25",
+                        "experience-job-btn site-panel-btn group w-full text-left transition-colors duration-300",
+                        isActive ? "experience-job-btn--active" : "",
                       ].join(" ")}
                     >
                       <p
                         className={[
-                          "text-[10px] font-medium uppercase tracking-[0.14em] transition-colors",
-                          isActive ? "text-[var(--accent)]" : "text-[var(--muted)]",
+                          "experience-job-period font-medium uppercase transition-colors",
+                          isActive ? "experience-job-period--active" : "",
                         ].join(" ")}
                       >
                         {job.period}
                       </p>
                       <p
                         className={[
-                          "mt-1 text-sm leading-snug transition-colors",
+                          "experience-job-company leading-snug transition-colors",
                           isActive
-                            ? "font-semibold text-[var(--foreground)]"
-                            : "font-medium text-[var(--foreground)]/75 group-hover:text-[var(--foreground)]",
+                            ? "font-semibold"
+                            : "font-medium opacity-75 group-hover:opacity-100",
                         ].join(" ")}
                       >
                         {job.companyMenu ?? job.company}
                       </p>
                       <p
                         className={[
-                          "mt-0.5 text-xs leading-snug transition-colors",
-                          isActive ? "text-[var(--muted)]" : "text-[var(--muted)]/80",
+                          "experience-job-role leading-snug transition-colors",
+                          isActive ? "" : "opacity-80",
                         ].join(" ")}
                       >
                         {job.title}
@@ -415,8 +434,10 @@ export function ExperienceTimeline({ items }: Props) {
         <div
           key={`${active.id}-${verticalPhoneLayout ? "phone" : "desktop"}`}
           className={[
-            "experience-stage-field relative flex min-h-[min(78vh,760px)] flex-col",
-            verticalPhoneLayout ? "experience-stage-field--phone" : "",
+            "experience-stage-field relative flex flex-col",
+            verticalPhoneLayout
+              ? "experience-stage-field--phone min-h-0"
+              : "min-h-[min(78vh,760px)]",
           ].join(" ")}
         >
           <AnimatePresence mode="popLayout">
@@ -449,7 +470,7 @@ export function ExperienceTimeline({ items }: Props) {
             className={[
               "min-w-0 flex-shrink-0",
               verticalPhoneLayout
-                ? "experience-stage-card--phone w-full self-stretch"
+                ? "experience-stage-card--phone w-full self-start"
                 : "w-full self-start",
             ].join(" ")}
           >

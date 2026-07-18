@@ -13,7 +13,7 @@ const SECTIONS = [
 ] as const;
 
 const linkClass =
-  "site-nav-chip inline-flex shrink-0 items-center whitespace-nowrap px-1.5 py-0.5 text-[9px] font-medium tracking-tight text-[var(--muted)] sm:px-2 sm:py-1 sm:text-[11px] md:text-xs";
+  "site-nav-chip inline-flex shrink-0 items-center whitespace-nowrap px-2 py-1 text-[11px] font-medium tracking-tight text-[var(--muted)] sm:px-2 sm:py-1 sm:text-[11px] md:text-xs";
 
 export function WorldNav() {
   const t = useTranslations("Nav");

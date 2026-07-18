@@ -1,14 +1,12 @@
 "use client";
 
 import { Canvas, useThree } from "@react-three/fiber";
-import { Suspense, useEffect, useState, type CSSProperties } from "react";
+import { Suspense, useEffect } from "react";
 import * as THREE from "three";
 import { SpikeScene } from "./SpikeScene";
 import { WorldGlbLoader } from "./WorldGlbLoader";
 import { WorldLoadNotifier } from "./WorldLoadNotifier";
-import { WorldTravelRenderLimiter } from "./WorldTravelRenderLimiter";
 import { WorldScene } from "./WorldScene";
-import { useAnimationPaused } from "@/hooks/useAnimationPaused";
 import { useWorldQuality } from "@/hooks/useWorldQuality";
 import { isBlenderWorldScene } from "@/world/world-scene-mode";
 import { useWorldStore } from "@/stores/world-store";
@@ -19,10 +17,8 @@ import {
   WORLD_CAMERA_FAR_CODE,
   WORLD_SCROLL_CAMERA_DURATION_S,
   WORLD_SECTION_CAMERA_DURATION_S,
-  WORLD_TRAVEL_DPR,
-  WORLD_TRAVEL_DPR_LOW,
-  WORLD_TRAVEL_DPR_RESTORE_DELAY_MS,
 } from "@/world/constants";
+import { getWorldCanvasDpr } from "@/world/world-render-env";
 import { BLENDER_VIEW_FOV, BLENDER_VIEW_POSITION } from "@/world/blender-camera";
 import { getBlenderLightingFromEnv } from "@/world/blender-lighting-env";
 import { isWorldPosterCaptureEnabled } from "@/world/world-poster-capture";
@@ -80,53 +76,17 @@ function FrameDriver() {
 export function WorldCanvas({ className, scene = "site" }: Props) {
   const showLoader = scene === "site";
   const quality = useWorldQuality();
-  const reducedMotion = useAnimationPaused();
   const paused = useWorldPaused();
   const blenderScene = scene === "site" && isBlenderWorldScene();
-  const blurPx = useWorldCameraTravelStore((s) => s.blurPx);
-  const isTraveling = useWorldCameraTravelStore((s) => s.isTraveling);
-  const [dprRestoreHold, setDprRestoreHold] = useState(false);
-
-  useEffect(() => {
-    if (isTraveling || blurPx > 0.02) {
-      setDprRestoreHold(true);
-      return;
-    }
-
-    const id = window.setTimeout(() => setDprRestoreHold(false), WORLD_TRAVEL_DPR_RESTORE_DELAY_MS);
-    return () => window.clearTimeout(id);
-  }, [blurPx, isTraveling]);
-
-  const showTravelBlur = blenderScene && blurPx > 0.02;
-  const travelRenderBudget =
-    blenderScene && !reducedMotion && (isTraveling || showTravelBlur || dprRestoreHold);
-  const frameloop = paused
-    ? "never"
-    : blenderScene
-      ? travelRenderBudget
-        ? "demand"
-        : "always"
-      : "demand";
-  const canvasDpr =
-    quality === "low"
-      ? travelRenderBudget
-        ? WORLD_TRAVEL_DPR_LOW
-        : 1
-      : travelRenderBudget
-        ? WORLD_TRAVEL_DPR
-        : ([1, 1.5] as [number, number]);
+  const frameloop = paused ? "never" : "demand";
+  const canvasDpr = getWorldCanvasDpr(quality);
   const posterCapture = blenderScene && isWorldPosterCaptureEnabled();
   const wallpaperActive =
     blenderScene && isWorldWallpaperEnabled() && useWorldPosterStore((s) => !s.sceneReady);
 
   return (
     <div
-      className={`${className ?? "absolute inset-0"} ${blenderScene ? "world-canvas-orbit pointer-events-auto" : ""} ${showTravelBlur ? "world-canvas-traveling" : ""}`}
-      style={
-        showTravelBlur
-          ? ({ "--world-travel-blur": `${blurPx}px` } as CSSProperties)
-          : undefined
-      }
+      className={`${className ?? "absolute inset-0"} ${blenderScene ? "world-canvas-orbit pointer-events-auto" : ""}`}
       aria-hidden
     >
       <Canvas
@@ -157,7 +117,6 @@ export function WorldCanvas({ className, scene = "site" }: Props) {
           {scene === "spike" ? <SpikeScene /> : <WorldScene />}
         </Suspense>
         {scene === "site" && !blenderScene ? <FrameDriver /> : null}
-        {scene === "site" && blenderScene ? <WorldTravelRenderLimiter /> : null}
         {scene === "site" && blenderScene && isWorldWallpaperEnabled() ? (
           <WorldLoadNotifier />
         ) : null}

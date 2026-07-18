@@ -327,7 +327,7 @@ export function HeroDrawnPhrase({
 
   return (
     <span
-      className={`hero-title-font relative inline-block max-w-full shrink-0 ${className}`}
+      className={`hero-title-font hero-drawn-phrase relative inline-block max-w-full shrink-0 ${className}`}
       style={layout ? { width: layout.width, minHeight: layout.height } : undefined}
     >
       <span className="relative inline-block" suppressHydrationWarning>
@@ -339,11 +339,11 @@ export function HeroDrawnPhrase({
 
         {layout && (showDraw || showUndraw || showHoldAll || showStatic) ? (
           <svg
-            className="block h-auto w-auto max-w-full overflow-visible"
+            className="block overflow-visible"
             width={layout.width}
             height={layout.height}
             viewBox={layout.viewBox}
-            preserveAspectRatio="xMinYMid meet"
+            preserveAspectRatio="xMinYMin meet"
             aria-hidden
           >
             <defs>

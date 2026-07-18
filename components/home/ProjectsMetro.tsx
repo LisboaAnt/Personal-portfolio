@@ -1,15 +1,23 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import Image from "next/image";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { SkillTileIcon, pickSkillPreviewLabels } from "@/components/home/skillTileIcon";
+import { useRouter } from "@/i18n/navigation";
+import { SkillTileIcon } from "@/components/home/skillTileIcon";
 
-export type SkillGroup = {
+export type ProjectMetroItem = {
   id: string;
   label: string;
-  items: string[];
+  href?: string;
+};
+
+export type ProjectMetroGroup = {
+  id: string;
+  label: string;
+  items: ProjectMetroItem[];
 };
 
 const METRO_TILE_COLORS = [
@@ -28,21 +36,41 @@ const METRO_TILE_COLORS = [
 ] as const;
 
 const CATEGORY_COLORS_BY_ID: Record<string, string> = {
-  stack: "#2b579a",
-  backend: "#008272",
-  infra: "#da3b01",
-  ai: "#881798",
-  languages: "#6b9e1f",
-  soft: "#e74856",
+  youtube: "#e74856",
+  github: "#2b579a",
+  work: "#008272",
 };
 
-const YOUTUBE_CHANNEL_URL = "https://www.youtube.com/channel/UCyuz3d4mm4Dgzxh1F-USiig";
-const DRAG_THRESHOLD_PX = 5;
+const CATEGORY_MEDIA: Record<
+  string,
+  { kind: "icon" | "stack"; src?: string; front?: string; back?: string }
+> = {
+  youtube: {
+    kind: "icon",
+    src: "/projects/youtubechanelprint.png",
+  },
+  github: {
+    kind: "icon",
+    src: "/projects/githubprintprofile.png",
+  },
+  work: {
+    kind: "stack",
+    front: "/projects/vittahubicon.png",
+    back: "/projects/alemsysicon.png",
+  },
+};
 
-function skillItemHref(label: string): string | undefined {
-  if (/youtube/i.test(label)) return YOUTUBE_CHANNEL_URL;
-  return undefined;
-}
+const ITEM_ICONS: Record<string, string> = {
+  vittahub: "/projects/vittahubicon.png",
+  alemsys: "/projects/alemsysicon.png",
+  "yt-opengl": "/youtube/openglplaylistprint.png",
+  "yt-big-calendar": "/youtube/reactbigcalendarpleylist.png",
+};
+
+const ITEM_ICON_RECT = new Set(["yt-opengl", "yt-big-calendar"]);
+const ITEM_WIDE = new Set(["yt-opengl", "yt-big-calendar"]);
+
+const DRAG_THRESHOLD_PX = 5;
 
 function hashKey(key: string): number {
   let h = 0;
@@ -61,10 +89,6 @@ function categoryColor(id: string, fallbackIndex: number): string {
     CATEGORY_COLORS_BY_ID[id] ??
     METRO_TILE_COLORS[fallbackIndex % METRO_TILE_COLORS.length]!
   );
-}
-
-function isWideTile(label: string): boolean {
-  return false;
 }
 
 function reorderList<T>(list: T[], fromId: T, toId: T): T[] {
@@ -93,8 +117,9 @@ type DragSession = {
   label: string;
   color: string;
   count?: number;
-  previewLabels?: string[];
   wide?: boolean;
+  iconSrc?: string;
+  iconRect?: boolean;
   moved: boolean;
   kind: DragKind;
 };
@@ -105,8 +130,9 @@ type GhostPaint = {
   label: string;
   color: string;
   count?: number;
-  previewLabels?: string[];
   wide?: boolean;
+  iconSrc?: string;
+  iconRect?: boolean;
   width: number;
   height: number;
   x: number;
@@ -114,39 +140,40 @@ type GhostPaint = {
 };
 
 type Props = {
-  groups: SkillGroup[];
+  groups: ProjectMetroGroup[];
 };
 
-export function SkillsGrid({ groups }: Props) {
-  const t = useTranslations("Home.skills");
+export function ProjectsMetro({ groups }: Props) {
+  const t = useTranslations("Home.projects");
+  const router = useRouter();
   const reduced = useReducedMotion();
   const [openId, setOpenId] = useState<string | null>(null);
   const [categoryOrder, setCategoryOrder] = useState(() => groups.map((g) => g.id));
   const [itemOrders, setItemOrders] = useState<Record<string, string[]>>(() =>
-    Object.fromEntries(groups.map((g) => [g.id, [...g.items]])),
+    Object.fromEntries(groups.map((g) => [g.id, g.items.map((i) => i.id)])),
   );
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [pressingId, setPressingId] = useState<string | null>(null);
   const [ghost, setGhost] = useState<GhostPaint | null>(null);
   const [mounted, setMounted] = useState(false);
-
   const dragRef = useRef<DragSession | null>(null);
   const ghostElRef = useRef<HTMLDivElement | null>(null);
   const openIdRef = useRef<string | null>(null);
+  const itemByIdRef = useRef<Record<string, ProjectMetroItem>>({});
   const listeningRef = useRef(false);
   openIdRef.current = openId;
-
-  const groupsKey = groups
-    .map((g) => `${g.id}:${g.label}:${g.items.join("\u001f")}`)
-    .join("|");
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  const groupsKey = groups
+    .map((g) => `${g.id}:${g.label}:${g.items.map((i) => i.id).join("\u001f")}`)
+    .join("|");
+
   useEffect(() => {
     setCategoryOrder(groups.map((g) => g.id));
-    setItemOrders(Object.fromEntries(groups.map((g) => [g.id, [...g.items]])));
+    setItemOrders(Object.fromEntries(groups.map((g) => [g.id, g.items.map((i) => i.id)])));
     setOpenId(null);
   }, [groupsKey, groups]);
 
@@ -163,17 +190,30 @@ export function SkillsGrid({ groups }: Props) {
   }, [draggingId]);
 
   const groupById = useMemo(
-    () => Object.fromEntries(groups.map((g) => [g.id, g])) as Record<string, SkillGroup>,
+    () => Object.fromEntries(groups.map((g) => [g.id, g])) as Record<string, ProjectMetroGroup>,
     [groups],
   );
 
+  const itemById = useMemo(() => {
+    const map: Record<string, ProjectMetroItem> = {};
+    for (const g of groups) {
+      for (const item of g.items) map[item.id] = item;
+    }
+    return map;
+  }, [groups]);
+  itemByIdRef.current = itemById;
+
   const orderedCategories = useMemo(
-    () => categoryOrder.map((id) => groupById[id]).filter(Boolean) as SkillGroup[],
+    () => categoryOrder.map((id) => groupById[id]).filter(Boolean) as ProjectMetroGroup[],
     [categoryOrder, groupById],
   );
 
   const openGroup = openId ? groupById[openId] : null;
-  const openItems = openId ? (itemOrders[openId] ?? openGroup?.items ?? []) : [];
+  const openItemIds = openId ? (itemOrders[openId] ?? openGroup?.items.map((i) => i.id) ?? []) : [];
+  const openItems = openItemIds.map((id) => itemById[id]).filter(Boolean) as ProjectMetroItem[];
+
+  const routerRef = useRef(router);
+  routerRef.current = router;
 
   const apiRef = useRef({
     syncGhost(x: number, y: number) {
@@ -194,8 +234,9 @@ export function SkillsGrid({ groups }: Props) {
         label: session.label,
         color: session.color,
         count: session.count,
-        previewLabels: session.previewLabels,
         wide: session.wide,
+        iconSrc: session.iconSrc,
+        iconRect: session.iconRect,
         width: session.width,
         height: session.height,
         x,
@@ -214,16 +255,22 @@ export function SkillsGrid({ groups }: Props) {
       if (!session.moved) {
         if (session.kind === "category") setOpenId(session.key);
         else if (session.kind === "item") {
-          const href = skillItemHref(session.label);
-          if (href) window.open(href, "_blank", "noopener,noreferrer");
+          const href = itemByIdRef.current[session.key]?.href;
+          if (!href) return;
+          if (href.startsWith("/work")) {
+            const hash = href.includes("#") ? href.split("#")[1] : undefined;
+            routerRef.current.push({ pathname: "/work", hash });
+          } else if (href.startsWith("http")) {
+            window.open(href, "_blank", "noopener,noreferrer");
+          }
         }
         return;
       }
 
       const el = document.elementFromPoint(clientX, clientY);
       if (session.kind === "category") {
-        const target = el?.closest<HTMLElement>("[data-skill-cat]");
-        const toId = target?.dataset.skillCat;
+        const target = el?.closest<HTMLElement>("[data-project-cat]");
+        const toId = target?.dataset.projectCat;
         if (toId && toId !== session.key) {
           setCategoryOrder((prev) => reorderList(prev, session.key, toId));
         }
@@ -232,8 +279,8 @@ export function SkillsGrid({ groups }: Props) {
 
       const groupId = openIdRef.current;
       if (!groupId) return;
-      const target = el?.closest<HTMLElement>("[data-skill-item]");
-      const toId = target?.dataset.skillItem;
+      const target = el?.closest<HTMLElement>("[data-project-item]");
+      const toId = target?.dataset.projectItem;
       if (toId && toId !== session.key) {
         setItemOrders((prev) => ({
           ...prev,
@@ -299,9 +346,7 @@ export function SkillsGrid({ groups }: Props) {
     apiRef.current.onCancel(e);
   }
 
-  useEffect(() => {
-    return () => apiRef.current.stopListening();
-  }, []);
+  useEffect(() => () => apiRef.current.stopListening(), []);
 
   function onTilePointerDown(
     e: ReactPointerEvent<HTMLElement>,
@@ -311,8 +356,9 @@ export function SkillsGrid({ groups }: Props) {
       label: string;
       color: string;
       count?: number;
-      previewLabels?: string[];
       wide?: boolean;
+      iconSrc?: string;
+      iconRect?: boolean;
     },
   ) {
     if (e.button !== 0) return;
@@ -334,8 +380,9 @@ export function SkillsGrid({ groups }: Props) {
       label: meta.label,
       color: meta.color,
       count: meta.count,
-      previewLabels: meta.previewLabels,
       wide: meta.wide,
+      iconSrc: meta.iconSrc,
+      iconRect: meta.iconRect,
       moved: false,
       kind: meta.kind,
     };
@@ -367,29 +414,28 @@ export function SkillsGrid({ groups }: Props) {
                   ? "skills-metro__tile--category"
                   : "skills-metro__tile--item",
                 ghost.wide ? "skills-metro__tile--wide" : "",
+                ghost.iconRect ? "projects-metro__tile--print" : "",
               ].join(" ")}
-              style={{ backgroundColor: ghost.color }}
+              style={{ backgroundColor: ghost.color, width: "100%", height: "100%" }}
             >
               {ghost.kind === "item" ? (
-                <SkillTileIcon label={ghost.label} className="skills-metro__tile-icon" />
-              ) : (
-                <>
-                  {ghost.previewLabels && ghost.previewLabels.length > 0 ? (
-                    <span className="skills-metro__icon-stack" aria-hidden>
-                      {ghost.previewLabels.map((label, idx) => (
-                        <span
-                          key={label}
-                          className={`skills-metro__icon-stack-item skills-metro__icon-stack-item--${idx}`}
-                        >
-                          <SkillTileIcon label={label} className="skills-metro__icon-stack-svg" />
-                        </span>
-                      ))}
-                    </span>
-                  ) : null}
-                  <span className="skills-metro__tile-count" aria-hidden>
-                    {ghost.count}
+                ghost.iconSrc ? (
+                  <span
+                    className={[
+                      "projects-metro__item-icon",
+                      ghost.iconRect ? "projects-metro__item-icon--rect" : "",
+                    ].join(" ")}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={ghost.iconSrc} alt="" />
                   </span>
-                </>
+                ) : (
+                  <SkillTileIcon label={ghost.label} className="skills-metro__tile-icon" />
+                )
+              ) : (
+                <span className="skills-metro__tile-count" aria-hidden>
+                  {ghost.count}
+                </span>
               )}
               <span
                 className={[
@@ -406,7 +452,7 @@ export function SkillsGrid({ groups }: Props) {
       : null;
 
   return (
-    <div className={["skills-metro", draggingId ? "is-reordering" : ""].join(" ")}>
+    <div className={["skills-metro projects-metro", draggingId ? "is-reordering" : ""].join(" ")}>
       {ghostNode}
       <AnimatePresence mode="wait">
         {openGroup ? (
@@ -444,48 +490,65 @@ export function SkillsGrid({ groups }: Props) {
             </div>
 
             <ul className="skills-metro__grid skills-metro__grid--items">
-              {openItems.map((item, i) => {
-                const wide = isWideTile(item);
-                return (
-                  <li
-                    key={item}
-                    data-skill-item={item}
+              {openItems.map((item, i) => (
+                <li
+                  key={item.id}
+                  data-project-item={item.id}
+                  className={[
+                    "skills-metro__tile-wrap",
+                    ITEM_WIDE.has(item.id) ? "skills-metro__tile-wrap--wide projects-metro__tile-wrap--print" : "",
+                    pressingId === item.id ? "is-pressing" : "",
+                    draggingId === item.id ? "is-dragging" : "",
+                    item.href ? "has-link" : "",
+                  ].join(" ")}
+                  onPointerDown={(e) =>
+                    onTilePointerDown(e, {
+                      key: item.id,
+                      kind: "item",
+                      label: item.label,
+                      color: tileColor(item.id),
+                      wide: ITEM_WIDE.has(item.id),
+                      iconSrc: ITEM_ICONS[item.id],
+                      iconRect: ITEM_ICON_RECT.has(item.id),
+                    })
+                  }
+                >
+                  <motion.div
                     className={[
-                      "skills-metro__tile-wrap",
-                      wide ? "skills-metro__tile-wrap--wide" : "",
-                      pressingId === item ? "is-pressing" : "",
-                      draggingId === item ? "is-dragging" : "",
+                      "skills-metro__tile skills-metro__tile--item",
+                      ITEM_WIDE.has(item.id) ? "skills-metro__tile--wide" : "",
+                      ITEM_ICON_RECT.has(item.id) ? "projects-metro__tile--print" : "",
                     ].join(" ")}
-                    onPointerDown={(e) =>
-                      onTilePointerDown(e, {
-                        key: item,
-                        kind: "item",
-                        label: item,
-                        color: tileColor(item),
-                        wide,
-                      })
-                    }
+                    style={{ backgroundColor: tileColor(item.id) }}
+                    initial={reduced ? false : { opacity: 0, scale: 0.92 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      duration: 0.24,
+                      delay: reduced ? 0 : i * 0.025,
+                      ease: [0.34, 1.56, 0.64, 1],
+                    }}
                   >
-                    <motion.div
-                      className={[
-                        "skills-metro__tile skills-metro__tile--item",
-                        wide ? "skills-metro__tile--wide" : "",
-                      ].join(" ")}
-                      style={{ backgroundColor: tileColor(item) }}
-                      initial={reduced ? false : { opacity: 0, scale: 0.92 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{
-                        duration: 0.24,
-                        delay: reduced ? 0 : i * 0.025,
-                        ease: [0.34, 1.56, 0.64, 1],
-                      }}
-                    >
-                      <SkillTileIcon label={item} className="skills-metro__tile-icon" />
-                      <span className="skills-metro__tile-label">{item}</span>
-                    </motion.div>
-                  </li>
-                );
-              })}
+                    {ITEM_ICONS[item.id] ? (
+                      <span
+                        className={[
+                          "projects-metro__item-icon",
+                          ITEM_ICON_RECT.has(item.id) ? "projects-metro__item-icon--rect" : "",
+                        ].join(" ")}
+                      >
+                        <Image
+                          src={ITEM_ICONS[item.id]!}
+                          alt=""
+                          width={ITEM_ICON_RECT.has(item.id) ? 160 : 40}
+                          height={ITEM_ICON_RECT.has(item.id) ? 100 : 40}
+                        />
+                      </span>
+                    ) : (
+                      <SkillTileIcon label={item.label} className="skills-metro__tile-icon" />
+                    )}
+                    <span className="skills-metro__tile-label">{item.label}</span>
+                  </motion.div>
+                </li>
+              ))}
             </ul>
           </motion.div>
         ) : (
@@ -497,17 +560,13 @@ export function SkillsGrid({ groups }: Props) {
             exit={reduced ? undefined : { opacity: 0, y: -6 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
           >
-            <ul className="skills-metro__grid skills-metro__grid--categories">
+            <ul className="skills-metro__grid skills-metro__grid--categories skills-metro__grid--projects-cats">
               {orderedCategories.map((g, i) => {
                 const color = categoryColor(g.id, i);
-                const previewLabels = pickSkillPreviewLabels(
-                  itemOrders[g.id] ?? g.items,
-                  3,
-                );
                 return (
                   <li
                     key={g.id}
-                    data-skill-cat={g.id}
+                    data-project-cat={g.id}
                     className={[
                       "skills-metro__tile-wrap",
                       pressingId === g.id ? "is-pressing" : "",
@@ -516,7 +575,7 @@ export function SkillsGrid({ groups }: Props) {
                   >
                     <button
                       type="button"
-                      className="skills-metro__tile skills-metro__tile--category"
+                      className="skills-metro__tile skills-metro__tile--category projects-metro__cat"
                       style={{ backgroundColor: color }}
                       tabIndex={0}
                       onPointerDown={(e) =>
@@ -526,7 +585,6 @@ export function SkillsGrid({ groups }: Props) {
                           label: g.label,
                           color,
                           count: g.items.length,
-                          previewLabels,
                         })
                       }
                       onKeyDown={(e) => {
@@ -537,16 +595,36 @@ export function SkillsGrid({ groups }: Props) {
                       }}
                       aria-label={`${g.label} — ${g.items.length}`}
                     >
-                      <span className="skills-metro__icon-stack" aria-hidden>
-                        {previewLabels.map((label, idx) => (
-                          <span
-                            key={label}
-                            className={`skills-metro__icon-stack-item skills-metro__icon-stack-item--${idx}`}
-                          >
-                            <SkillTileIcon label={label} className="skills-metro__icon-stack-svg" />
+                      {CATEGORY_MEDIA[g.id]?.kind === "icon" && CATEGORY_MEDIA[g.id]?.src ? (
+                        <span className="projects-metro__mid-icon" aria-hidden>
+                          <Image
+                            src={CATEGORY_MEDIA[g.id]!.src!}
+                            alt=""
+                            width={88}
+                            height={60}
+                          />
+                        </span>
+                      ) : null}
+                      {CATEGORY_MEDIA[g.id]?.kind === "stack" ? (
+                        <span className="projects-metro__icon-stack" aria-hidden>
+                          <span className="projects-metro__icon-stack-back">
+                            <Image
+                              src={CATEGORY_MEDIA[g.id]!.back!}
+                              alt=""
+                              width={64}
+                              height={64}
+                            />
                           </span>
-                        ))}
-                      </span>
+                          <span className="projects-metro__icon-stack-front">
+                            <Image
+                              src={CATEGORY_MEDIA[g.id]!.front!}
+                              alt=""
+                              width={68}
+                              height={68}
+                            />
+                          </span>
+                        </span>
+                      ) : null}
                       <span className="skills-metro__tile-count" aria-hidden>
                         {g.items.length}
                       </span>

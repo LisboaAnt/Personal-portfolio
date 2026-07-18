@@ -128,6 +128,7 @@ export function WorldFreeCameraControls() {
         fast.current = true;
         return;
       }
+      if (!useWorldCameraInputStore.getState().shiftMouse) return;
       if (
         e.code === "KeyW" ||
         e.code === "KeyA" ||
@@ -153,15 +154,17 @@ export function WorldFreeCameraControls() {
         fast.current = false;
         return;
       }
+      if (!useWorldCameraInputStore.getState().shiftMouse) return;
       setKey(e.code, false);
       invalidate();
     };
 
     const onWheel = (e: WheelEvent) => {
       if (isTypingTarget(e.target)) return;
-      if (!shiftMouse && e.target instanceof Element && e.target.closest(".world-overlay")) {
+      if (e.target instanceof Element && e.target.closest(".world-overlay")) {
         return;
       }
+      if (!useWorldCameraInputStore.getState().shiftMouse) return;
       e.preventDefault();
       const mult = fast.current || shiftMouse ? FAST_MULTIPLIER : 1;
       const moveSpeed = useWorldCameraInputStore.getState().moveSpeed;
@@ -234,7 +237,7 @@ export function WorldFreeCameraControls() {
   const moveSpeed = useWorldCameraInputStore((s) => s.moveSpeed);
 
   useFrame((_, delta) => {
-    if (paused || !freeCameraEnabled) return;
+    if (paused || !freeCameraEnabled || !useWorldCameraInputStore.getState().shiftMouse) return;
 
     const k = keys.current;
     if (!k.w && !k.a && !k.s && !k.d && !k.q && !k.e) return;

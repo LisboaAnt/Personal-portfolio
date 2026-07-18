@@ -4,9 +4,11 @@ import { Environment } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useRef } from "react";
 import * as THREE from "three";
+import { useWorldQuality } from "@/hooks/useWorldQuality";
 import { useWorldCameraTravelStore } from "@/stores/world-camera-travel-store";
 import { useWorldStore } from "@/stores/world-store";
-import { getBlenderLightingFromEnv } from "@/world/blender-lighting-env";
+import { getBlenderLightingFromEnv, WORLD_ENV_HDR_URL } from "@/world/blender-lighting-env";
+import { getWorldEnvMapResolution } from "@/world/world-render-env";
 import {
   lerpSectionLighting,
   resolveSectionLighting,
@@ -27,6 +29,7 @@ function cloneLightingState(src: ResolvedSectionLighting) {
 
 /** Luzes React + HDR; intensidades seguem a viagem da câmara entre secções. */
 export function WorldBlenderLighting() {
+  const quality = useWorldQuality();
   const focusRoomId = useWorldStore((s) => s.focusRoomId);
   const travelProgress = useWorldCameraTravelStore((s) => s.progress);
   const lightingFrom = useWorldCameraTravelStore((s) => s.lightingFrom);
@@ -95,14 +98,16 @@ export function WorldBlenderLighting() {
   });
 
   const init = currentRef.current;
+  const envResolution = getWorldEnvMapResolution(quality);
 
   return (
     <>
       {base.environmentEnabled ? (
         <Environment
-          preset="studio"
+          files={WORLD_ENV_HDR_URL}
           background={false}
           environmentIntensity={init.environmentIntensity}
+          resolution={envResolution}
         />
       ) : null}
       <ambientLight ref={ambRef} intensity={init.ambientIntensity} color={init.ambientColor} />

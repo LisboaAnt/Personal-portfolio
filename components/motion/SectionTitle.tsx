@@ -6,13 +6,14 @@ type Props = {
   id?: string;
   kicker?: string;
   title: string;
+  showDivider?: boolean;
 };
 
-export function SectionTitle({ id, kicker, title }: Props) {
+export function SectionTitle({ id, kicker, title, showDivider = true }: Props) {
   const reduced = useReducedMotion();
 
   return (
-    <div className="flex items-end justify-between gap-4">
+    <div className={showDivider ? "flex items-end justify-between gap-4" : undefined}>
       <div>
         {kicker ? (
           <motion.p
@@ -36,15 +37,17 @@ export function SectionTitle({ id, kicker, title }: Props) {
           {title}
         </motion.h2>
       </div>
-      <motion.span
-        aria-hidden
-        initial={reduced ? false : { scaleX: 0 }}
-        whileInView={reduced ? undefined : { scaleX: 1 }}
-        viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-        transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-        style={{ transformOrigin: "left" }}
-        className="hidden h-px flex-1 translate-y-[-0.7rem] bg-gradient-to-r from-[var(--accent)]/50 via-[var(--border)] to-transparent sm:block"
-      />
+      {showDivider ? (
+        <motion.span
+          aria-hidden
+          initial={reduced ? false : { scaleX: 0 }}
+          whileInView={reduced ? undefined : { scaleX: 1 }}
+          viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          style={{ transformOrigin: "left" }}
+          className="hidden h-px flex-1 translate-y-[-0.7rem] bg-gradient-to-r from-[var(--accent)]/50 via-[var(--border)] to-transparent sm:block"
+        />
+      ) : null}
     </div>
   );
 }

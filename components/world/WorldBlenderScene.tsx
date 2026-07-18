@@ -4,15 +4,17 @@ import { useAnimations, useGLTF } from "@react-three/drei";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import type { Group } from "three";
-import { Light, Object3D, Vector3 } from "three";
+import { Object3D, Vector3 } from "three";
 import { useGlbAnimationsEnabled } from "@/hooks/useGlbAnimationsEnabled";
 import { useWorldNavigate } from "@/hooks/useWorldNavigate";
 import { useWorldPaused } from "@/hooks/useWorldPaused";
 import { useWorldStore } from "@/stores/world-store";
 import { BLENDER_SCENE_URL, parseBlenderHotspotName } from "@/world/blender-scene";
 import { CV_SECTIONS } from "@/world/cv-sections";
+import { optimizeBlenderImportedScene } from "@/world/blender-scene-optimize";
 import { filterCameraAnimationClips } from "@/world/filter-gltf-animations";
 import type { CvSectionId } from "@/world/types";
+import { WorldBlenderSectionCull } from "./WorldBlenderSectionCull";
 
 useGLTF.preload(BLENDER_SCENE_URL);
 
@@ -86,9 +88,7 @@ export function WorldBlenderScene() {
   const hotspots = useMemo(() => collectHotspots(scene), [scene]);
 
   useEffect(() => {
-    scene.traverse((obj) => {
-      if (obj instanceof Light) obj.visible = false;
-    });
+    optimizeBlenderImportedScene(scene);
   }, [scene]);
 
   useEffect(() => {
@@ -117,6 +117,7 @@ export function WorldBlenderScene() {
   return (
     <group ref={group}>
       <primitive object={scene} />
+      <WorldBlenderSectionCull scene={scene} />
       {hotspots.map((h) => (
         <HotspotMesh
           key={h.id}

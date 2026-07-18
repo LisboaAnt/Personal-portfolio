@@ -48,7 +48,17 @@ export function HeroAnimated({
       translate="no"
       className="hero-notranslate cv-snap-section cv-snap-section--hero relative flex scroll-mt-24 flex-col overflow-hidden"
     >
-      <div className="cv-snap-section__inner relative z-10 flex min-h-0 flex-1 flex-col justify-center">
+      <motion.p
+        initial={motionInitial}
+        animate={reduced ? undefined : { opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        className="hero-desktop-hint"
+        role="note"
+      >
+        {t("desktopHint")}
+      </motion.p>
+
+      <div className="cv-snap-section__inner relative z-10 flex min-h-0 flex-1 flex-col justify-start sm:justify-center">
         <motion.p
           initial={motionInitial}
           animate={reduced ? undefined : { opacity: 1, y: 0 }}
@@ -62,7 +72,7 @@ export function HeroAnimated({
           initial={motionInitial}
           animate={reduced ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: fastEnter ? 0 : 0.06, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-0.5 sm:mt-1.5"
+          className="hero-headline-slot mt-0.5 sm:mt-1.5"
         >
           <HeroRotatingHeadline
             prefix={headlinePrefix}
@@ -75,6 +85,7 @@ export function HeroAnimated({
           initial={motionInitial}
           animate={reduced ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: fastEnter ? 0 : 0.14, ease: [0.22, 1, 0.36, 1] }}
+          className="hero-bio-slot"
         >
           {bio}
         </motion.div>

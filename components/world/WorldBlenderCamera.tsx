@@ -17,7 +17,6 @@ import {
   resolveExperienceStageOrbitStart,
 } from "@/world/experience-cameras";
 import {
-  WORLD_CAMERA_TRAVEL_BLUR_MAX_PX,
   WORLD_EXPERIENCE_JOB_CAMERA_DURATION_S,
   WORLD_EXPERIENCE_ORBIT_SEGMENT_DURATION_S,
   WORLD_EXPERIENCE_STAGE_CAMERA_DURATION_S,
@@ -327,9 +326,7 @@ export function WorldBlenderCamera() {
     cam.updateProjectionMatrix();
     setLookTarget(lookAt.current.x, lookAt.current.y, lookAt.current.z);
 
-    const blurPx = reducedMotion
-      ? 0
-      : Math.sin(tr.t * Math.PI) * WORLD_CAMERA_TRAVEL_BLUR_MAX_PX;
+    const blurPx = 0;
     setTravel({
       blurPx,
       isTraveling: tr.t < 1,

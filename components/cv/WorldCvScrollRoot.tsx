@@ -6,6 +6,7 @@ import { useWorldEnabled } from "@/hooks/useWorldEnabled";
 import { useWorldStore } from "@/stores/world-store";
 import { resolveCvSection } from "@/world/path-to-room";
 import { CvScrollSnapEnhancer } from "./CvScrollSnapEnhancer";
+import { WorldMobilePaintBg } from "@/components/world/WorldMobilePaintBg";
 
 type Props = { children: ReactNode };
 
@@ -50,6 +51,7 @@ export function WorldCvScrollRoot({ children }: Props) {
       }
     >
       {enabled ? <CvScrollSnapEnhancer /> : null}
+      {enabled ? <WorldMobilePaintBg /> : null}
       {children}
     </div>
   );

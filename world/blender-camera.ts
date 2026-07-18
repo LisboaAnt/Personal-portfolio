@@ -54,8 +54,8 @@ export const CV_SCROLL_SECTION_ORDER: CvSectionId[] = [
 
 /** Pose da secção Formação (scroll). */
 export const EDUCATION_CAMERA: CameraPose = {
-  position: [-207.005, 150.232, 123.581],
-  target: [-286.981, 148.301, 123.863],
+  position: [-222.263, 147.931, 123.719],
+  target: [-302.126, 143.253, 123.583],
   fov: 42,
 };
 

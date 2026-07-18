@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { scrollToCvSection } from "@/lib/cv-scroll";
 import { useWorldStore } from "@/stores/world-store";
 import { WORLD_SECTION_CAMERA_DURATION_S } from "@/world/constants";
+import { isMobileViewport } from "@/world/world-preference";
 import type { CvSectionId } from "@/world/types";
 
 type Props = {
@@ -15,9 +16,19 @@ type Props = {
 export function CvSectionScrollHint({ targetSection, ariaLabel, className }: Props) {
   const reduced = useReducedMotion();
   const beginScrollNav = useWorldStore((s) => s.beginScrollNav);
+  const setFocusRoom = useWorldStore((s) => s.setFocusRoom);
   const setPhase = useWorldStore((s) => s.setPhase);
 
   const goToSection = () => {
+    if (isMobileViewport()) {
+      setFocusRoom(targetSection);
+      scrollToCvSection(targetSection, reduced ? "auto" : "smooth");
+      if (typeof window !== "undefined") {
+        window.history.replaceState(null, "", `${window.location.pathname}#${targetSection}`);
+      }
+      return;
+    }
+
     beginScrollNav(targetSection);
     scrollToCvSection(targetSection, reduced ? "auto" : "smooth");
     if (typeof window !== "undefined") {

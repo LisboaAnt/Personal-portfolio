@@ -1,35 +1,25 @@
 "use client";
 
 import { useEffect } from "react";
-import { isCvScrollLocked } from "@/lib/cv-scroll";
+import {
+  isCvScrollLocked,
+  resolveCvSnapScrollTop,
+} from "@/lib/cv-scroll";
 import { useWorldEnabled } from "@/hooks/useWorldEnabled";
 
-function getSectionScrollTop(root: HTMLElement, section: HTMLElement): number {
-  const rootRect = root.getBoundingClientRect();
-  const sectionRect = section.getBoundingClientRect();
-  return sectionRect.top - rootRect.top + root.scrollTop;
-}
+const SNAP_MQ = "(min-width: 1024px)";
 
 function snapToNearestSection(root: HTMLElement) {
   if (isCvScrollLocked()) return;
+  if (typeof window !== "undefined" && !window.matchMedia(SNAP_MQ).matches) return;
 
   const sections = Array.from(root.querySelectorAll<HTMLElement>(".cv-snap-section"));
   if (sections.length === 0) return;
 
   const scrollTop = root.scrollTop;
-  let nearest = sections[0]!;
-  let nearestDist = Math.abs(getSectionScrollTop(root, nearest) - scrollTop);
+  const targetTop = resolveCvSnapScrollTop(root, sections);
+  const nearestDist = Math.abs(targetTop - scrollTop);
 
-  for (const section of sections) {
-    const top = getSectionScrollTop(root, section);
-    const dist = Math.abs(top - scrollTop);
-    if (dist < nearestDist) {
-      nearestDist = dist;
-      nearest = section;
-    }
-  }
-
-  const targetTop = getSectionScrollTop(root, nearest);
   if (nearestDist <= 2) return;
 
   root.scrollTo({
@@ -38,7 +28,7 @@ function snapToNearestSection(root: HTMLElement) {
   });
 }
 
-/** Reforça o snap CSS — impede parar entre secções. */
+/** Reforça o snap CSS — impede parar entre secções (só desktop ≥ lg). */
 export function CvScrollSnapEnhancer() {
   const enabled = useWorldEnabled();
 
@@ -48,16 +38,18 @@ export function CvScrollSnapEnhancer() {
     const root = document.querySelector<HTMLElement>(".cv-world-document");
     if (!root) return;
 
+    const mq = window.matchMedia(SNAP_MQ);
     let timer: ReturnType<typeof setTimeout> | undefined;
     let raf = 0;
 
     const scheduleSnap = () => {
-      if (isCvScrollLocked()) return;
+      if (!mq.matches || isCvScrollLocked()) return;
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => snapToNearestSection(root), 72);
     };
 
     const onScrollEnd = () => {
+      if (!mq.matches || isCvScrollLocked()) return;
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => snapToNearestSection(root));
     };

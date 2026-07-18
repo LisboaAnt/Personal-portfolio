@@ -249,6 +249,7 @@
     "hero": {
       "greeting": "Hi",
       "intro": "Hello, my name is Antonio",
+      "desktopHint": "If you use a computer, you’ll find more interactions and a 3D background.",
       "headlinePrefix": "I ",
       "headlinePhrases": [
         "lead technical teams.",
@@ -332,7 +333,7 @@
           "title": "Founder & CEO · Fullstack",
           "company": "Alémsys Digital",
           "location": "Brazil · software studio",
-          "stack": "Next.js, TypeScript, Node.js, web & mobile",
+          "stack": "Next.js, TypeScript, Node.js, React Native",
           "bullets": [],
           "stages": [
             {
@@ -344,16 +345,16 @@
               "text": "End-to-end delivery of tailored web and mobile products for regional businesses, with direct client discovery and iterative releases."
             },
             {
-              "title": "Studio platform",
-              "text": "Built and launched the studio platform at alemys.digital — portfolio, lead capture, and the operational backbone for client work."
+              "title": "Desktop version",
+              "text": "Web products and management dashboards built for wide screens: architecture, complex flows, and iterative delivery with a focus on clarity and performance on desktop."
             },
             {
               "title": "Mobile version",
               "text": "Custom mobile apps with the same delivery cadence: direct client discovery, iterative releases, and a focus on performance and usability on small screens."
             },
             {
-              "title": "Desktop version",
-              "text": "Web products and management dashboards built for wide screens: architecture, complex flows, and iterative delivery with a focus on clarity and performance on desktop."
+              "title": "Studio platform",
+              "text": "Built and launched the studio platform at alemys.digital — portfolio, lead capture, and the operational backbone for client work."
             },
             {
               "title": "App in production",
@@ -420,6 +421,10 @@
     },
     "education": {
       "title": "Education",
+      "close": "Close",
+      "openDetails": "View details",
+      "topicsHeading": "Areas of study",
+      "highlightsHeading": "Highlights",
       "diplomas": {
         "title": "Diplomas",
         "prev": "Previous diploma",
@@ -429,21 +434,21 @@
             "id": "senai",
             "title": "Computer Networks Technician",
             "caption": "SENAI Rondônia",
-            "image": "/diplomas/senai.svg",
+            "image": "/diplomas/senaidiploma.jpeg",
             "alt": "SENAI Rondônia technician diploma"
           },
           {
             "id": "ufc-cs",
             "title": "B.Sc. Computer Science",
             "caption": "Federal University of Ceará",
-            "image": "/diplomas/ufc-cs.svg",
+            "image": "/diplomas/diplomaUfc.png",
             "alt": "B.Sc. Computer Science diploma — UFC"
           },
           {
             "id": "ufc-mentor",
             "title": "Entrepreneurship mentoring",
-            "caption": "UFC",
-            "image": "/diplomas/ufc-mentor.svg",
+            "caption": "Federal University of Ceará",
+            "image": "/diplomas/empreendeufc.png",
             "alt": "Entrepreneurship mentoring certificate — UFC"
           }
         ]
@@ -455,7 +460,20 @@
           "title": "Computer Networks Technician",
           "institution": "SENAI Rondônia",
           "meta": "1200 h",
-          "bullets": ["LAN, local servers, and network security."]
+          "summary": "Technical degree focused on network infrastructure — the foundation that later pulled me into software and systems.",
+          "bullets": ["LAN, local servers, and network security."],
+          "topics": [
+            {
+              "id": "infra",
+              "title": "Network infrastructure",
+              "description": "Structured cabling, LAN/WAN design, switching and routing basics, and hands-on lab work configuring real network gear."
+            },
+            {
+              "id": "servers-security",
+              "title": "Servers & security",
+              "description": "Local server administration (Windows/Linux), user and permission policies, backups, and an introduction to network security hardening."
+            }
+          ]
         },
         {
           "id": "ufc-cs",
@@ -463,38 +481,121 @@
           "title": "B.Sc. Computer Science",
           "institution": "Federal University of Ceará (UFC)",
           "meta": "3200 h",
+          "summary": "Full computer science degree — from algorithmic foundations to applied AI, graphics, and large-scale system design.",
           "bullets": [
             "Algorithms, data structures, software engineering.",
             "Databases, networking, AI, and applied computing."
+          ],
+          "topics": [
+            {
+              "id": "algorithms",
+              "title": "Algorithms & data structures",
+              "description": "Complexity analysis, classic algorithms (sorting, graphs, dynamic programming), and the data structures that underpin efficient systems."
+            },
+            {
+              "id": "software-modeling",
+              "title": "Software engineering & modeling",
+              "description": "Requirements, UML modeling, design patterns, and architecture — from a single diagram to a maintainable, testable codebase."
+            },
+            {
+              "id": "ai",
+              "title": "Artificial intelligence",
+              "description": "Search and optimization, classic machine learning, and neural networks — theory paired with applied projects and datasets."
+            },
+            {
+              "id": "computer-graphics",
+              "title": "Computer graphics",
+              "description": "Rendering pipelines, transformations, 3D math, and hands-on OpenGL; shaders in C# and Python — the same foundations behind this portfolio's WebGL scene."
+            },
+            {
+              "id": "databases-networks",
+              "title": "Databases & networks",
+              "description": "Relational modeling, query optimization, distributed systems basics, and network protocols behind modern applications."
+            }
           ]
         },
         {
           "id": "ufc-mentor",
           "period": "04/2025 — 12/2025",
           "title": "Entrepreneurship mentoring",
-          "institution": "UFC",
+          "institution": "Federal University of Ceará (UFC)",
           "meta": "144 h",
-          "bullets": ["Ideation, pitching, and ties to the innovation ecosystem."]
+          "summary": "Structured mentoring program connecting early-stage ideas to the university's innovation ecosystem.",
+          "bullets": ["Ideation, pitching, and ties to the innovation ecosystem."],
+          "topics": [
+            {
+              "id": "ideation",
+              "title": "Ideation & validation",
+              "description": "Problem framing, early customer conversations, and lightweight validation before writing a single line of code."
+            },
+            {
+              "id": "pitch",
+              "title": "Pitch & storytelling",
+              "description": "Structuring a clear narrative for an idea, and presenting it to mentors, peers, and the innovation ecosystem."
+            }
+          ]
         }
       ]
     },
     "skills": {
       "title": "Skills",
+      "back": "Back",
       "groups": [
         {
           "id": "stack",
-          "label": "Production",
+          "label": "Languages & frameworks",
           "items": [
             "TypeScript",
             "JavaScript",
+            "Java",
+            "Python",
+            "C#",
+            "SQL",
             "React",
+            "React Native",
+            "React Flow",
             "Next.js",
+            "Angular",
+            "OpenGL",
+            "Three.js",
+            "WebGL"
+          ]
+        },
+        {
+          "id": "backend",
+          "label": "Backend & databases",
+          "items": [
             "Node.js",
             "PostgreSQL",
-            "MySQL / MariaDB",
+            "MariaDB",
+            "MongoDB"
+          ]
+        },
+        {
+          "id": "infra",
+          "label": "Infra, architecture & tools",
+          "items": [
             "Docker",
+            "AWS",
+            "Git",
+            "System design",
+            "Code review",
+            "REST API",
             "N8N",
-            "Tailwind CSS"
+            "i18n"
+          ]
+        },
+        {
+          "id": "ai",
+          "label": "AI & foundations",
+          "items": [
+            "AI / Applied Computer Science",
+            "Algorithms",
+            "Software Engineering",
+            "Networks",
+            "AI-powered workflows",
+            "AI-supported FAQ / orchestration",
+            "Algorithm-based scheduling"
           ]
         },
         {
@@ -502,15 +603,24 @@
           "label": "Languages",
           "items": [
             "Portuguese (native)",
-            "Spanish (fluent)",
-            "English (B1)",
+            "Spanish (native)",
+            "English (B2/C1)",
             "German (A1)"
           ]
         },
         {
-          "id": "collab",
-          "label": "Team & product",
+          "id": "soft",
+          "label": "Soft skills",
           "items": [
+            "YouTube teaching (100k+ views)",
+            "Theater and stage experience",
+            "Public speaking and presence",
+            "Clear communication",
+            "Empathy and active listening",
+            "Collaboration under pressure",
+            "Creative problem-solving",
+            "Adaptability and learning agility",
+            "Facilitation and conflict awareness",
             "Pair programming and mentoring",
             "Accessible, inclusive product mindset",
             "Discovery and requirements"
@@ -518,72 +628,111 @@
         }
       ]
     },
-    "detection": {
-      "summary": "Technical detection (language & CDN)",
-      "sectionLabel": "Language and region hints",
-      "title": "How the site reads context",
-      "pageLocale": "Page language: {locale}",
-      "acceptLanguage": "Accept-Language header: {value}",
-      "country": "Country (Vercel / CDN): {value}",
-      "unknown": "(not sent)",
-      "localOnly": "(only available on edge deploy, e.g. Vercel)"
-    },
     "projects": {
       "title": "Featured projects",
-      "viewCase": "View case",
-      "items": [
+      "back": "Back",
+      "groups": [
         {
-          "id": "vittahub",
-          "title": "Vittahub",
-          "role": "Tech Lead · Fullstack",
-          "description": "Marketplace for clinics and care. Architecture, requirements, and delivery cadence at an early-stage startup.",
-          "stack": "Next.js, TypeScript, Node.js, PostgreSQL",
-          "cover": "/projects/vittahub.svg",
-          "coverAlt": "Abstract 3D art — Vittahub health marketplace",
-          "bullets": [
-            "System design and discovery with stakeholders.",
-            "Culture of frequent releases with QA, DevOps, and a growing team."
+          "id": "youtube",
+          "label": "YouTube",
+          "items": [
+            {
+              "id": "yt-opengl",
+              "label": "OpenGL Legacy + Python (15 lessons, 50k+ views)",
+              "href": "https://youtube.com/playlist?list=PLr7kJYXyKg0bRKzZ5yYQ0W585X_152dos&si=Fq86clq7zh_hFm9U"
+            },
+            {
+              "id": "yt-big-calendar",
+              "label": "React Big Calendar (30k+ views)",
+              "href": "https://youtube.com/playlist?list=PLr7kJYXyKg0Z4e_mdEUOchEePCunPMA_n&si=0WZNX4wLXnoi0wfp"
+            },
+            {
+              "id": "yt-short",
+              "label": "Short video (100k+ views)",
+              "href": "https://www.youtube.com/channel/UCyuz3d4mm4Dgzxh1F-USiig"
+            }
           ]
         },
         {
-          "id": "ussin",
-          "title": "Ussin",
-          "role": "Fullstack Web Developer",
-          "description": "Educational platform focused on performance, inclusion, and multilingual UX.",
-          "stack": "React, React Flow, Node.js, MariaDB",
-          "cover": "/projects/ussin.svg",
-          "coverAlt": "Abstract 3D art — Ussin learning platform",
-          "bullets": [
-            "React Flow with measurable flow performance gains.",
-            "Accessibility and i18n end to end."
+          "id": "github",
+          "label": "GitHub",
+          "items": [
+            {
+              "id": "read-aloud",
+              "label": "Local-text-to-speech-rendering",
+              "href": "https://github.com/LisboaAnt/Local-text-to-speech-rendering"
+            },
+            {
+              "id": "schedule-desktop",
+              "label": "schedule-desktop",
+              "href": "https://github.com/LisboaAnt/schedule-desktop"
+            },
+            {
+              "id": "stock-manager",
+              "label": "stock-manager",
+              "href": "https://github.com/LisboaAnt/stock-manager"
+            },
+            {
+              "id": "opengl-engine",
+              "label": "OpenGL legacy engine",
+              "href": "https://github.com/LisboaAnt/OpenGLPython"
+            },
+            {
+              "id": "turing-machine",
+              "label": "TuringMachine",
+              "href": "https://github.com/LisboaAnt/TuringMachine"
+            },
+            {
+              "id": "cfg",
+              "label": "context-free-grammar-CFG",
+              "href": "https://github.com/LisboaAnt/context-free-grammar-CFG-"
+            },
+            {
+              "id": "regua-puzzle",
+              "label": "Algoritmo-Regua-Puzzle",
+              "href": "https://github.com/LisboaAnt/Algoritmo-Regua-Puzzle"
+            },
+            {
+              "id": "tron-opengl",
+              "label": "Tron Game OpenGL",
+              "href": "https://youtu.be/speVigR8A-Q?si=7DyEy8ff5xiBE-ku"
+            }
           ]
         },
         {
-          "id": "ufc",
-          "title": "Federal University of Ceará",
-          "role": "Freelance · fullstack",
-          "description": "Freelance institutional module for the university — omnichannel integrations and AI, all on the university's servers via Docker.",
-          "stack": "Docker, N8N, WhatsApp, AI",
-          "cover": "/projects/ufc.svg",
-          "coverAlt": "Abstract 3D art — Federal University institutional module",
-          "bullets": [
-            "Freelance project for the official university app.",
-            "Room booking and automated per-room scheduling.",
-            "Automation and AI orchestrated with N8N on university-owned infrastructure."
+          "id": "work",
+          "label": "Work",
+          "items": [
+            {
+              "id": "vittahub",
+              "label": "Vittahub",
+              "href": "https://www.instagram.com/vittahub.br/"
+            },
+            {
+              "id": "alemsys",
+              "label": "Alemsys",
+              "href": "https://www.instagram.com/alemsysdigital/"
+            }
           ]
         }
       ]
     },
     "contact": {
       "title": "Contact",
-      "body": "Open to conversations about product, fullstack engineering, or opportunities in Europe.",
-      "email": "antoniol.carvalho49@gmail.com"
+      "body": "Open to conversations about product, fullstack engineering, opportunities in Europe — or anything else. A good friendship is never a bad thing.",
+      "email": "antoniol.carvalho49@gmail.com",
+      "sealsKicker": "Ways to reach me"
     },
     "social": {
       "github": "https://github.com/LisboaAnt",
-      "linkedin": "https://www.linkedin.com/in/antonio-lisboa-de-carvalho-b5a5a4194/",
+      "linkedin": "https://www.linkedin.com/in/antonio--lisboa/",
+      "instagram": "https://www.instagram.com/antoniolis_boa/",
       "githubLabel": "GitHub",
-      "linkedinLabel": "LinkedIn"
+      "linkedinLabel": "LinkedIn",
+      "instagramLabel": "Instagram",
+      "githubHandle": "LisboaAnt",
+      "linkedinHandle": "antonio--lisboa",
+      "instagramHandle": "antoniolis_boa"
     },
     "contribute": {
       "title": "Contributing",

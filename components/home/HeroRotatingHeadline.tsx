@@ -28,6 +28,7 @@ import { HeroDrawnPhrase, type DrawnPhrasePhase } from "@/components/home/HeroDr
 
 const HOLD_MS = 2400;
 const LINE_GAP_EM = 0.06;
+const LINE_GAP_EM_MOBILE = 0;
 
 type Props = {
   prefix: string;
@@ -126,19 +127,62 @@ export function HeroRotatingHeadline({ prefix, phrases, ariaLabel }: Props) {
     if (!el) return;
 
     const measure = () => {
-      const w = el.clientWidth;
+      const parent = el.parentElement;
+      const w = parent?.clientWidth || el.clientWidth;
       if (w > 0) setMaxWidth(w);
     };
 
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(el);
+    if (el.parentElement) ro.observe(el.parentElement);
     window.addEventListener("resize", measure);
     return () => {
       ro.disconnect();
       window.removeEventListener("resize", measure);
     };
   }, []);
+
+  /** Mobile: mesma escala para todas as linhas (evita curtas grandes / longas pequenas). */
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const fit = () => {
+      const mobile =
+        typeof window !== "undefined" &&
+        window.matchMedia("(max-width: 639px)").matches;
+      el.style.transform = "";
+      el.style.marginBottom = "";
+      if (!mobile) return;
+
+      const parent = el.parentElement;
+      const avail = parent?.clientWidth ?? 0;
+      if (avail <= 0) return;
+
+      const needed = Math.max(el.scrollWidth, el.offsetWidth);
+      const scale = needed > avail ? avail / needed : 1;
+      el.style.transformOrigin = "top left";
+      if (scale < 0.999) {
+        const unscaledH = el.offsetHeight;
+        el.style.transform = `scale(${scale})`;
+        el.style.marginBottom = `${unscaledH * (scale - 1)}px`;
+      }
+    };
+
+    const raf = window.requestAnimationFrame(fit);
+    const ro = new ResizeObserver(() => {
+      window.requestAnimationFrame(fit);
+    });
+    ro.observe(el);
+    if (el.parentElement) ro.observe(el.parentElement);
+    window.addEventListener("resize", fit);
+    return () => {
+      window.cancelAnimationFrame(raf);
+      ro.disconnect();
+      window.removeEventListener("resize", fit);
+    };
+  }, [index, phase, smartView, holdLines, frozenLines, staticMode]);
 
   /** Linhas em repouso / modo estático. */
   useEffect(() => {
@@ -298,7 +342,10 @@ export function HeroRotatingHeadline({ prefix, phrases, ariaLabel }: Props) {
   const displayPhase: DrawnPhrasePhase = staticMode ? "static" : phase;
   const lineGapPx =
     typeof window !== "undefined"
-      ? getHeroHeadlineFontSizePx() * LINE_GAP_EM
+      ? getHeroHeadlineFontSizePx() *
+        (window.matchMedia("(max-width: 639px)").matches
+          ? LINE_GAP_EM_MOBILE
+          : LINE_GAP_EM)
       : 0;
 
   const activeLines = useMemo(() => {
@@ -404,7 +451,11 @@ export function HeroRotatingHeadline({ prefix, phrases, ariaLabel }: Props) {
         <span
           ref={containerRef}
           className="hero-headline-line"
-          style={staticLines.length > 1 ? { rowGap: lineGapPx } : undefined}
+          style={
+            staticLines.length > 1 && lineGapPx > 0
+              ? { rowGap: lineGapPx }
+              : undefined
+          }
         >
           {staticLines.map((line, lineIndex) => (
             <HeadlineLineStack key={`static-${lineIndex}`} copy={line}>
@@ -422,13 +473,15 @@ export function HeroRotatingHeadline({ prefix, phrases, ariaLabel }: Props) {
       <span
         ref={containerRef}
         className="hero-headline-line"
-        style={lineCount > 1 ? { rowGap: lineGapPx } : undefined}
+        style={
+          lineCount > 1 && lineGapPx > 0 ? { rowGap: lineGapPx } : undefined
+        }
       >
         {activeLines.map((line, lineIndex) => (
           <HeadlineLineStack
             key={`${index}-${lineIndex}`}
             copy={copyForLine(lineIndex, line)}
-            className="hero-headline-line-segment w-full max-w-full"
+            className="hero-headline-line-segment"
           >
             {renderLine(lineIndex, line)}
           </HeadlineLineStack>

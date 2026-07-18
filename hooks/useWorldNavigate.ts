@@ -14,6 +14,7 @@ import {
 } from "@/world/constants";
 import { scrollToCvSection } from "@/lib/cv-scroll";
 import type { CvSectionId } from "@/world/types";
+import { isMobileViewport } from "@/world/world-preference";
 import { useWorldEnabled } from "./useWorldEnabled";
 
 export type WorldHref = "/" | `/#${string}` | `#${string}` | { pathname: "/"; hash?: string };
@@ -76,6 +77,14 @@ export function useWorldNavigate() {
         typeof href === "string" && (href.startsWith("#") || href.startsWith("/#"));
 
       if (isHashOnly) {
+        if (isMobileViewport()) {
+          useWorldStore.getState().setFocusRoom(section);
+          scrollToSection(section);
+          if (typeof window !== "undefined") {
+            window.history.replaceState(null, "", `${window.location.pathname}${hash}`);
+          }
+          return;
+        }
         beginScrollNav(section);
         scrollToSection(section);
         if (typeof window !== "undefined") {

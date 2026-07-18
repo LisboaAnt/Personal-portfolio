@@ -37,6 +37,28 @@ export const WORLD_TRAVEL_DPR_LOW = 0.65;
 /** Atraso antes de restaurar DPR/frameloop após viagem (evita flash). */
 export const WORLD_TRAVEL_DPR_RESTORE_DELAY_MS = 220;
 
+/** DPR em repouso — desktop / qualidade alta. [min, max] para o canvas R3F. */
+export const WORLD_IDLE_DPR_HIGH: [number, number] = [0.75, 1];
+
+/** DPR em repouso — mobile / qualidade baixa. */
+export const WORLD_IDLE_DPR_LOW = 0.75;
+
+/**
+ * Raio (unidades Blender) para culling de meshes fora da secção activa.
+ * `Infinity` = desligado por defeito — o cenário tem elementos de fundo/céu
+ * a 400–600 unidades de secções como Formação; um raio pequeno escondia-os
+ * e mostrava o azul do CSS por trás (bug "fundo não carrega" ao parar a câmara).
+ * Só activar com um raio testado por secção via `NEXT_PUBLIC_WORLD_SCENE_CULL_RADIUS`.
+ */
+export const WORLD_SCENE_CULL_RADIUS_HIGH = Number.POSITIVE_INFINITY;
+
+export const WORLD_SCENE_CULL_RADIUS_LOW = Number.POSITIVE_INFINITY;
+
+/** Resolução do cubemap HDR (drei Environment). */
+export const WORLD_ENV_MAP_RESOLUTION_HIGH = 256;
+
+export const WORLD_ENV_MAP_RESOLUTION_LOW = 128;
+
 /** Duração da animação da câmara ao mudar de secção com scroll */
 export const WORLD_SCROLL_CAMERA_DURATION_S = 1.35;
 

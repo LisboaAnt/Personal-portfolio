@@ -7,6 +7,7 @@ import { WorldFreeCameraControls } from "./WorldFreeCameraControls";
 import { WorldBlenderCamera } from "./WorldBlenderCamera";
 import { WorldEnvironment } from "./WorldEnvironment";
 import { WorldIsland } from "./WorldIsland";
+import { WorldBlenderDemandInvalidate } from "./WorldBlenderDemandInvalidate";
 import { WorldBlenderLighting } from "./WorldBlenderLighting";
 import { WorldRendererSync } from "./WorldRendererSync";
 import { WorldLighting } from "./WorldLighting";
@@ -46,6 +47,7 @@ export function WorldScene() {
       {blenderScene ? (
         <>
           <WorldRendererSync />
+          <WorldBlenderDemandInvalidate />
           <WorldBlenderLighting />
         </>
       ) : (

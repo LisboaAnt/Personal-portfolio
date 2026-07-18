@@ -18,6 +18,9 @@ function parseEnvBool(raw: string | undefined, fallback: boolean): boolean {
   return fallback;
 }
 
+/** HDR de estúdio servido localmente (evita fetch ao CDN do drei). */
+export const WORLD_ENV_HDR_URL = "/world/studio_small_03_1k.hdr";
+
 export type BlenderLightingEnv = {
   toneMappingExposure: number;
   environmentEnabled: boolean;

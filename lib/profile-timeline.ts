@@ -41,7 +41,9 @@ type EducationItem = {
   title: string;
   institution: string;
   meta: string;
-  bullets: string[];
+  bullets?: string[];
+  intro?: string;
+  areas?: { summary: string }[];
 };
 
 type SkillGroup = {
@@ -205,7 +207,13 @@ export function buildProfileTimeline(input: ProfileTimelineInput): TimelineEvent
           title: edu.title,
           subtitle: edu.institution,
           meta: edu.meta,
-          bullets: edu.bullets,
+          bullets:
+            edu.bullets ??
+            (edu.areas?.length
+              ? edu.areas.map((a) => a.summary)
+              : edu.intro
+                ? [edu.intro]
+                : []),
         },
         minorSet.has(edu.id) ? "minor" : "major",
         presentLabel

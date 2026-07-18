@@ -113,8 +113,8 @@ export const EXPERIENCE_JOB_STAGE_CAMERAS: Record<ExperienceJobId, CameraPose[]>
       fov: 41,
     },
     {
-      position: [44.902, 142.249, 80.141],
-      target: [42.558, 138.949, 0.243],
+      position: [38.033, 143.289, 77.873],
+      target: [38.019, 139.906, -2.056],
       fov: 41,
     },
     {
@@ -123,8 +123,8 @@ export const EXPERIENCE_JOB_STAGE_CAMERAS: Record<ExperienceJobId, CameraPose[]>
       fov: 41,
     },
     {
-      position: [38.033, 143.289, 77.873],
-      target: [38.019, 139.906, -2.056],
+      position: [44.902, 142.249, 80.141],
+      target: [42.558, 138.949, 0.243],
       fov: 41,
     },
     {

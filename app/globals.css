@@ -162,6 +162,354 @@ html.world-wallpaper-mode.world-wallpaper-fade body::before {
   opacity: 0;
 }
 
+/* Mobile: foto na hero; ao scrollar — fundo pintado (não preto sólido) */
+html.world-wallpaper-mode.world-wallpaper-scroll-away body {
+  background-color: #080b12;
+}
+
+html.world-wallpaper-mode.world-wallpaper-scroll-away body::before {
+  opacity: 0;
+}
+
+/*
+ * Mobile: wallpaper full-bleed na hero (sobe com o scroll).
+ * Fundo decorativo: camada FIXA no viewport (não acompanha o scroll).
+ */
+@media (max-width: 639px) {
+  html.world-wallpaper-mode {
+    --site-chrome-header-h: 2.5rem;
+    --mobile-paint-base: #080b12;
+    --mobile-paint-blue: #121a2a;
+    --mobile-paint-blue-deep: #0a101c;
+    --mobile-paint-gold: #c9a84c;
+    --mobile-paint-gold-soft: #e2c56b;
+    --mobile-paint-bronze: #5c4a32;
+    --mobile-paint-ink: #10141c;
+  }
+
+  html.world-wallpaper-mode body {
+    background-color: var(--mobile-paint-base);
+  }
+
+  html.world-wallpaper-mode body::before {
+    display: none !important;
+  }
+
+  html.world-wallpaper-mode body::after {
+    display: none !important;
+  }
+
+  /*
+   * Pintura ABSOLUTA no .cv-page-flow — acompanha o scroll do documento
+   * (não sticky/fixed no viewport).
+   */
+  html.world-wallpaper-mode .cv-page-flow {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .world-mobile-paint-bg {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background-color: var(--mobile-paint-base, #080b12);
+  }
+
+  html.world-wallpaper-mode .cv-page-flow > :not(.world-mobile-paint-bg) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .world-mobile-paint-bg__orb,
+  .world-mobile-paint-bg__ring,
+  .world-mobile-paint-bg__stroke {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .world-mobile-paint-bg__orb {
+    border-radius: 50%;
+    filter: blur(2px);
+  }
+
+  /* Espalhados ao longo da página — sobem com o scroll */
+  .world-mobile-paint-bg__orb--a {
+    width: 16rem;
+    height: 16rem;
+    top: 8%;
+    left: -5rem;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, #1a3a5c 70%, transparent) 0%,
+      transparent 70%
+    );
+  }
+
+  .world-mobile-paint-bg__orb--b {
+    width: 13rem;
+    height: 13rem;
+    top: 22%;
+    right: -4rem;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, #c9a84c 28%, transparent) 0%,
+      transparent 68%
+    );
+  }
+
+  .world-mobile-paint-bg__orb--c {
+    width: 18rem;
+    height: 18rem;
+    top: 42%;
+    left: -6rem;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, #152238 75%, transparent) 0%,
+      transparent 72%
+    );
+  }
+
+  .world-mobile-paint-bg__orb--d {
+    width: 11rem;
+    height: 11rem;
+    top: 58%;
+    right: 6%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, #3d6a9a 42%, transparent) 0%,
+      transparent 70%
+    );
+  }
+
+  .world-mobile-paint-bg__orb--e {
+    width: 14rem;
+    height: 14rem;
+    top: 74%;
+    left: 10%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, #1a3a5c 55%, transparent) 0%,
+      transparent 70%
+    );
+  }
+
+  .world-mobile-paint-bg__orb--f {
+    width: 12rem;
+    height: 12rem;
+    top: 88%;
+    right: -3rem;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, #c9a84c 22%, transparent) 0%,
+      transparent 68%
+    );
+  }
+
+  .world-mobile-paint-bg__ring {
+    border-radius: 50%;
+    border: 2px solid color-mix(in srgb, #c9a84c 32%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, #e2c56b 12%, transparent);
+  }
+
+  .world-mobile-paint-bg__ring--a {
+    width: 9.5rem;
+    height: 9.5rem;
+    top: 18%;
+    left: 14%;
+    opacity: 0.85;
+    transform: rotate(-12deg);
+  }
+
+  .world-mobile-paint-bg__ring--b {
+    width: 7rem;
+    height: 7rem;
+    top: 36%;
+    right: 10%;
+    border-color: color-mix(in srgb, #5b8fc7 38%, transparent);
+    opacity: 0.75;
+    transform: rotate(18deg);
+  }
+
+  .world-mobile-paint-bg__ring--c {
+    width: 11rem;
+    height: 11rem;
+    top: 62%;
+    left: 28%;
+    border-color: color-mix(in srgb, #c9a84c 22%, transparent);
+    opacity: 0.55;
+  }
+
+  .world-mobile-paint-bg__ring--d {
+    width: 8rem;
+    height: 8rem;
+    top: 82%;
+    right: 16%;
+    border-color: color-mix(in srgb, #4a7ab0 34%, transparent);
+    opacity: 0.7;
+    transform: rotate(-8deg);
+  }
+
+  .world-mobile-paint-bg__stroke {
+    border-radius: 999px;
+    opacity: 0.55;
+    transform-origin: center;
+  }
+
+  .world-mobile-paint-bg__stroke--a {
+    width: 9rem;
+    height: 0.55rem;
+    top: 26%;
+    right: 6%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, #c9a84c 55%, transparent),
+      transparent
+    );
+    transform: rotate(-28deg);
+    filter: blur(0.5px);
+  }
+
+  .world-mobile-paint-bg__stroke--b {
+    width: 7.5rem;
+    height: 0.7rem;
+    top: 48%;
+    left: 8%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, #4a7ab0 50%, transparent),
+      transparent
+    );
+    transform: rotate(22deg);
+    filter: blur(0.8px);
+  }
+
+  .world-mobile-paint-bg__stroke--c {
+    width: 11rem;
+    height: 0.45rem;
+    top: 68%;
+    right: 14%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, #e2c56b 40%, transparent),
+      transparent
+    );
+    transform: rotate(8deg);
+    filter: blur(1px);
+  }
+
+  .world-mobile-paint-bg__stroke--d {
+    width: 8.5rem;
+    height: 0.6rem;
+    top: 90%;
+    left: 18%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, #5b8fc7 45%, transparent),
+      transparent
+    );
+    transform: rotate(-16deg);
+    filter: blur(0.6px);
+  }
+
+  /* Secções sem placa opaca — o fundo pintado fica visível à volta */
+  html.world-wallpaper-mode .cv-snap-section:not(.cv-snap-section--hero) {
+    background: transparent !important;
+  }
+
+  html.world-wallpaper-mode .site-chrome-shell {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+  }
+
+  html.world-wallpaper-mode .world-overlay,
+  html.world-wallpaper-mode .cv-world-document {
+    background: transparent;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  html.world-wallpaper-mode .cv-world-document {
+    scroll-padding-top: 0;
+  }
+
+  html.world-wallpaper-mode .cv-world-document .cv-page-flow {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  html.world-wallpaper-mode .cv-snap-section--hero {
+    isolation: isolate;
+    box-sizing: border-box;
+    position: relative;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    margin-top: calc(-1 * var(--site-chrome-header-h, 2rem));
+    min-height: 100dvh !important;
+    height: auto !important;
+    max-height: none !important;
+    padding-top: calc(var(--site-chrome-header-h, 2rem) + 0.5rem) !important;
+    padding-inline: 0 !important;
+    padding-bottom: 0 !important;
+    background-color: #070b14;
+    background-image: url("/world/wallpaper.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  html.world-wallpaper-mode .cv-snap-section--hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      transparent 42%,
+      color-mix(in srgb, var(--mobile-paint-base) 40%, transparent) 70%,
+      var(--mobile-paint-base) 100%
+    );
+  }
+
+  html.world-wallpaper-mode .cv-snap-section--hero > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  html.world-wallpaper-mode .cv-snap-section--hero > .cv-snap-section__inner {
+    padding-inline: 1rem;
+    padding-top: 0.5rem;
+  }
+
+  html.world-wallpaper-mode .cv-snap-section--hero > .hero-desktop-hint {
+    left: 1rem;
+    right: 1rem;
+  }
+
+  html.world-wallpaper-mode .site-chrome-header {
+    background-color: color-mix(in srgb, var(--surface) 55%, transparent);
+  }
+}
+
+/* Desktop: sem camada de pintura mobile */
+@media (min-width: 640px) {
+  .world-mobile-paint-bg {
+    display: none !important;
+  }
+}
+
 /* Mundo 3D global — canvas fixo atrás do conteúdo */
 html.world-3d-active body {
   background-color: color-mix(in srgb, var(--surface) 92%, #0f172a);
@@ -178,7 +526,7 @@ html.world-3d-active .site-chrome-header {
 
 /* CV scrollável (mundo 3D) — altura fixa por secção, footer só no Contacto */
 html.world-cv-scroll {
-  --site-chrome-header-h: 2rem;
+  --site-chrome-header-h: 2.5rem;
   --cv-scrollport-h: calc(100dvh - var(--site-chrome-header-h));
 }
 
@@ -333,6 +681,17 @@ html.world-cv-scroll .cv-world-document .cv-snap-section--hero {
   min-height: var(--cv-scrollport-h);
 }
 
+@media (max-width: 639px) {
+  html.world-cv-scroll .cv-world-document .cv-snap-section--hero {
+    padding-top: clamp(3rem, 9vh, 4.5rem);
+  }
+}
+
+html.world-cv-scroll .cv-world-document .cv-snap-section:not(.cv-snap-section--hero) {
+  justify-content: flex-start;
+  padding-top: 2.25rem;
+}
+
 @media (min-width: 1024px) {
   html.world-cv-scroll .cv-world-document .cv-snap-section--hero {
     padding-top: clamp(2rem, 6vh, 3.5rem);
@@ -355,8 +714,14 @@ html.world-cv-scroll .cv-world-document .cv-snap-section--hero {
   overflow-y: visible;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   flex: 1 1 0;
+}
+
+@media (min-width: 640px) {
+  .cv-world-document .cv-snap-section--hero .cv-snap-section__inner {
+    justify-content: center;
+  }
 }
 
 .cv-world-document .cv-snap-section:not(.cv-snap-section--hero) {
@@ -387,6 +752,17 @@ html.world-cv-scroll .cv-world-document .cv-snap-section--hero {
   }
 }
 
+html.world-cv-scroll .cv-world-document .cv-snap-section__inner {
+  overflow-y: visible;
+  overscroll-behavior-y: none;
+}
+
+html.world-cv-scroll .experience-section .experience-panel {
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* Experience — cabe num ecrã com snap activo */
 html.world-cv-scroll .experience-panel,
 html.world-cv-scroll .experience-stage-field {
@@ -402,6 +778,79 @@ html.world-cv-scroll .experience-section > .cv-snap-section__inner {
 html.world-cv-scroll .experience-section .experience-panel {
   flex: 1 1 auto;
   min-height: 0;
+}
+
+/*
+ * Mobile / tablet (< lg): scroll natural — sem snap nem altura fixa por secção.
+ * Alinhado à lista de cards da Experience (`lg:hidden`).
+ */
+@media (max-width: 1023px) {
+  .cv-world-document {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+
+  html.world-cv-scroll .cv-world-document .cv-snap-section {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+    overflow: visible;
+    flex-shrink: 0;
+  }
+
+  html.world-cv-scroll .cv-world-document .cv-snap-section--hero {
+    min-height: var(--cv-scrollport-h);
+  }
+
+  html.world-cv-scroll .cv-world-document .cv-snap-section__inner {
+    overflow: visible;
+    flex: none;
+    min-height: 0;
+  }
+
+  html.world-cv-scroll .experience-section > .cv-snap-section__inner,
+  html.world-cv-scroll .cv-world-document .education-section > .education-section__inner,
+  html.world-cv-scroll .cv-world-document .skills-section > .skills-section__inner,
+  html.world-cv-scroll .cv-world-document .contact-section > .contact-section__inner {
+    flex: none;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  /* Projetos — altura ao conteúdo no mobile (sem ecrã inteiro vazio) */
+  html.world-cv-scroll .cv-world-document .projects-section {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    padding-bottom: 1.75rem;
+  }
+
+  html.world-cv-scroll .cv-world-document .projects-section > .projects-section__inner {
+    flex: none;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  html.world-cv-scroll .experience-section .experience-panel {
+    flex: none;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .experience-section .experience-mobile-list {
+    padding-bottom: 1.5rem;
+  }
+
+  .education-diploma-strip {
+    margin-top: 1.25rem;
+  }
+
+  .cv-section-scroll-hint--experience {
+    display: none;
+  }
 }
 
 /* Botões clicáveis — chip circular */
@@ -474,6 +923,38 @@ html.world-cv-scroll .experience-section .experience-panel {
   background: color-mix(in srgb, var(--accent-soft) 62%, transparent);
 }
 
+/* Navbar — mobile full-bleed, tipografia maior, cantos mais retos */
+@media (max-width: 639px) {
+  .site-chrome-bar {
+    max-width: none;
+    padding-inline: 0;
+    justify-content: stretch;
+  }
+
+  .site-chrome-header {
+    width: 100%;
+    max-width: none;
+    height: 2.5rem;
+    border-radius: 0 0 0.25rem 0.25rem;
+    border-left: none;
+    border-right: none;
+    padding-inline: 0.5rem;
+    gap: 0.35rem;
+  }
+
+  .site-chrome-header .site-nav-chip {
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    border-radius: 0.2rem;
+    padding: 0.3rem 0.45rem;
+  }
+
+  .world-cv-nav ul {
+    gap: 0.25rem;
+  }
+}
+
 /* Links de navegação CV — aspecto de botão */
 .site-nav-chip {
   cursor: pointer;
@@ -500,7 +981,9 @@ html.world-cv-scroll .experience-section .experience-panel {
 .world-overlay
   button:where([type="button"]):not(:disabled):not(.site-chip-btn):not(.site-panel-btn):not(
     [class*="rounded-full"]
-  ):not([aria-hidden]) {
+  ):not([aria-hidden]):not(.education-zone):not(.education-diploma-strip__slide):not(
+    .skills-metro__tile
+  ) {
   cursor: pointer;
   border-radius: 0.65rem;
   border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
@@ -514,7 +997,7 @@ html.world-cv-scroll .experience-section .experience-panel {
 .world-overlay
   button:where([type="button"]):not(:disabled):not(.site-chip-btn):not(.site-panel-btn):not(
     [class*="rounded-full"]
-  ):hover {
+  ):not(.education-zone):not(.education-diploma-strip__slide):not(.skills-metro__tile):hover {
   border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
   background: color-mix(in srgb, var(--accent-soft) 42%, transparent);
 }
@@ -546,47 +1029,30 @@ html.world-cv-scroll .experience-section .experience-panel {
   animation: none;
 }
 
-.education-card--open .education-card__chevron {
-  transform: rotate(180deg);
-}
-
-.education-accordion {
-  align-items: start;
-}
-
-.education-card--open {
-  border-color: color-mix(in srgb, var(--accent) 38%, var(--border));
-  box-shadow: 0 14px 34px -18px color-mix(in srgb, var(--accent) 45%, transparent);
-}
-
-.education-card--featured.education-card--open {
-  border-color: color-mix(in srgb, var(--accent) 52%, var(--border));
-}
-
 .education-diploma-strip {
   position: relative;
   z-index: 20;
   display: flex;
-  width: min(calc(100vw - 1.25rem), 100%);
-  max-width: min(calc(100vw - 1.25rem), 100%);
+  width: 100%;
+  max-width: 64rem; /* igual a max-w-5xl dos education-zones */
   margin-inline: auto;
   margin-top: auto;
   margin-bottom: 1.5rem;
   align-items: center;
-  gap: 0.4rem;
-  border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
-  border-radius: 0.9rem;
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  backdrop-filter: blur(12px);
-  padding: 0.35rem 0.55rem;
+  gap: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--exp-gold) 55%, var(--exp-parchment-edge));
+  border-radius: 0.75rem;
+  background: var(--exp-panel-surface);
+  padding: 0.35rem 0.45rem;
   box-shadow:
-    0 -6px 24px -16px color-mix(in srgb, var(--foreground) 28%, transparent),
-    0 8px 24px -14px color-mix(in srgb, var(--foreground) 22%, transparent);
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold-bright) 16%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--exp-bronze) 45%, transparent),
+    0 10px 32px -14px rgba(0, 0, 0, 0.62);
 }
 
 .education-diploma-strip__nav {
-  height: 1.75rem;
-  width: 1.75rem;
+  height: 1.5rem;
+  width: 1.5rem;
   flex-shrink: 0;
   border-radius: 9999px;
 }
@@ -595,11 +1061,11 @@ html.world-cv-scroll .experience-section .experience-panel {
   display: flex;
   min-width: 0;
   flex: 1 1 auto;
-  gap: 0.55rem;
+  gap: 0.4rem;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: 0.35rem;
+  scroll-padding-inline: 0.25rem;
   padding-block: 0;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -613,42 +1079,570 @@ html.world-cv-scroll .experience-section .experience-panel {
   flex-shrink: 0;
   scroll-snap-align: start;
   margin: 0;
+  padding: 0.2rem;
+  cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 62%, var(--exp-parchment-edge));
+  border-radius: 0.45rem;
+  background: var(--exp-btn-surface);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold) 11%, transparent),
+    0 2px 6px -4px rgba(0, 0, 0, 0.4);
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.education-diploma-strip__slide:hover,
+.education-diploma-strip__slide:focus-visible {
+  border-color: color-mix(in srgb, var(--exp-gold) 48%, var(--exp-parchment-edge));
+  background: var(--exp-btn-surface-hover);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold) 14%, transparent),
+    0 4px 12px -6px rgba(0, 0, 0, 0.45);
+  outline: none;
 }
 
 .education-diploma-strip__frame {
   aspect-ratio: 16 / 9;
-  height: 3.5rem;
-  width: calc(3.5rem * 16 / 9);
+  height: 2.5rem;
+  width: calc(2.5rem * 16 / 9);
   overflow: hidden;
-  border-radius: 0.55rem;
-  border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
-  background: color-mix(in srgb, var(--surface-elevated) 88%, transparent);
-  box-shadow: 0 4px 14px -10px color-mix(in srgb, var(--foreground) 35%, transparent);
+  border-radius: 0.3rem;
+  border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 40%, transparent);
+  background: var(--exp-parchment);
+}
+
+.education-diploma-strip__caption {
+  color: var(--exp-ink-muted);
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  max-width: calc(2.5rem * 16 / 9);
+  font-size: 0.5625rem;
+  line-height: 1.2;
+  margin-top: 0.2rem;
+}
+
+.education-diploma-strip__fallback {
+  color: var(--exp-ink-muted);
 }
 
 @media (min-width: 640px) {
   .education-diploma-strip {
-    width: min(calc(100vw - 2rem), 100%);
-    max-width: min(calc(100vw - 2rem), 100%);
-    padding: 0.4rem 0.65rem;
-    gap: 0.45rem;
-    border-radius: 1rem;
+    width: 100%;
+    max-width: 64rem;
+    padding: 0.4rem 0.55rem;
+    gap: 0.4rem;
   }
 
   .education-diploma-strip__nav {
-    height: 1.9rem;
-    width: 1.9rem;
+    height: 1.65rem;
+    width: 1.65rem;
   }
 
   .education-diploma-strip__frame {
-    height: 4rem;
-    width: calc(4rem * 16 / 9);
-    border-radius: 0.65rem;
+    height: 2.85rem;
+    width: calc(2.85rem * 16 / 9);
+  }
+
+  .education-diploma-strip__caption {
+    max-width: calc(2.85rem * 16 / 9);
   }
 }
 
+/* Lightbox de diploma — mesmo pergaminho do aside de Experiência */
+.education-diploma-modal {
+  --exp-gold: #c9a84c;
+  --exp-gold-bright: #e2c56b;
+  --exp-gold-dim: #7a6535;
+  --exp-bronze: #5c4a32;
+  --exp-parchment: #1a1610;
+  --exp-parchment-mid: #231d15;
+  --exp-parchment-light: #2c2419;
+  --exp-parchment-edge: #3a3022;
+  --exp-ink: #e8dcc8;
+  --exp-ink-muted: #9a8b73;
+  --exp-panel-surface:
+    repeating-linear-gradient(
+      -3deg,
+      transparent,
+      transparent 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 6%, transparent) 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 6%, transparent) 4px
+    ),
+    linear-gradient(
+      175deg,
+      color-mix(in srgb, var(--exp-parchment-light) 98%, #000) 0%,
+      color-mix(in srgb, var(--exp-parchment-mid) 97%, #000) 48%,
+      color-mix(in srgb, var(--exp-parchment) 98%, #000) 100%
+    );
+  background: rgba(10, 8, 4, 0.82);
+  backdrop-filter: blur(8px);
+}
+
+.education-diploma-modal__panel {
+  border: 1px solid color-mix(in srgb, var(--exp-gold) 55%, var(--exp-parchment-edge));
+  border-radius: 1rem;
+  background: var(--exp-panel-surface);
+  padding: 1rem 1rem 1.1rem;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold-bright) 16%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--exp-bronze) 45%, transparent),
+    0 24px 64px -20px rgba(0, 0, 0, 0.75);
+  color: var(--exp-ink);
+}
+
+.education-diploma-modal__title {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  color: var(--exp-ink);
+}
+
+.education-diploma-modal__caption {
+  color: var(--exp-ink-muted);
+}
+
+.education-diploma-modal__close,
+.education-diploma-modal__nav {
+  border-color: color-mix(in srgb, var(--exp-gold-dim) 72%, transparent);
+  background: color-mix(in srgb, var(--exp-parchment-edge) 88%, #000);
+  color: var(--exp-ink-muted);
+}
+
+.education-diploma-modal__close:hover,
+.education-diploma-modal__nav:hover {
+  border-color: var(--exp-gold);
+  color: var(--exp-ink);
+  background: color-mix(in srgb, var(--exp-gold) 14%, var(--exp-parchment-edge));
+}
+
+.education-diploma-modal__nav {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.education-diploma-modal__frame {
+  border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 50%, transparent);
+  border-radius: 0.65rem;
+  background: var(--exp-parchment);
+  padding: 0.5rem;
+}
+
+.education-diploma-modal__counter {
+  color: var(--exp-gold);
+}
+
+/* Formação — mesma paleta pergaminho/dourado da Experiência */
 .education-section {
   position: relative;
+  --exp-gold: #c9a84c;
+  --exp-gold-bright: #e2c56b;
+  --exp-gold-dim: #7a6535;
+  --exp-bronze: #5c4a32;
+  --exp-parchment: #1a1610;
+  --exp-parchment-mid: #231d15;
+  --exp-parchment-light: #2c2419;
+  --exp-parchment-edge: #3a3022;
+  --exp-ink: #e8dcc8;
+  --exp-ink-muted: #9a8b73;
+  --accent: var(--exp-gold);
+  --accent-soft: color-mix(in srgb, var(--exp-gold) 20%, transparent);
+  --border: color-mix(in srgb, var(--exp-gold-dim) 42%, transparent);
+  --exp-card-border: color-mix(in srgb, var(--exp-gold) 48%, var(--exp-parchment-edge));
+  /* Mesmas superfícies do aside / job-btn de Experiência (opacas). */
+  --exp-panel-surface:
+    repeating-linear-gradient(
+      -3deg,
+      transparent,
+      transparent 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 6%, transparent) 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 6%, transparent) 4px
+    ),
+    linear-gradient(
+      175deg,
+      color-mix(in srgb, var(--exp-parchment-light) 98%, #000) 0%,
+      color-mix(in srgb, var(--exp-parchment-mid) 97%, #000) 48%,
+      color-mix(in srgb, var(--exp-parchment) 98%, #000) 100%
+    );
+  --exp-btn-surface: color-mix(in srgb, var(--exp-parchment-light) 94%, #000);
+  --exp-btn-surface-hover: color-mix(in srgb, var(--exp-parchment-edge) 92%, #000);
+  --exp-card-surface:
+    repeating-linear-gradient(
+      -3deg,
+      transparent,
+      transparent 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 5%, transparent) 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 5%, transparent) 4px
+    ),
+    linear-gradient(
+      168deg,
+      color-mix(in srgb, var(--exp-parchment-light) 96%, #000) 0%,
+      color-mix(in srgb, var(--exp-parchment) 98%, #000) 55%,
+      color-mix(in srgb, var(--exp-parchment-mid) 94%, #000) 100%
+    );
+}
+
+.education-section #edu-heading {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-weight: 400;
+  font-size: 2.75rem;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 1.5px var(--exp-card-border);
+  paint-order: stroke fill;
+}
+
+@media (min-width: 640px) {
+  .education-section #edu-heading {
+    font-size: 3.5rem;
+  }
+}
+
+/* Cards = iluminação do experience-job-btn--active */
+.education-zones {
+  position: relative;
+}
+
+.education-zone {
+  position: relative;
+  cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--exp-gold) 62%, var(--exp-parchment-edge));
+  border-radius: 0.65rem;
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--exp-gold) 24%, var(--exp-parchment-mid)) 0%,
+    color-mix(in srgb, var(--exp-parchment-light) 96%, #000) 55%,
+    color-mix(in srgb, var(--exp-parchment-mid) 94%, #000) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--exp-gold) 28%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold-bright) 18%, transparent),
+    0 4px 14px -8px color-mix(in srgb, var(--exp-gold) 22%, transparent);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.education-zone:hover,
+.education-zone:focus-visible {
+  border-color: color-mix(in srgb, var(--exp-gold) 78%, var(--exp-parchment-edge));
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--exp-gold) 32%, var(--exp-parchment-mid)) 0%,
+    color-mix(in srgb, var(--exp-parchment-light) 94%, #000) 55%,
+    color-mix(in srgb, var(--exp-parchment-mid) 92%, #000) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--exp-gold) 36%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold-bright) 24%, transparent),
+    0 6px 18px -6px color-mix(in srgb, var(--exp-gold) 32%, transparent);
+  outline: none;
+}
+
+.education-zone__period {
+  color: var(--exp-gold-bright);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--exp-gold) 35%, transparent);
+}
+
+.education-zone__title {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-weight: 400;
+  color: var(--exp-ink);
+  text-wrap: balance;
+  transition: color 0.25s ease;
+}
+
+.education-zone__institution {
+  color: var(--exp-ink-muted);
+}
+
+.education-zone:hover .education-zone__title,
+.education-zone:focus-visible .education-zone__title {
+  color: var(--exp-gold-bright);
+}
+
+.education-zone::after {
+  content: "";
+  display: block;
+  margin: 0.5rem auto 0;
+  height: 1px;
+  width: 1.5rem;
+  background: color-mix(in srgb, var(--exp-gold-dim) 70%, transparent);
+  transition: width 0.25s ease, background 0.25s ease;
+}
+
+.education-zone:hover::after,
+.education-zone:focus-visible::after {
+  width: 2.75rem;
+  background: color-mix(in srgb, var(--exp-gold) 80%, transparent);
+}
+
+.education-zone--featured .education-zone__title {
+  font-size: 1.02em;
+}
+
+.education-zone__meta {
+  display: none;
+}
+
+.education-zones > :not(:first-child) {
+  position: relative;
+}
+
+.education-zones > :not(:first-child)::before {
+  content: none;
+}
+
+/* Formação — mobile: lista vertical legível, alvos grandes */
+@media (max-width: 639px) {
+  .education-section #edu-heading {
+    font-size: 2.15rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .education-zones {
+    gap: 0.7rem;
+    padding-inline: 0.1rem;
+  }
+
+  .education-zone {
+    min-height: 4.75rem;
+    border-radius: 0.85rem;
+    background: linear-gradient(
+      168deg,
+      color-mix(in srgb, var(--exp-gold) 20%, var(--exp-parchment-mid)) 0%,
+      color-mix(in srgb, var(--exp-parchment-light) 96%, #000) 48%,
+      color-mix(in srgb, var(--exp-parchment-mid) 94%, #000) 100%
+    );
+  }
+
+  .education-zone--featured {
+    border-color: color-mix(in srgb, var(--exp-gold) 78%, var(--exp-parchment-edge));
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--exp-gold) 34%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--exp-gold-bright) 22%, transparent),
+      0 8px 22px -10px color-mix(in srgb, var(--exp-gold) 28%, transparent);
+  }
+
+  .education-zone--featured .education-zone__title {
+    font-size: 1.05rem;
+  }
+
+  .education-zone__title {
+    text-wrap: pretty;
+  }
+
+  .education-zone__meta {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.6875rem;
+    line-height: 1.35;
+    color: color-mix(in srgb, var(--exp-ink-muted) 92%, #fff);
+    text-wrap: pretty;
+  }
+
+  .education-zone::after {
+    margin: 0.55rem 0 0;
+    width: 2rem;
+  }
+
+  .education-diploma-strip {
+    margin-top: 1.1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.45rem 0.5rem;
+    gap: 0.3rem;
+  }
+
+  .education-diploma-strip__frame {
+    height: 3rem;
+    width: calc(3rem * 16 / 9);
+  }
+
+  .education-diploma-strip__caption {
+    max-width: calc(3rem * 16 / 9);
+    font-size: 0.625rem;
+  }
+
+  html.world-cv-scroll .cv-world-document .education-section > .education-section__inner {
+    gap: 0.35rem;
+    padding-bottom: 1rem;
+  }
+}
+
+/* Modal de detalhe — mesmo pergaminho do experience-card / aside */
+.education-modal {
+  --exp-gold: #c9a84c;
+  --exp-gold-bright: #e2c56b;
+  --exp-gold-dim: #7a6535;
+  --exp-bronze: #5c4a32;
+  --exp-parchment: #1a1610;
+  --exp-parchment-mid: #231d15;
+  --exp-parchment-light: #2c2419;
+  --exp-parchment-edge: #3a3022;
+  --exp-ink: #e8dcc8;
+  --exp-ink-muted: #9a8b73;
+  --exp-card-border: color-mix(in srgb, var(--exp-gold) 48%, var(--exp-parchment-edge));
+  --exp-card-surface:
+    repeating-linear-gradient(
+      -3deg,
+      transparent,
+      transparent 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 5%, transparent) 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 5%, transparent) 4px
+    ),
+    linear-gradient(
+      168deg,
+      color-mix(in srgb, var(--exp-parchment-light) 96%, #000) 0%,
+      color-mix(in srgb, var(--exp-parchment) 98%, #000) 55%,
+      color-mix(in srgb, var(--exp-parchment-mid) 94%, #000) 100%
+    );
+  background: rgba(10, 8, 4, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.education-modal__panel {
+  max-height: min(88vh, 820px);
+  overflow: hidden;
+  border: 1px solid var(--exp-card-border);
+  background: var(--exp-card-surface);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold-bright) 14%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--exp-bronze) 35%, transparent),
+    0 24px 64px -20px rgba(0, 0, 0, 0.7);
+  color: var(--exp-ink);
+}
+
+.education-modal__panel::before,
+.education-modal__panel::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 1.2rem;
+  height: 1.2rem;
+  pointer-events: none;
+  opacity: 0.72;
+}
+
+.education-modal__panel::before {
+  top: 0.6rem;
+  left: 0.6rem;
+  border-top: 2px solid color-mix(in srgb, var(--exp-gold) 75%, transparent);
+  border-left: 2px solid color-mix(in srgb, var(--exp-gold) 75%, transparent);
+}
+
+.education-modal__panel::after {
+  right: 0.6rem;
+  bottom: 0.6rem;
+  border-right: 2px solid color-mix(in srgb, var(--exp-gold) 75%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--exp-gold) 75%, transparent);
+}
+
+.education-modal__scroll {
+  position: relative;
+  z-index: 0;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--exp-gold) 55%, transparent) transparent;
+}
+
+/* Scrollbar fina e temática — evita que a barra nativa (desenhada pelo browser,
+   fora da árvore de z-index) sobreponha o botão de fechar quando o conteúdo é
+   alto o suficiente para exigir scroll (ex.: modal com muitos tópicos). */
+.education-modal__scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.education-modal__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.education-modal__scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--exp-gold) 55%, transparent);
+  border-radius: 9999px;
+}
+
+.education-modal__close {
+  border-color: color-mix(in srgb, var(--exp-gold) 45%, var(--exp-parchment-edge));
+  background: color-mix(in srgb, var(--exp-parchment-edge) 60%, transparent);
+  color: var(--exp-ink-muted);
+}
+
+.education-modal__close:hover {
+  border-color: var(--exp-gold);
+  color: var(--exp-ink);
+  background: color-mix(in srgb, var(--exp-gold) 16%, var(--exp-parchment-edge));
+}
+
+.education-modal__period {
+  color: var(--exp-gold);
+}
+
+.education-modal__title {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-weight: 400;
+  color: var(--exp-ink);
+  letter-spacing: 0.015em;
+}
+
+.education-modal__institution {
+  color: var(--exp-ink-muted);
+}
+
+.education-modal__chip {
+  border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 65%, transparent);
+  background: color-mix(in srgb, var(--exp-parchment-edge) 72%, transparent);
+  color: var(--exp-ink-muted);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--exp-gold) 10%, transparent);
+}
+
+.education-modal__chip--diploma {
+  padding-block: 0.15rem;
+}
+
+.education-modal__summary {
+  color: var(--exp-ink-muted);
+  border-top: 1px solid color-mix(in srgb, var(--exp-gold-dim) 35%, transparent);
+  padding-top: 1rem;
+}
+
+.education-modal__section-heading {
+  color: var(--exp-gold);
+}
+
+.education-modal__topic {
+  border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 55%, transparent);
+  background: color-mix(in srgb, var(--exp-parchment-edge) 42%, transparent);
+}
+
+.education-modal__topic-title {
+  color: var(--exp-gold-bright);
+}
+
+.education-modal__topic-desc {
+  color: var(--exp-ink-muted);
+}
+
+.education-modal__topic-media {
+  border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 50%, transparent);
+}
+
+.education-modal__bullets {
+  color: var(--exp-ink-muted);
+}
+
+.education-modal__bullet-dot {
+  background: color-mix(in srgb, var(--exp-gold) 70%, transparent);
+}
+
+.education-modal__gallery-frame {
+  border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 50%, transparent);
+  aspect-ratio: 16 / 10;
 }
 
 html.world-cv-scroll .cv-world-document .education-section {
@@ -658,22 +1652,1009 @@ html.world-cv-scroll .cv-world-document .education-section {
 
 html.world-cv-scroll .cv-world-document .education-section > .education-section__inner {
   display: flex;
-  min-height: 0;
-  flex: 1 1 0;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0;
   padding-bottom: 0.35rem;
+}
+
+@media (min-width: 1024px) {
+  html.world-cv-scroll .cv-world-document .education-section > .education-section__inner {
+    min-height: 0;
+    flex: 1 1 0;
+  }
 }
 
 html.world-cv-scroll .cv-world-document .education-section .education-diploma-strip {
   flex-shrink: 0;
-  align-self: center;
+  width: 100%;
+  max-width: 64rem;
+  align-self: stretch;
+  margin-inline: 0;
   margin-bottom: 0;
 }
 
 @media (min-width: 640px) {
   html.world-cv-scroll .cv-world-document .education-section {
     padding-bottom: max(2.5rem, calc(0.75rem + env(safe-area-inset-bottom, 0px)));
+  }
+}
+
+/* Competencias — chrome medieval + Live Tiles (Metro) */
+.skills-section {
+  position: relative;
+  --exp-gold: #c9a84c;
+  --exp-gold-bright: #e2c56b;
+  --exp-gold-dim: #7a6535;
+  --exp-bronze: #5c4a32;
+  --exp-parchment: #1a1610;
+  --exp-parchment-mid: #231d15;
+  --exp-parchment-light: #2c2419;
+  --exp-parchment-edge: #3a3022;
+  --exp-ink: #e8dcc8;
+  --exp-ink-muted: #9a8b73;
+  --accent: var(--exp-gold);
+  --accent-soft: color-mix(in srgb, var(--exp-gold) 20%, transparent);
+  --border: color-mix(in srgb, var(--exp-gold-dim) 42%, transparent);
+  --exp-card-border: color-mix(in srgb, var(--exp-gold) 48%, var(--exp-parchment-edge));
+  --exp-panel-surface:
+    repeating-linear-gradient(
+      -3deg,
+      transparent,
+      transparent 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 6%, transparent) 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 6%, transparent) 4px
+    ),
+    linear-gradient(
+      175deg,
+      color-mix(in srgb, var(--exp-parchment-light) 98%, #000) 0%,
+      color-mix(in srgb, var(--exp-parchment-mid) 97%, #000) 48%,
+      color-mix(in srgb, var(--exp-parchment) 98%, #000) 100%
+    );
+}
+
+.skills-section #skills-heading {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-weight: 400;
+  font-size: 2.75rem;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 1.5px var(--exp-card-border);
+  paint-order: stroke fill;
+}
+
+@media (min-width: 640px) {
+  .skills-section #skills-heading {
+    font-size: 3.5rem;
+  }
+}
+
+.skills-metro {
+  margin-top: 0.5rem;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.skills-metro__detail-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.55rem;
+}
+
+.skills-metro__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 1.7rem;
+  padding: 0 0.65rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-color: color-mix(in srgb, var(--exp-gold-dim) 72%, transparent);
+  background: color-mix(in srgb, var(--exp-parchment-edge) 72%, transparent);
+  color: var(--exp-ink-muted);
+  backdrop-filter: blur(6px);
+}
+
+.skills-metro__back:hover {
+  border-color: var(--exp-gold);
+  color: var(--exp-ink);
+  background: color-mix(in srgb, var(--exp-gold) 18%, transparent);
+}
+
+.skills-metro__heading {
+  margin: 0;
+  padding: 0.15rem 0.1rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--exp-gold);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+}
+
+.skills-metro__heading--inline {
+  flex: 1;
+  min-width: 0;
+}
+
+.skills-metro__grid {
+  display: grid;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.skills-metro__grid--categories {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 28rem;
+  gap: 0.55rem;
+}
+
+@media (min-width: 640px) {
+  .skills-metro__grid--categories {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 42rem;
+    gap: 0.65rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .skills-metro__grid--categories {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 48rem;
+  }
+}
+
+.skills-metro__grid--items {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 30rem;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .skills-metro__grid--items {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-width: 42rem;
+    gap: 0.55rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .skills-metro__grid--items {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    max-width: 52rem;
+  }
+}
+
+.skills-metro__tile-wrap {
+  margin: 0;
+  min-width: 0;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.skills-metro__tile-wrap--wide {
+  grid-column: span 2;
+}
+
+.skills-metro__tile-wrap.is-pressing .skills-metro__tile {
+  transform: scale(0.96);
+  filter: brightness(1.06);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, #fff 18%, transparent),
+    0 4px 12px -6px rgba(0, 0, 0, 0.5);
+}
+
+.skills-metro__tile-wrap.is-dragging {
+  cursor: grabbing;
+}
+
+.skills-metro__tile-wrap.is-dragging .skills-metro__tile {
+  opacity: 0.28;
+  filter: saturate(0.35);
+  transform: scale(0.98);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #fff 12%, transparent);
+}
+
+.skills-metro.is-reordering {
+  cursor: grabbing;
+}
+
+.skills-metro__ghost {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  pointer-events: none;
+  will-change: transform;
+  filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.65));
+  opacity: 1;
+}
+
+.skills-metro__ghost-tile {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: auto !important;
+  cursor: grabbing;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, #fff 30%, transparent),
+    0 16px 36px -10px rgba(0, 0, 0, 0.7);
+}
+
+.skills-metro__tile {
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 0.2rem;
+  padding: 0.6rem 0.65rem;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+  color: #fff;
+  cursor: inherit;
+  text-align: left;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, #000 22%, transparent),
+    0 6px 16px -10px rgba(0, 0, 0, 0.55);
+  transition:
+    filter 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.skills-metro__tile--category {
+  aspect-ratio: 1;
+  min-height: 0;
+  padding: 0.85rem 0.9rem;
+  justify-content: flex-end;
+}
+
+.skills-metro__tile--category .skills-metro__tile-count,
+.skills-metro__tile--category .skills-metro__tile-label {
+  position: relative;
+  z-index: 1;
+}
+
+.skills-metro__icon-stack {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  z-index: 0;
+  width: 7.25rem;
+  height: 5.5rem;
+  transform: translate(-50%, -55%);
+  pointer-events: none;
+}
+
+.skills-metro__icon-stack-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  border-radius: 0.45rem;
+  background: color-mix(in srgb, #000 28%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, #fff 22%, transparent),
+    0 4px 10px -4px rgba(0, 0, 0, 0.45);
+  color: #fff;
+}
+
+.skills-metro__icon-stack-item--0 {
+  transform: translate(-88%, -38%) rotate(-16deg);
+  opacity: 0.92;
+}
+
+.skills-metro__icon-stack-item--1 {
+  transform: translate(-50%, -62%) rotate(2deg);
+  z-index: 1;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
+
+.skills-metro__icon-stack-item--2 {
+  transform: translate(-12%, -42%) rotate(14deg);
+  z-index: 2;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
+
+.skills-metro__icon-stack-svg {
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+@media (min-width: 640px) {
+  .skills-metro__icon-stack {
+    width: 8.25rem;
+    height: 6rem;
+  }
+
+  .skills-metro__icon-stack-item {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .skills-metro__icon-stack-svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+}
+
+.skills-metro__tile--item {
+  aspect-ratio: 1;
+  min-height: 0;
+  justify-content: space-between;
+}
+
+.skills-metro__tile--wide {
+  aspect-ratio: 2 / 1;
+}
+
+.skills-metro__tile-icon {
+  width: 1.65rem;
+  height: 1.65rem;
+  flex-shrink: 0;
+  opacity: 0.92;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+
+.skills-metro__tile-count {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.6rem;
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 1;
+  opacity: 0.5;
+  letter-spacing: -0.02em;
+}
+
+.skills-metro__tile-label {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.skills-metro__tile-label--category {
+  -webkit-line-clamp: 2;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 640px) {
+  .skills-metro__tile-icon {
+    width: 1.85rem;
+    height: 1.85rem;
+  }
+
+  .skills-metro__tile-label {
+    font-size: 0.8125rem;
+  }
+
+  .skills-metro__tile-label--category {
+    font-size: 1.1rem;
+  }
+
+  .skills-metro__tile-count {
+    font-size: 1.6rem;
+    top: 0.6rem;
+    right: 0.65rem;
+  }
+}
+
+.skills-metro__tile--category:hover,
+.skills-metro__tile--category:focus-visible,
+.skills-metro__tile-wrap:hover .skills-metro__tile--item {
+  filter: brightness(1.08);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--exp-gold) 35%, transparent),
+    0 6px 16px -8px color-mix(in srgb, var(--exp-gold) 22%, transparent);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+html.world-cv-scroll .cv-world-document .skills-section {
+  justify-content: flex-start;
+  padding-bottom: max(2.25rem, calc(0.65rem + env(safe-area-inset-bottom, 0px)));
+}
+
+html.world-cv-scroll .cv-world-document .skills-section > .skills-section__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-bottom: 0.35rem;
+}
+
+@media (min-width: 1024px) {
+  html.world-cv-scroll .cv-world-document .skills-section > .skills-section__inner {
+    min-height: 0;
+    flex: 1 1 0;
+  }
+}
+
+@media (min-width: 640px) {
+  html.world-cv-scroll .cv-world-document .skills-section {
+    padding-bottom: max(2.5rem, calc(0.75rem + env(safe-area-inset-bottom, 0px)));
+  }
+}
+
+.projects-section {
+  position: relative;
+  --exp-gold: #c9a84c;
+  --exp-gold-bright: #e2c56b;
+  --exp-gold-dim: #7a6535;
+  --exp-bronze: #5c4a32;
+  --exp-parchment: #1a1610;
+  --exp-parchment-mid: #231d15;
+  --exp-parchment-light: #2c2419;
+  --exp-parchment-edge: #3a3022;
+  --exp-ink: #e8dcc8;
+  --exp-ink-muted: #9a8b73;
+  --accent: var(--exp-gold);
+  --accent-soft: color-mix(in srgb, var(--exp-gold) 20%, transparent);
+  --border: color-mix(in srgb, var(--exp-gold-dim) 42%, transparent);
+  --exp-card-border: color-mix(in srgb, var(--exp-gold) 48%, var(--exp-parchment-edge));
+}
+
+.projects-section #proj-heading {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-weight: 400;
+  font-size: 2.75rem;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 1.5px var(--exp-card-border);
+  paint-order: stroke fill;
+}
+
+@media (min-width: 640px) {
+  .projects-section #proj-heading {
+    font-size: 3.5rem;
+  }
+}
+
+.skills-metro__grid--projects-cats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 28rem;
+  gap: 0.55rem;
+}
+
+@media (min-width: 640px) {
+  .skills-metro__grid--projects-cats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 36rem;
+    gap: 0.55rem;
+  }
+}
+
+@media (max-width: 639px) {
+  /* Mesmo tamanho dos tiles de Competencias (~170×170) */
+  .projects-section .skills-metro__grid--projects-cats {
+    grid-template-columns: repeat(2, 170px);
+    width: max-content;
+    max-width: 100%;
+    gap: 0.55rem;
+  }
+
+  .projects-section .skills-metro__grid--projects-cats > .skills-metro__tile-wrap {
+    width: 170px;
+    height: 170px;
+  }
+
+  .projects-section .skills-metro__tile--category {
+    width: 170px;
+    height: 170px;
+    aspect-ratio: auto;
+    padding: 0.85rem 0.9rem;
+  }
+
+  .projects-section .skills-metro__tile-label--category {
+    font-size: 0.9375rem;
+    letter-spacing: 0.03em;
+  }
+
+  .projects-section .skills-metro__tile-count {
+    font-size: 1.4rem;
+    top: 0.6rem;
+    right: 0.6rem;
+  }
+
+  .projects-section .skills-metro__grid--items {
+    max-width: 22rem;
+    gap: 0.45rem;
+  }
+
+  .projects-section .skills-metro__tile--item {
+    padding: 0.55rem 0.6rem;
+    min-height: 5.25rem;
+  }
+
+  .projects-section .skills-metro__tile-label {
+    font-size: 0.75rem;
+  }
+
+  .projects-metro__item-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .projects-metro__item-icon--rect {
+    max-width: 7rem;
+  }
+}
+
+.projects-metro__cat {
+  justify-content: flex-end;
+}
+
+.projects-metro__cat .skills-metro__tile-count,
+.projects-metro__cat .skills-metro__tile-label {
+  position: relative;
+  z-index: 1;
+}
+
+.projects-metro__mid-icon {
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  z-index: 0;
+  width: 7.25rem;
+  height: 4.75rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transform: translate(-50%, -55%) rotate(-7deg);
+  box-shadow:
+    0 6px 14px -6px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px color-mix(in srgb, #fff 18%, transparent);
+  background: color-mix(in srgb, #000 18%, transparent);
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .projects-metro__mid-icon {
+    width: 8.5rem;
+    height: 5.6rem;
+  }
+}
+
+.projects-metro__mid-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.projects-metro__icon-stack {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  z-index: 0;
+  width: 6.75rem;
+  height: 5.15rem;
+  transform: translate(-50%, -55%);
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .projects-metro__icon-stack {
+    width: 7.5rem;
+    height: 5.8rem;
+  }
+}
+
+.projects-metro__icon-stack-back,
+.projects-metro__icon-stack-front {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+@media (min-width: 640px) {
+  .projects-metro__icon-stack-back,
+  .projects-metro__icon-stack-front {
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+.projects-metro__icon-stack-back {
+  transform: translate(-72%, -42%) rotate(-16deg);
+  opacity: 0.95;
+}
+
+.projects-metro__icon-stack-front {
+  transform: translate(-28%, -58%) rotate(8deg);
+  z-index: 1;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+}
+
+.projects-metro__icon-stack-back img,
+.projects-metro__icon-stack-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: transparent;
+}
+
+.projects-metro__item-icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.projects-metro__tile--print {
+  justify-content: flex-end;
+}
+
+.projects-metro__tile--print .skills-metro__tile-label {
+  position: relative;
+  z-index: 1;
+}
+
+.projects-metro__item-icon--rect {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  z-index: 0;
+  width: 78%;
+  max-width: 7.5rem;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  transform: translate(-50%, -58%) rotate(-7deg);
+  box-shadow:
+    0 8px 18px -6px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px color-mix(in srgb, #fff 16%, transparent);
+  background: color-mix(in srgb, #000 18%, transparent);
+  pointer-events: none;
+}
+
+.projects-metro__tile-wrap--print .projects-metro__item-icon--rect {
+  width: 72%;
+  max-width: 14rem;
+  aspect-ratio: 16 / 9;
+}
+
+.projects-metro__item-icon--rect img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.projects-metro__item-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: transparent;
+}
+
+@media (min-width: 640px) {
+  .projects-metro__item-icon--rect {
+    width: 82%;
+    max-width: 9rem;
+  }
+
+  .projects-metro__tile-wrap--print .projects-metro__item-icon--rect {
+    width: 68%;
+    max-width: 16rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .projects-metro__mid-icon {
+    width: 10rem;
+    height: 6.5rem;
+  }
+
+  .projects-metro__icon-stack-back,
+  .projects-metro__icon-stack-front {
+    width: 5.6rem;
+    height: 5.6rem;
+  }
+}
+
+html.world-cv-scroll .cv-world-document .projects-section {
+  justify-content: flex-start;
+  padding-bottom: max(2.25rem, calc(0.65rem + env(safe-area-inset-bottom, 0px)));
+}
+
+html.world-cv-scroll .cv-world-document .projects-section > .projects-section__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-bottom: 0.35rem;
+}
+
+@media (min-width: 1024px) {
+  html.world-cv-scroll .cv-world-document .projects-section > .projects-section__inner {
+    min-height: 0;
+    flex: 1 1 0;
+  }
+}
+
+@media (min-width: 640px) {
+  html.world-cv-scroll .cv-world-document .projects-section {
+    padding-bottom: max(2.5rem, calc(0.75rem + env(safe-area-inset-bottom, 0px)));
+  }
+}
+
+/* Contacto — missiva / selos heráldicos */
+.contact-section {
+  position: relative;
+  --exp-gold: #c9a84c;
+  --exp-gold-bright: #e2c56b;
+  --exp-gold-dim: #7a6535;
+  --exp-bronze: #5c4a32;
+  --exp-parchment: #1a1610;
+  --exp-parchment-mid: #231d15;
+  --exp-parchment-light: #2c2419;
+  --exp-parchment-edge: #3a3022;
+  --exp-ink: #e8dcc8;
+  --exp-ink-muted: #9a8b73;
+  --accent: var(--exp-gold);
+  --accent-soft: color-mix(in srgb, var(--exp-gold) 20%, transparent);
+  --border: color-mix(in srgb, var(--exp-gold-dim) 42%, transparent);
+  --exp-card-border: color-mix(in srgb, var(--exp-gold) 48%, var(--exp-parchment-edge));
+  --exp-card-surface:
+    repeating-linear-gradient(
+      -3deg,
+      transparent,
+      transparent 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 5%, transparent) 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 5%, transparent) 4px
+    ),
+    linear-gradient(
+      168deg,
+      color-mix(in srgb, var(--exp-parchment-light) 96%, #000) 0%,
+      color-mix(in srgb, var(--exp-parchment) 98%, #000) 55%,
+      color-mix(in srgb, var(--exp-parchment-mid) 94%, #000) 100%
+    );
+}
+
+.contact-section #contact-heading {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-weight: 400;
+  font-size: 2.75rem;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 1.5px var(--exp-card-border);
+  paint-order: stroke fill;
+}
+
+@media (min-width: 640px) {
+  .contact-section #contact-heading {
+    font-size: 3.5rem;
+  }
+}
+
+.contact-section__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.contact-missive {
+  position: relative;
+}
+
+.contact-missive__body {
+  max-width: 36rem;
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--exp-ink);
+  text-wrap: balance;
+}
+
+.contact-missive__email {
+  display: inline-block;
+  margin-top: 1.1rem;
+  max-width: 100%;
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-size: 1.05rem;
+  color: var(--exp-gold-bright);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--exp-gold) 45%, transparent);
+  text-underline-offset: 0.2em;
+  word-break: break-all;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.contact-missive__email:hover,
+.contact-missive__email:focus-visible {
+  color: var(--exp-ink);
+  text-decoration-color: var(--exp-gold-bright);
+  outline: none;
+}
+
+.contact-missive__seals-kicker {
+  margin-top: 1.65rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--exp-ink-muted);
+}
+
+.contact-seals {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+}
+
+@media (min-width: 540px) {
+  .contact-seals {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+.contact-seal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 1rem 0.75rem 1.05rem;
+  border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 55%, var(--exp-parchment-edge));
+  border-radius: 0;
+  background: color-mix(in srgb, var(--exp-parchment) 88%, #000);
+  text-decoration: none;
+  text-align: center;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.contact-seal:hover,
+.contact-seal:focus-visible {
+  border-color: color-mix(in srgb, var(--exp-gold) 72%, var(--exp-parchment-edge));
+  background: color-mix(in srgb, var(--exp-parchment-mid) 92%, #000);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--exp-gold) 22%, transparent),
+    0 8px 22px -10px color-mix(in srgb, var(--exp-gold) 35%, transparent);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.contact-seal__ring {
+  display: grid;
+  place-items: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 0;
+  border: 2px solid color-mix(in srgb, var(--exp-gold) 75%, var(--exp-bronze));
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      color-mix(in srgb, var(--exp-gold-bright) 28%, transparent),
+      transparent 55%
+    ),
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--exp-gold) 18%, var(--exp-parchment-edge)) 0%,
+      var(--exp-parchment) 100%
+    );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--exp-gold-bright) 25%, transparent),
+    0 0 18px color-mix(in srgb, var(--exp-gold) 18%, transparent);
+}
+
+.contact-seal:hover .contact-seal__ring,
+.contact-seal:focus-visible .contact-seal__ring {
+  border-color: var(--exp-gold-bright);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--exp-gold-bright) 35%, transparent),
+    0 0 24px color-mix(in srgb, var(--exp-gold) 32%, transparent);
+}
+
+.contact-seal__disc {
+  display: grid;
+  place-items: center;
+  width: 3.15rem;
+  height: 3.15rem;
+  border-radius: 0;
+  background: color-mix(in srgb, var(--exp-parchment-mid) 90%, #000);
+  color: var(--exp-gold-bright);
+}
+
+.contact-seal__icon {
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+.contact-seal__label {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-size: 1.05rem;
+  color: var(--exp-ink);
+}
+
+.contact-seal:hover .contact-seal__label,
+.contact-seal:focus-visible .contact-seal__label {
+  color: var(--exp-gold-bright);
+}
+
+.contact-seal__handle {
+  font-size: 0.78rem;
+  line-height: 1.3;
+  color: var(--exp-ink-muted);
+  word-break: break-all;
+}
+
+.contact-seal--github .contact-seal__handle::before,
+.contact-seal--instagram .contact-seal__handle::before {
+  content: "@";
+}
+
+.contact-section .cv-contact-footer {
+  border-color: color-mix(in srgb, var(--exp-gold-dim) 42%, transparent);
+  color: var(--exp-ink-muted);
+}
+
+html.world-cv-scroll .cv-world-document .contact-section {
+  justify-content: flex-start;
+  padding-bottom: max(2.25rem, calc(0.65rem + env(safe-area-inset-bottom, 0px)));
+}
+
+html.world-cv-scroll .cv-world-document .contact-section > .contact-section__inner {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.35rem;
+}
+
+@media (min-width: 1024px) {
+  html.world-cv-scroll .cv-world-document .contact-section > .contact-section__inner {
+    min-height: 0;
+    flex: 1 1 0;
   }
 }
 
@@ -929,9 +2910,638 @@ main#content > details {
   background: var(--accent);
 }
 
+/* Experience — tema medieval (só paleta e ornamentos; tamanhos intactos) */
+.experience-section {
+  --exp-gold: #c9a84c;
+  --exp-gold-bright: #e2c56b;
+  --exp-gold-dim: #7a6535;
+  --exp-bronze: #5c4a32;
+  --exp-parchment: #1a1610;
+  --exp-parchment-mid: #231d15;
+  --exp-parchment-light: #2c2419;
+  --exp-parchment-edge: #3a3022;
+  --exp-ink: #e8dcc8;
+  --exp-ink-muted: #9a8b73;
+  --exp-burgundy: #6b2838;
+  --accent: var(--exp-gold);
+  --accent-soft: color-mix(in srgb, var(--exp-gold) 20%, transparent);
+  --border: color-mix(in srgb, var(--exp-gold-dim) 42%, transparent);
+  --exp-card-border: color-mix(in srgb, var(--exp-gold) 48%, var(--exp-parchment-edge));
+  --exp-card-surface: linear-gradient(
+    168deg,
+    color-mix(in srgb, var(--exp-parchment-light) 96%, #000) 0%,
+    color-mix(in srgb, var(--exp-parchment) 98%, #000) 55%,
+    color-mix(in srgb, var(--exp-parchment-mid) 94%, #000) 100%
+  );
+}
+
+.experience-section #exp-heading {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-weight: 400;
+  font-size: 2.75rem;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 1.5px var(--exp-card-border);
+  paint-order: stroke fill;
+}
+
+/*
+ * Mobile: Experiência / Formação / Contacto — paleta neutra (slate),
+ * sem o dourado medieval do desktop.
+ */
+@media (max-width: 639px) {
+  .experience-section,
+  .education-section,
+  .contact-section,
+  .education-modal {
+    --exp-gold: #8fa3b8;
+    --exp-gold-bright: #c5d0dc;
+    --exp-gold-dim: #5c6b7a;
+    --exp-bronze: #3d4550;
+    /* Superfícies frias (slate) — sem pergaminho dourado */
+    --exp-parchment: #12161e;
+    --exp-parchment-mid: #171c26;
+    --exp-parchment-light: #1e2530;
+    --exp-parchment-edge: #2a3340;
+    --exp-ink: #e8edf2;
+    --exp-ink-muted: #9aa8b5;
+    --accent: #8fa3b8;
+    --accent-soft: color-mix(in srgb, #8fa3b8 18%, transparent);
+    --border: color-mix(in srgb, #5c6b7a 48%, transparent);
+    --exp-card-border: color-mix(in srgb, #8fa3b8 28%, #2a3340);
+    --exp-btn-surface: #1a222c;
+    --exp-btn-surface-hover: #232c38;
+    --exp-card-surface:
+      repeating-linear-gradient(
+        -3deg,
+        transparent,
+        transparent 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 4px
+      ),
+      linear-gradient(168deg, #1a2333 0%, #0e141f 55%, #0a0f18 100%);
+    --exp-panel-surface: linear-gradient(175deg, #1a2333 0%, #121a28 48%, #0e141f 100%);
+  }
+
+  .experience-section #exp-heading,
+  .education-section #edu-heading,
+  .contact-section #contact-heading {
+    -webkit-text-stroke: 1px color-mix(in srgb, #8fa3b8 45%, transparent);
+    text-shadow: none;
+  }
+
+  .education-zone__period {
+    text-shadow: none;
+  }
+}
+
+@media (min-width: 640px) {
+  .experience-section #exp-heading {
+    font-size: 3.5rem;
+  }
+}
+
+.experience-section .experience-card {
+  --exp-card-pad: 0.75rem;
+  border: 1px solid var(--exp-card-border);
+  background:
+    repeating-linear-gradient(
+      -3deg,
+      transparent,
+      transparent 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 5%, transparent) 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 5%, transparent) 4px
+    ),
+    linear-gradient(
+      168deg,
+      color-mix(in srgb, var(--exp-parchment-light) 96%, #000) 0%,
+      color-mix(in srgb, var(--exp-parchment) 98%, #000) 55%,
+      color-mix(in srgb, var(--exp-parchment-mid) 94%, #000) 100%
+    );
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold-bright) 14%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--exp-bronze) 35%, transparent),
+    0 10px 32px -14px rgba(0, 0, 0, 0.62);
+  color: var(--exp-ink);
+}
+
+/* Mobile: cards azul-preto (substitui o pergaminho/laranja) */
+@media (max-width: 639px) {
+  .experience-section .experience-card,
+  .experience-section .experience-card--overview,
+  .experience-section .experience-card--moment,
+  .education-section .education-zone,
+  .education-modal__panel,
+  .education-modal__topic,
+  .contact-section .contact-seal,
+  .experience-section .experience-timeline-aside {
+    background:
+      repeating-linear-gradient(
+        -3deg,
+        transparent,
+        transparent 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 4px
+      ),
+      linear-gradient(
+        168deg,
+        #1a2333 0%,
+        #0e141f 55%,
+        #0a0f18 100%
+      ) !important;
+    border-color: color-mix(in srgb, #3d5a80 45%, #1a2333) !important;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #6b8caf 12%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, #0a0f18 50%, transparent),
+      0 10px 28px -14px rgba(0, 0, 0, 0.65) !important;
+  }
+
+  .education-section .education-zone--featured {
+    background:
+      repeating-linear-gradient(
+        -3deg,
+        transparent,
+        transparent 3px,
+        color-mix(in srgb, #243552 20%, transparent) 3px,
+        color-mix(in srgb, #243552 20%, transparent) 4px
+      ),
+      linear-gradient(
+        168deg,
+        #243044 0%,
+        #152032 55%,
+        #0e1520 100%
+      ) !important;
+  }
+
+  .education-section .education-diploma-strip {
+    background:
+      repeating-linear-gradient(
+        -3deg,
+        transparent,
+        transparent 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 4px
+      ),
+      linear-gradient(175deg, #1a2333 0%, #121a28 50%, #0e141f 100%) !important;
+    border-color: color-mix(in srgb, #3d5a80 45%, #1a2333) !important;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #6b8caf 12%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, #0a0f18 50%, transparent),
+      0 10px 28px -14px rgba(0, 0, 0, 0.65) !important;
+  }
+
+  .education-section .education-diploma-strip__slide {
+    background: #152032 !important;
+    border-color: color-mix(in srgb, #3d5a80 40%, #152032) !important;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #6b8caf 10%, transparent),
+      0 2px 6px -4px rgba(0, 0, 0, 0.45) !important;
+  }
+
+  .education-section .education-diploma-strip__slide:hover,
+  .education-section .education-diploma-strip__slide:focus-visible {
+    background: #1c2a3d !important;
+    border-color: color-mix(in srgb, #5a7aa0 50%, #152032) !important;
+  }
+
+  .education-section .education-diploma-strip__frame {
+    background: #0e141f !important;
+    border-color: color-mix(in srgb, #3d5a80 35%, transparent) !important;
+  }
+
+  .education-diploma-modal {
+    --exp-gold: #8fa3b8;
+    --exp-gold-bright: #c5d0dc;
+    --exp-gold-dim: #5c6b7a;
+    --exp-bronze: #3d4550;
+    --exp-parchment: #0e141f;
+    --exp-parchment-mid: #121a28;
+    --exp-parchment-light: #1a2333;
+    --exp-parchment-edge: #2a3a50;
+    --exp-ink: #e8edf2;
+    --exp-ink-muted: #9aa8b5;
+    --exp-panel-surface:
+      repeating-linear-gradient(
+        -3deg,
+        transparent,
+        transparent 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 4px
+      ),
+      linear-gradient(175deg, #1a2333 0%, #121a28 48%, #0e141f 100%);
+    background: rgba(6, 10, 18, 0.88);
+  }
+
+  .education-diploma-modal__panel {
+    background: var(--exp-panel-surface) !important;
+    border-color: color-mix(in srgb, #3d5a80 45%, #1a2333) !important;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #6b8caf 12%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, #0a0f18 50%, transparent),
+      0 24px 64px -20px rgba(0, 0, 0, 0.75) !important;
+  }
+
+  .education-diploma-modal__close,
+  .education-diploma-modal__nav {
+    border-color: color-mix(in srgb, #3d5a80 50%, transparent) !important;
+    background: #152032 !important;
+    color: #9aa8b5 !important;
+  }
+
+  .education-diploma-modal__close:hover,
+  .education-diploma-modal__nav:hover {
+    border-color: #6b8caf !important;
+    color: #e8edf2 !important;
+    background: #1c2a3d !important;
+  }
+
+  .education-diploma-modal__frame {
+    background: #0e141f !important;
+    border-color: color-mix(in srgb, #3d5a80 40%, transparent) !important;
+  }
+
+  .education-diploma-modal__counter {
+    color: #8fa3b8 !important;
+  }
+
+  .education-section .education-zone:hover,
+  .education-section .education-zone:focus-visible,
+  .contact-section .contact-seal:hover,
+  .contact-section .contact-seal:focus-visible {
+    background:
+      repeating-linear-gradient(
+        -3deg,
+        transparent,
+        transparent 3px,
+        color-mix(in srgb, #243552 22%, transparent) 3px,
+        color-mix(in srgb, #243552 22%, transparent) 4px
+      ),
+      linear-gradient(168deg, #243044 0%, #152032 55%, #0e1520 100%) !important;
+    border-color: color-mix(in srgb, #5a7aa0 55%, #1a2333) !important;
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, #6b8caf 18%, transparent),
+      0 8px 22px -10px rgba(0, 0, 0, 0.55) !important;
+  }
+}
+
+.experience-section .experience-card--overview {
+  --exp-card-pad: 1rem;
+}
+
+.experience-section .experience-card--moment {
+  --exp-card-pad: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .experience-section .experience-card--overview {
+    --exp-card-pad: 1.25rem;
+  }
+
+  .experience-section .experience-card--moment {
+    --exp-card-pad: 0.875rem;
+  }
+}
+
+.experience-section .experience-card::before,
+.experience-section .experience-card::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 1.1rem;
+  height: 1.1rem;
+  pointer-events: none;
+  opacity: 0.72;
+}
+
+.experience-section .experience-card::before {
+  top: 0.55rem;
+  left: 0.55rem;
+  border-top: 2px solid color-mix(in srgb, var(--exp-gold) 75%, transparent);
+  border-left: 2px solid color-mix(in srgb, var(--exp-gold) 75%, transparent);
+}
+
+.experience-section .experience-card::after {
+  right: 0.55rem;
+  bottom: 0.55rem;
+  border-right: 2px solid color-mix(in srgb, var(--exp-gold) 75%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--exp-gold) 75%, transparent);
+}
+
+.experience-section .experience-card-glow {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--exp-gold) 18%, transparent) 0%,
+    transparent 68%
+  );
+}
+
+.experience-section .experience-card-title {
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-weight: 400;
+  color: var(--exp-ink);
+  letter-spacing: 0.015em;
+}
+
+.experience-section .experience-card .text-\[var\(--muted\)\],
+.experience-section .experience-card .text-\[var\(--foreground\)\],
+.experience-section .experience-card-meta,
+.experience-section .experience-card-meta p:first-child,
+.experience-section .experience-card-company,
+.experience-section .experience-card-body {
+  color: var(--exp-ink-muted);
+}
+
+.experience-section .experience-inline-link {
+  color: var(--exp-gold-bright);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--exp-gold) 45%, transparent);
+  text-underline-offset: 0.15em;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.experience-section .experience-inline-link:hover,
+.experience-section .experience-inline-link:focus-visible {
+  color: var(--exp-ink);
+  text-decoration-color: var(--exp-gold-bright);
+  outline: none;
+}
+
+.experience-section .experience-card-meta p:first-child {
+  color: var(--exp-gold);
+}
+
+.experience-section .experience-stage-header {
+  border-bottom-color: color-mix(in srgb, var(--exp-gold) 32%, transparent);
+}
+
+.experience-section .experience-stage-header--bleed {
+  position: relative;
+  z-index: 0;
+  background: transparent;
+}
+
+.experience-section .experience-stage-header--bleed::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: calc(-1 * var(--exp-card-pad, 0.75rem));
+  right: calc(-1 * var(--exp-card-pad, 0.75rem));
+  bottom: 0;
+  left: calc(-1 * var(--exp-card-pad, 0.75rem));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--exp-gold) 16%, transparent) 0%,
+    color-mix(in srgb, var(--exp-gold) 7%, transparent) 52%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.experience-section .experience-stage-label {
+  color: var(--exp-gold-bright);
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.experience-section .experience-stage-label--overview {
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+.experience-section .experience-stack-chip {
+  border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 65%, transparent);
+  background: color-mix(in srgb, var(--exp-parchment-edge) 72%, transparent);
+  color: var(--exp-ink-muted);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--exp-gold) 10%, transparent);
+}
+
+.experience-section .experience-mobile-kicker {
+  color: var(--exp-gold);
+}
+
+.experience-section .experience-mobile-list {
+  width: 100%;
+}
+
+.experience-section .experience-mobile-list .experience-card--overview {
+  --exp-card-pad: 1.05rem;
+}
+
+/* Painel lateral — pergaminho sólido, estilo crónica */
+.experience-section .experience-timeline-aside {
+  position: relative;
+  height: fit-content;
+  min-height: 0;
+  align-self: start;
+  padding: 1.125rem 0.85rem 1.125rem 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--exp-gold) 55%, var(--exp-parchment-edge));
+  background:
+    repeating-linear-gradient(
+      -3deg,
+      transparent,
+      transparent 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 6%, transparent) 3px,
+      color-mix(in srgb, var(--exp-parchment-edge) 6%, transparent) 4px
+    ),
+    linear-gradient(
+      175deg,
+      color-mix(in srgb, var(--exp-parchment-light) 98%, #000) 0%,
+      color-mix(in srgb, var(--exp-parchment-mid) 97%, #000) 48%,
+      color-mix(in srgb, var(--exp-parchment) 98%, #000) 100%
+    );
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold-bright) 16%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--exp-bronze) 45%, transparent),
+    0 10px 32px -14px rgba(0, 0, 0, 0.62);
+}
+
+.experience-section .experience-timeline-aside::before,
+.experience-section .experience-timeline-aside::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.experience-section .experience-timeline-aside::before {
+  top: 0.5rem;
+  left: 0.5rem;
+  border-top: 2px solid color-mix(in srgb, var(--exp-gold) 80%, transparent);
+  border-left: 2px solid color-mix(in srgb, var(--exp-gold) 80%, transparent);
+}
+
+.experience-section .experience-timeline-aside::after {
+  right: 0.5rem;
+  bottom: 0.5rem;
+  border-right: 2px solid color-mix(in srgb, var(--exp-gold) 80%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--exp-gold) 80%, transparent);
+}
+
+.experience-section .experience-timeline-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  height: fit-content;
+  border-left: none;
+  box-shadow: none;
+}
+
+.experience-section .experience-timeline-aside .site-panel-btn {
+  border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 62%, var(--exp-parchment-edge));
+  background: color-mix(in srgb, var(--exp-parchment-light) 94%, #000);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold) 11%, transparent),
+    0 2px 6px -4px rgba(0, 0, 0, 0.4);
+}
+
+.experience-section .experience-job-btn {
+  padding: 0.5rem 0.65rem 0.55rem 0.75rem;
+  border-radius: 0.65rem;
+  background: color-mix(in srgb, var(--exp-parchment-light) 94%, #000);
+}
+
+.experience-section .experience-job-period {
+  color: var(--exp-ink-muted);
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+}
+
+.experience-section .experience-job-period--active {
+  color: var(--exp-gold-bright);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--exp-gold) 35%, transparent);
+}
+
+.experience-section .experience-job-company {
+  color: var(--exp-ink);
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+  font-family: var(--font-hero-serif), "MedievalSharp", cursive;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.experience-section .experience-job-role {
+  color: var(--exp-ink-muted);
+  margin-top: 0.125rem;
+  font-size: 0.6875rem;
+}
+
+.experience-section .experience-timeline-aside .site-panel-btn:hover,
+.experience-section .experience-job-btn:hover {
+  border-color: color-mix(in srgb, var(--exp-gold) 48%, var(--exp-parchment-edge));
+  background: color-mix(in srgb, var(--exp-parchment-edge) 92%, #000);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold) 14%, transparent),
+    0 4px 12px -6px rgba(0, 0, 0, 0.45);
+}
+
+.experience-section .experience-job-btn--active,
+.experience-section .experience-timeline-aside .site-panel-btn[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--exp-gold) 62%, var(--exp-parchment-edge));
+  background: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--exp-gold) 24%, var(--exp-parchment-mid)) 0%,
+    color-mix(in srgb, var(--exp-parchment-light) 96%, #000) 55%,
+    color-mix(in srgb, var(--exp-parchment-mid) 94%, #000) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--exp-gold) 28%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold-bright) 18%, transparent),
+    0 4px 14px -8px color-mix(in srgb, var(--exp-gold) 22%, transparent);
+}
+
+.experience-section .experience-job-btn .font-semibold {
+  color: var(--exp-ink);
+}
+
+.experience-section .experience-job-btn .text-\[var\(--muted\)\],
+.experience-section .experience-job-btn .text-\[var\(--muted\)\]\/80 {
+  color: var(--exp-ink-muted);
+}
+
+.experience-section .site-chip-btn {
+  border-color: color-mix(in srgb, var(--exp-gold-dim) 72%, transparent);
+  background: color-mix(in srgb, var(--exp-parchment-edge) 78%, transparent);
+  color: var(--exp-ink-muted);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold) 12%, transparent),
+    0 3px 10px -6px rgba(0, 0, 0, 0.45);
+}
+
+.experience-section .site-chip-btn:hover {
+  border-color: var(--exp-gold);
+  color: var(--exp-ink);
+  background: color-mix(in srgb, var(--exp-gold) 14%, var(--exp-parchment-edge));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold-bright) 18%, transparent),
+    0 4px 14px -4px color-mix(in srgb, var(--exp-gold) 28%, transparent);
+}
+
+.experience-section .experience-peephole--phone,
+.experience-peephole--phone,
+html.world-3d-active .experience-section .experience-peephole--phone,
+html.world-3d-active .experience-peephole--phone {
+  position: relative;
+  width: min(100%, 272px);
+  aspect-ratio: 9 / 18;
+  max-height: min(44vh, 400px);
+  margin-inline: auto;
+  border: none !important;
+  border-radius: 1.65rem;
+  background: transparent !important;
+  background-color: transparent !important;
+  pointer-events: none;
+  box-shadow: none !important;
+  outline: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+@media (min-width: 1024px) {
+  .experience-stage-field--phone .experience-peephole--phone {
+    width: min(300px, 42%);
+    aspect-ratio: 9 / 19.5;
+    max-height: min(64vh, 560px);
+    margin-inline: 0;
+    align-self: flex-start;
+  }
+}
+
+.experience-section .experience-peephole--phone::before,
+.experience-section .experience-peephole--phone::after,
+.experience-peephole--phone::before,
+.experience-peephole--phone::after,
+html.world-3d-active .experience-section .experience-peephole--phone::before,
+html.world-3d-active .experience-section .experience-peephole--phone::after,
+html.world-3d-active .experience-peephole--phone::before,
+html.world-3d-active .experience-peephole--phone::after {
+  content: none !important;
+  display: none !important;
+}
+
+html.world-3d-active .experience-stage-field--phone {
+  background: transparent;
+}
+
 /* Experience — campo alto com janela para o cenário 3D */
 .experience-panel {
   min-height: min(78vh, 760px);
+}
+
+.experience-panel:has(.experience-stage-field--phone) {
+  min-height: 0;
 }
 
 .experience-stage-field {
@@ -950,6 +3560,7 @@ main#content > details {
 .experience-stage-field--phone {
   gap: 1rem;
   align-items: stretch;
+  min-height: 0;
 }
 
 @media (min-width: 1024px) {
@@ -960,60 +3571,22 @@ main#content > details {
   }
 }
 
-.experience-peephole--phone {
-  position: relative;
-  width: min(100%, 336px);
-  aspect-ratio: 9 / 18;
-  max-height: min(50vh, 480px);
-  margin-inline: auto;
-  border-radius: 1.85rem;
-  border: 2px solid color-mix(in srgb, var(--border) 82%, transparent);
-  background: transparent;
-  pointer-events: none;
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent),
-    0 12px 40px -20px color-mix(in srgb, var(--foreground) 28%, transparent);
+.experience-stage-card--phone {
+  flex: 1 1 auto;
+  align-self: flex-start;
+  min-height: 0;
 }
 
 @media (min-width: 1024px) {
-  .experience-stage-field--phone .experience-peephole--phone {
-    width: min(380px, 54%);
-    aspect-ratio: 9 / 19.5;
-    max-height: min(76vh, 680px);
-    margin-inline: 0;
-    align-self: flex-start;
+  .experience-stage-field--phone .experience-stage-card--phone {
+    max-height: min(64vh, 560px);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
   }
-}
 
-.experience-peephole--phone::before {
-  content: "";
-  position: absolute;
-  top: 0.55rem;
-  left: 50%;
-  z-index: 1;
-  height: 0.35rem;
-  width: 28%;
-  min-width: 3.5rem;
-  max-width: 5.5rem;
-  transform: translateX(-50%);
-  border-radius: 9999px;
-  background: color-mix(in srgb, var(--border) 88%, transparent);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--foreground) 8%, transparent);
-}
-
-html.world-3d-active .experience-peephole--phone {
-  border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--surface) 6%, transparent) 0%,
-    transparent 42%,
-    color-mix(in srgb, var(--surface) 10%, transparent) 100%
-  );
-}
-
-.experience-stage-card--phone {
-  flex: 1 1 auto;
-  align-self: stretch;
+  .experience-stage-field--phone .experience-card--phone {
+    height: auto;
+  }
 }
 
 .experience-card--phone {
@@ -1036,29 +3609,21 @@ html.world-3d-active .experience-peephole--phone {
 .experience-peephole {
   position: relative;
   border-radius: 1rem;
-  border: 1px dashed color-mix(in srgb, var(--border) 70%, transparent);
+  border: none;
   background: transparent;
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 6%, transparent);
+  box-shadow: none;
+}
+
+.experience-peephole--phone {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
 html.world-3d-active .experience-peephole {
-  border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--surface) 4%, transparent) 0%,
-    transparent 45%,
-    color-mix(in srgb, var(--surface) 8%, transparent) 100%
-  );
-}
-
-.experience-peephole::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  box-shadow: inset 0 24px 48px -24px color-mix(in srgb, var(--surface) 55%, transparent);
+  border-color: transparent;
+  background: transparent;
 }
 
 .flow-stripe--education .flow-node {
@@ -1331,20 +3896,149 @@ html.world-3d-active .experience-peephole {
   color: #f472b6;
 }
 
+.hero-desktop-hint {
+  display: none;
+}
+
 @media (max-width: 639px) {
+  .hero-desktop-hint {
+    display: block;
+    position: absolute;
+    z-index: 20;
+    top: calc(0.35rem + env(safe-area-inset-top, 0px));
+    left: 1rem;
+    right: 1rem;
+    margin: 0;
+    max-width: 19.5rem;
+    font-family: var(--font-hero-serif), "MedievalSharp", Georgia, serif;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    color: color-mix(in srgb, var(--exp-gold-bright, #e2c56b) 72%, #c4b89a);
+    text-wrap: pretty;
+    pointer-events: none;
+  }
+
   .hero-kicker {
     font-size: 0.625rem;
     letter-spacing: 0.16em;
+    margin-bottom: 0.7rem;
   }
 
+  /* Tamanho fixo — sem clamp/vw que muda entre frases e linhas */
   .hero-headline,
   .hero-headline-copy {
-    font-size: clamp(2rem, 7.5vw, 2.65rem);
+    font-size: 2.125rem;
+  }
+
+  .hero-headline {
+    line-height: 1.05;
+  }
+
+  .hero-headline-line {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.16em;
+    row-gap: 0.16em;
+    line-height: 1.05;
+    width: max-content;
+    max-width: none;
+    transform-origin: top left;
+  }
+
+  .hero-headline-line-stack.hero-headline-line-segment,
+  .hero-headline-line > .hero-headline-line-stack {
+    position: relative;
+    display: block;
+    width: max-content;
+    max-width: none;
+    height: auto;
+    margin: 0;
+    line-height: 1.05;
+    overflow: visible;
+  }
+
+  .hero-headline-copy {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    line-height: 1.05;
+    white-space: nowrap;
+    transform: none;
+  }
+
+  .hero-headline-visual {
+    position: relative;
+    z-index: 0;
+    display: block;
+    line-height: 0;
+  }
+
+  /* SVG no tamanho intrínseco (mesmo fontSize em todas as linhas) */
+  .hero-drawn-phrase {
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .hero-drawn-phrase > span {
+    display: block;
+    line-height: 0;
+  }
+
+  .hero-headline-line-segment svg,
+  .hero-drawn-phrase svg {
+    display: block;
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+  }
+
+  .hero-headline-static-text {
+    display: block;
+    line-height: 1.05;
+    font-size: 2.125rem;
+  }
+
+  .hero-headline-suffix-row,
+  .hero-headline-smart-row {
+    align-items: flex-end;
+    line-height: 1.05;
   }
 
   .hero-bio-line {
     font-size: 0.9375rem;
     line-height: 1.55;
+  }
+
+  /* Empurra o bloco hero um pouco para baixo (além do padding da secção) */
+  .cv-snap-section--hero > .cv-snap-section__inner {
+    padding-top: 0.75rem;
+  }
+
+  /* Reserva altura p/ ~3 linhas — a bio não salta quando a frase muda */
+  .hero-headline-slot {
+    box-sizing: content-box;
+    min-height: 8.75rem;
+  }
+
+  .hero-bio-slot {
+    margin-top: 1.35rem;
+  }
+}
+
+/* 2.º parágrafo da bio no mobile só se houver altura de ecrã */
+@media (max-width: 639px) and (min-height: 700px) {
+  .hero-bio-line--extra {
+    display: block !important;
   }
 }
 
@@ -1375,9 +4069,20 @@ html.world-3d-active .experience-peephole {
   max-width: 100%;
 }
 
+@media (min-width: 640px) {
+  .hero-headline-line-segment {
+    width: 100%;
+  }
+
+  .hero-headline-line-segment svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
 .hero-headline-line-segment svg {
   display: block;
-  max-width: 100%;
   height: auto;
 }
 

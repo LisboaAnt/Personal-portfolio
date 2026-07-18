@@ -35,7 +35,7 @@ function toUnlit(mat: Material, alphaTest: number): MeshBasicMaterial | null {
 
   return new MeshBasicMaterial({
     map,
-    alphaMap: alphaMap ?? undefined,
+    ...(alphaMap ? { alphaMap } : {}),
     alphaTest,
     transparent: false,
     depthWrite: true,

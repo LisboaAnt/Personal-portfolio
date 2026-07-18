@@ -25,6 +25,21 @@ const defaultPad: TitleLayoutPad = { left: true, right: true };
 const lengthCache = new Map<string, number>();
 const layoutCache = new Map<string, TitleLayout>();
 
+function getHeroTitlePadYRatio(): number {
+  if (typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches) {
+    return 0.04;
+  }
+  return 0.08;
+}
+
+/** Compacta um pouco no mobile, sem sobrepor linhas. */
+function getHeroTitleLineHeightMul(): number {
+  if (typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches) {
+    return 0.92;
+  }
+  return 1;
+}
+
 function layoutCacheKey(
   text: string,
   fontSize: number,
@@ -32,7 +47,9 @@ function layoutCacheKey(
 ): string {
   const pl = padSides.left !== false ? 1 : 0;
   const pr = padSides.right !== false ? 1 : 0;
-  return `${fontSize}|${pl}|${pr}|${text}`;
+  const padY = Math.round(getHeroTitlePadYRatio() * 1000);
+  const lh = Math.round(getHeroTitleLineHeightMul() * 100);
+  return `${fontSize}|${pl}|${pr}|${padY}|${lh}|${text}`;
 }
 
 /** Layout já calculado (ex.: após preload) — evita 1º frame vazio ao montar segmento. */
@@ -47,12 +64,11 @@ export function peekTitleLayout(
 
 export const HERO_HEADLINE_FONT_URL = "/fonts/MedievalSharp-Regular.woff2";
 
-/** Headline SVG — mobile: ~clamp(2rem, 7.5vw, 2.65rem); desktop: clamp(2.75rem, 9vw, 4.75rem). */
+/** Headline SVG — mobile: tamanho fixo (evita saltos); desktop: clamp fluido. */
 export function getHeroHeadlineFontSizePx(): number {
   if (typeof window === "undefined") return 36;
   if (window.matchMedia("(max-width: 639px)").matches) {
-    const vw = window.innerWidth * 0.075;
-    return Math.round(Math.min(Math.max(vw, 32), 42));
+    return 34;
   }
   const vw = window.innerWidth * 0.09;
   return Math.round(Math.min(Math.max(vw, 44), 76));
@@ -261,12 +277,13 @@ export function buildTitleLayout(
 
   if (glyphs.length === 0 || !bbox || !isValidBBox(bbox)) return null;
 
-  const padY = fontSize * 0.08;
+  const padY = fontSize * getHeroTitlePadYRatio();
   const padL = padSides.left !== false ? padY : 0;
   const padR = padSides.right !== false ? padY : 0;
   const ascent = (font.ascent ?? 0) * scale;
   const descent = Math.abs(font.descent ?? 0) * scale;
-  const lineHeight = ascent + descent;
+  const lineMul = getHeroTitleLineHeightMul();
+  const lineHeight = (ascent + descent) * lineMul;
   /** Inclui avanço de espaços (glifos sem contorno não entram no bbox). */
   const contentW = Math.max(x, bbox.x2 - bbox.x1);
   const w = contentW + padL + padR;
@@ -276,7 +293,7 @@ export function buildTitleLayout(
   const result: TitleLayout = {
     glyphs,
     viewBox: `0 0 ${w} ${h}`,
-    transform: `translate(${-bbox.x1 + padL}, ${ascent + padY}) scale(1, -1)`,
+    transform: `translate(${-bbox.x1 + padL}, ${ascent * lineMul + padY}) scale(1, -1)`,
     width: w,
     height: h,
   };

@@ -249,6 +249,7 @@
     "hero": {
       "greeting": "Hola",
       "intro": "Hola, me llamo Antonio",
+      "desktopHint": "Si usas un computador, hay más interacciones y un fondo 3D.",
       "headlinePrefix": "",
       "headlinePhrases": [
         "Lidero equipos técnicos.",
@@ -313,7 +314,7 @@
               "text": "Soy cofundador de Vittahub, un marketplace de salud en Brasil. Lo que empezó como una startup enxuta hoy cuenta con más de 12 colaboradores — 8 de ellos desarrolladores. Combino diseño de producto, Scrum Master, Tech Lead y arquitectura de software: defino la visión, estructuro el backlog, facilito ceremonias, guío decisiones técnicas y sigo en la entrega fullstack con el equipo."
             },
             {
-              "title": "De startup a equipo",
+              "title": "De startup a equipe",
               "text": "Lo que empezó como una startup enxuta creció hasta un equipo de más de 12 colaboradores — 8 desarrolladores. Ayudé a definir contratación, onboarding y cadencia de entrega a medida que el producto escalaba."
             },
             {
@@ -332,7 +333,7 @@
           "title": "Fundador y CEO · Fullstack",
           "company": "Alémsys Digital",
           "location": "Brasil · estudio de software",
-          "stack": "Next.js, TypeScript, Node.js, web y mobile",
+          "stack": "Next.js, TypeScript, Node.js, React Native",
           "bullets": [],
           "stages": [
             {
@@ -344,16 +345,16 @@
               "text": "Entrega integral de productos web y mobile personalizados, con discovery directo con clientes y releases iterativos."
             },
             {
-              "title": "Plataforma del estudio",
-              "text": "Creación y lanzamiento de la plataforma en alemys.digital — portfolio, captación de leads y base operativa para el trabajo con clientes."
+              "title": "Versión escritorio",
+              "text": "Productos web y paneles de gestión pensados para pantalla amplia: arquitectura, flujos complejos y entrega iterativa con foco en claridad y rendimiento en desktop."
             },
             {
               "title": "Versión mobile",
               "text": "Apps mobile a medida con la misma cadencia de entrega: discovery con el cliente, releases iterativos y foco en rendimiento y usabilidad en pantalla pequeña."
             },
             {
-              "title": "Versión escritorio",
-              "text": "Productos web y paneles de gestión pensados para pantalla amplia: arquitectura, flujos complejos y entrega iterativa con foco en claridad y rendimiento en desktop."
+              "title": "Plataforma del estudio",
+              "text": "Creación y lanzamiento de la plataforma en alemys.digital — portfolio, captación de leads y base operativa para el trabajo con clientes."
             },
             {
               "title": "App en producción",
@@ -420,6 +421,10 @@
     },
     "education": {
       "title": "Formación",
+      "close": "Cerrar",
+      "openDetails": "Ver detalles",
+      "topicsHeading": "Áreas de estudio",
+      "highlightsHeading": "Destacados",
       "diplomas": {
         "title": "Diplomas",
         "prev": "Diploma anterior",
@@ -429,21 +434,21 @@
             "id": "senai",
             "title": "Técnico en Redes",
             "caption": "SENAI Rondônia",
-            "image": "/diplomas/senai.svg",
+            "image": "/diplomas/senaidiploma.jpeg",
             "alt": "Diploma técnico SENAI Rondônia"
           },
           {
             "id": "ufc-cs",
             "title": "Grado en Computación",
             "caption": "Universidad Federal de Ceará",
-            "image": "/diplomas/ufc-cs.svg",
+            "image": "/diplomas/diplomaUfc.png",
             "alt": "Diploma de grado en Ciencias de la Computación — UFC"
           },
           {
             "id": "ufc-mentor",
             "title": "Mentoría en emprendimiento",
-            "caption": "UFC",
-            "image": "/diplomas/ufc-mentor.svg",
+            "caption": "Universidad Federal de Ceará",
+            "image": "/diplomas/empreendeufc.png",
             "alt": "Certificado de mentoría en emprendimiento — UFC"
           }
         ]
@@ -455,7 +460,20 @@
           "title": "Técnico en Redes de Computadores",
           "institution": "SENAI Rondônia",
           "meta": "1200 h",
-          "bullets": ["LAN, servidores locales y seguridad de red."]
+          "summary": "Formación técnica centrada en infraestructura de red — la base que después me llevó al software y a los sistemas.",
+          "bullets": ["LAN, servidores locales y seguridad de red."],
+          "topics": [
+            {
+              "id": "infra",
+              "title": "Infraestructura de red",
+              "description": "Cableado estructurado, diseño de LAN/WAN, fundamentos de switching y routing, y prácticas configurando equipos de red reales."
+            },
+            {
+              "id": "servers-security",
+              "title": "Servidores y seguridad",
+              "description": "Administración de servidores locales (Windows/Linux), políticas de usuarios y permisos, backups e introducción al endurecimiento de seguridad de red."
+            }
+          ]
         },
         {
           "id": "ufc-cs",
@@ -463,40 +481,123 @@
           "title": "Grado en Ciencias de la Computación",
           "institution": "Universidad Federal de Ceará (UFC)",
           "meta": "3200 h",
+          "summary": "Grado completo en ciencias de la computación — desde los fundamentos algorítmicos hasta IA aplicada, gráficos y diseño de sistemas a gran escala.",
           "bullets": [
             "Algoritmos, estructuras de datos, ingeniería de software.",
             "Bases de datos, redes, IA y computación aplicada."
+          ],
+          "topics": [
+            {
+              "id": "algorithms",
+              "title": "Algoritmos y estructuras de datos",
+              "description": "Análisis de complejidad, algoritmos clásicos (ordenación, grafos, programación dinámica) y las estructuras de datos que sostienen sistemas eficientes."
+            },
+            {
+              "id": "software-modeling",
+              "title": "Ingeniería de software y modelado",
+              "description": "Requisitos, modelado UML, patrones de diseño y arquitectura — de un diagrama a un código mantenible y testeable."
+            },
+            {
+              "id": "ai",
+              "title": "Inteligencia artificial",
+              "description": "Búsqueda y optimización, machine learning clásico y redes neuronales — teoría junto a proyectos aplicados y datasets reales."
+            },
+            {
+              "id": "computer-graphics",
+              "title": "Computación gráfica",
+              "description": "Pipelines de renderizado, transformaciones, matemática 3D y práctica con OpenGL; shaders en C# y Python — las mismas bases detrás de la escena WebGL de este portfolio."
+            },
+            {
+              "id": "databases-networks",
+              "title": "Bases de datos y redes",
+              "description": "Modelado relacional, optimización de consultas, fundamentos de sistemas distribuidos y protocolos de red de las aplicaciones modernas."
+            }
           ]
         },
         {
           "id": "ufc-mentor",
           "period": "04/2025 — 12/2025",
           "title": "Mentoría en emprendimiento",
-          "institution": "UFC",
+          "institution": "Universidad Federal de Ceará (UFC)",
           "meta": "144 h",
+          "summary": "Programa de mentoría estructurado que conecta ideas en etapa temprana con el ecosistema de innovación de la universidad.",
           "bullets": [
             "Ideas, pitch y vínculo con el ecosistema de innovación."
+          ],
+          "topics": [
+            {
+              "id": "ideation",
+              "title": "Ideación y validación",
+              "description": "Definición del problema, primeras conversaciones con clientes y validación ligera antes de escribir una sola línea de código."
+            },
+            {
+              "id": "pitch",
+              "title": "Pitch y storytelling",
+              "description": "Estructurar una narrativa clara para una idea y presentarla a mentores, pares y al ecosistema de innovación."
+            }
           ]
         }
       ]
     },
     "skills": {
       "title": "Competencias",
+      "back": "Volver",
       "groups": [
         {
           "id": "stack",
-          "label": "Producción",
+          "label": "Lenguajes y frameworks",
           "items": [
             "TypeScript",
             "JavaScript",
+            "Java",
+            "Python",
+            "C#",
+            "SQL",
             "React",
+            "React Native",
+            "React Flow",
             "Next.js",
+            "Angular",
+            "OpenGL",
+            "Three.js",
+            "WebGL"
+          ]
+        },
+        {
+          "id": "backend",
+          "label": "Backend y bases de datos",
+          "items": [
             "Node.js",
             "PostgreSQL",
-            "MySQL / MariaDB",
+            "MariaDB",
+            "MongoDB"
+          ]
+        },
+        {
+          "id": "infra",
+          "label": "Infra, arquitectura y herramientas",
+          "items": [
             "Docker",
+            "AWS",
+            "Git",
+            "System design",
+            "Code review",
+            "REST API",
             "N8N",
-            "Tailwind CSS"
+            "i18n"
+          ]
+        },
+        {
+          "id": "ai",
+          "label": "IA y fundamentos",
+          "items": [
+            "IA / Ciencias de la Computación aplicadas",
+            "Algoritmos",
+            "Ingeniería de software",
+            "Redes",
+            "Flujos de trabajo con IA",
+            "FAQ / orquestación con IA",
+            "Planificación basada en algoritmos"
           ]
         },
         {
@@ -504,15 +605,24 @@
           "label": "Idiomas",
           "items": [
             "Portugués (nativo)",
-            "Español (fluido)",
-            "Inglés (B1)",
+            "Español (nativo)",
+            "Inglés (B2/C1)",
             "Alemán (A1)"
           ]
         },
         {
-          "id": "collab",
-          "label": "Equipo y producto",
+          "id": "soft",
+          "label": "Soft skills",
           "items": [
+            "YouTube (100k+ vistas)",
+            "Experiencia en teatro y escenario",
+            "Hablar en público y presencia",
+            "Comunicación clara",
+            "Empatía y escucha activa",
+            "Colaboración bajo presión",
+            "Resolución creativa de problemas",
+            "Adaptabilidad y agilidad de aprendizaje",
+            "Facilitación y conciencia de conflictos",
             "Pair programming y mentoría",
             "Mentalidad de producto accesible e inclusivo",
             "Discovery y requisitos"
@@ -520,72 +630,111 @@
         }
       ]
     },
-    "detection": {
-      "summary": "Detección técnica (idioma y CDN)",
-      "sectionLabel": "Detección de idioma y región",
-      "title": "Cómo el sitio interpreta el contexto",
-      "pageLocale": "Idioma de la página: {locale}",
-      "acceptLanguage": "Cabecera Accept-Language: {value}",
-      "country": "País (Vercel / CDN): {value}",
-      "unknown": "(no enviado)",
-      "localOnly": "(solo en deploy con edge, p. ej. Vercel)"
-    },
     "projects": {
       "title": "Proyectos destacados",
-      "viewCase": "Ver caso",
-      "items": [
+      "back": "Volver",
+      "groups": [
         {
-          "id": "vittahub",
-          "title": "Vittahub",
-          "role": "Tech Lead · Fullstack",
-          "description": "Marketplace para clínicas y cuidados. Arquitectura, requisitos y ritmo de entrega en una startup temprana.",
-          "stack": "Next.js, TypeScript, Node.js, PostgreSQL",
-          "cover": "/projects/vittahub.svg",
-          "coverAlt": "Arte 3D abstracto — Vittahub",
-          "bullets": [
-            "System design y discovery con stakeholders.",
-            "Cultura de releases frecuentes con QA, DevOps y equipo en crecimiento."
+          "id": "youtube",
+          "label": "YouTube",
+          "items": [
+            {
+              "id": "yt-opengl",
+              "label": "OpenGL Legacy + Python (15 clases, 50k+ vistas)",
+              "href": "https://youtube.com/playlist?list=PLr7kJYXyKg0bRKzZ5yYQ0W585X_152dos&si=Fq86clq7zh_hFm9U"
+            },
+            {
+              "id": "yt-big-calendar",
+              "label": "React Big Calendar (30k+ vistas)",
+              "href": "https://youtube.com/playlist?list=PLr7kJYXyKg0Z4e_mdEUOchEePCunPMA_n&si=0WZNX4wLXnoi0wfp"
+            },
+            {
+              "id": "yt-short",
+              "label": "Short (100k+ vistas)",
+              "href": "https://www.youtube.com/channel/UCyuz3d4mm4Dgzxh1F-USiig"
+            }
           ]
         },
         {
-          "id": "ussin",
-          "title": "Ussin",
-          "role": "Fullstack Web Developer",
-          "description": "Plataforma educativa con foco en rendimiento, inclusión y UX multilingüe.",
-          "stack": "React, React Flow, Node.js, MariaDB",
-          "cover": "/projects/ussin.svg",
-          "coverAlt": "Arte 3D abstracto — Ussin",
-          "bullets": [
-            "React Flow con mejoras medibles en flujos.",
-            "Accesibilidad e i18n de extremo a extremo."
+          "id": "github",
+          "label": "GitHub",
+          "items": [
+            {
+              "id": "read-aloud",
+              "label": "Local-text-to-speech-rendering",
+              "href": "https://github.com/LisboaAnt/Local-text-to-speech-rendering"
+            },
+            {
+              "id": "schedule-desktop",
+              "label": "schedule-desktop",
+              "href": "https://github.com/LisboaAnt/schedule-desktop"
+            },
+            {
+              "id": "stock-manager",
+              "label": "stock-manager",
+              "href": "https://github.com/LisboaAnt/stock-manager"
+            },
+            {
+              "id": "opengl-engine",
+              "label": "Motor OpenGL legacy",
+              "href": "https://github.com/LisboaAnt/OpenGLPython"
+            },
+            {
+              "id": "turing-machine",
+              "label": "TuringMachine",
+              "href": "https://github.com/LisboaAnt/TuringMachine"
+            },
+            {
+              "id": "cfg",
+              "label": "context-free-grammar-CFG",
+              "href": "https://github.com/LisboaAnt/context-free-grammar-CFG-"
+            },
+            {
+              "id": "regua-puzzle",
+              "label": "Algoritmo-Regua-Puzzle",
+              "href": "https://github.com/LisboaAnt/Algoritmo-Regua-Puzzle"
+            },
+            {
+              "id": "tron-opengl",
+              "label": "Tron Game OpenGL",
+              "href": "https://youtu.be/speVigR8A-Q?si=7DyEy8ff5xiBE-ku"
+            }
           ]
         },
         {
-          "id": "ufc",
-          "title": "Universidad Federal de Ceará",
-          "role": "Freelance · fullstack",
-          "description": "Módulo institucional freelance para la universidad — integraciones omnicanal e IA, todo en los servidores de la universidad vía Docker.",
-          "stack": "Docker, N8N, WhatsApp, IA",
-          "cover": "/projects/ufc.svg",
-          "coverAlt": "Arte 3D abstracto — módulo institucional universidad federal",
-          "bullets": [
-            "Proyecto freelance para la app oficial de la universidad.",
-            "Reservas y agenda automática por sala.",
-            "Automatización e IA con N8N en infraestructura de la universidad."
+          "id": "work",
+          "label": "Trabajo",
+          "items": [
+            {
+              "id": "vittahub",
+              "label": "Vittahub",
+              "href": "https://www.instagram.com/vittahub.br/"
+            },
+            {
+              "id": "alemsys",
+              "label": "Alemsys",
+              "href": "https://www.instagram.com/alemsysdigital/"
+            }
           ]
         }
       ]
     },
     "contact": {
       "title": "Contacto",
-      "body": "Abierto a conversaciones sobre producto, ingeniería fullstack u oportunidades en Europa.",
-      "email": "antoniol.carvalho49@gmail.com"
+      "body": "Abierto a conversaciones sobre producto, ingeniería fullstack, oportunidades en Europa — o sobre cualquier otra cosa. Una buena amistad nunca está de más.",
+      "email": "antoniol.carvalho49@gmail.com",
+      "sealsKicker": "Formas de contacto"
     },
     "social": {
       "github": "https://github.com/LisboaAnt",
-      "linkedin": "https://www.linkedin.com/in/antonio-lisboa-de-carvalho-b5a5a4194/",
+      "linkedin": "https://www.linkedin.com/in/antonio--lisboa/",
+      "instagram": "https://www.instagram.com/antoniolis_boa/",
       "githubLabel": "GitHub",
-      "linkedinLabel": "LinkedIn"
+      "linkedinLabel": "LinkedIn",
+      "instagramLabel": "Instagram",
+      "githubHandle": "LisboaAnt",
+      "linkedinHandle": "antonio--lisboa",
+      "instagramHandle": "antoniolis_boa"
     },
     "contribute": {
       "title": "Contribuir",

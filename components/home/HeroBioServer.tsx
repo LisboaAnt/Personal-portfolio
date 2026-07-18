@@ -33,7 +33,7 @@ function makeRichTags(githubHref: string) {
   };
 }
 
-/** Bio da hero — mobile: 1 linha curta; desktop: 2 linhas. */
+/** Bio da hero — mobile: linha curta + 2.ª se houver altura; desktop: 2 linhas. */
 export async function HeroBioServer() {
   const t = await getTranslations("Home.hero");
   const tHome = await getTranslations("Home");
@@ -44,7 +44,9 @@ export async function HeroBioServer() {
       <div className="space-y-3 sm:space-y-5">
         <p className="hero-bio-line sm:hidden">{t.rich("bioLine1Mobile", tags)}</p>
         <p className="hero-bio-line hidden sm:block">{t.rich("bioLine1", tags)}</p>
-        <p className="hero-bio-line hidden sm:block">{t.rich("bioLine2", tags)}</p>
+        <p className="hero-bio-line hero-bio-line--extra hidden sm:block">
+          {t.rich("bioLine2", tags)}
+        </p>
       </div>
     </div>
   );
