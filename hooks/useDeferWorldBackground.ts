@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { WORLD_BACKGROUND_DELAY_MS } from "@/world/world-wallpaper";
 
 /**
- * Adia apenas o canvas 3D + GLB (o wallpaper.png mostra-se antes, no WorldProvider).
+ * Adia a montagem do canvas WebGL (o wallpaper.png e o preload do GLB começam antes).
  */
 export function useDeferWorldBackground(enabled: boolean): boolean {
   const [ready, setReady] = useState(false);

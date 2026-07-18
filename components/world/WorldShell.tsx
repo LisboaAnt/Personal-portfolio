@@ -120,7 +120,8 @@ export function WorldShell({ children }: Props) {
 
   return (
     <>
-      {isBlenderWorldScene() && (!wallpaperFlow || deferCanvas) ? <WorldGlbPreload /> : null}
+      {/* Preload do GLB já — não espera o defer do canvas (evita +8s na Vercel). */}
+      {isBlenderWorldScene() ? <WorldGlbPreload /> : null}
       <WebGLErrorBoundary fallback={children}>
         {mountWorldCanvas ? <WorldCanvas className="fixed inset-0 z-0" scene="site" /> : null}
         {!isSpikeDemo && isBlenderWorldScene() ? <WorldShiftMouseMode /> : null}
