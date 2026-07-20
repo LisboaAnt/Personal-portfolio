@@ -51,6 +51,9 @@
     "panelInactive": "Klassischer Modus — kein WebGL-Canvas.",
     "demoLink": "Isolierte Demo",
     "loader": "Laden {percent}%",
+    "backgroundViewHide": "Text ausblenden — nur 3D-Hintergrund anzeigen",
+    "backgroundViewShow": "Text und Oberfläche anzeigen",
+    "backgroundViewAria": "Nur-3D-Hintergrund-Ansicht umschalten",
     "hud": {
       "aria": "3D-Kamerakoordinaten und Leistung",
       "expand": "Debug-Panel erweitern",
@@ -88,6 +91,14 @@
     "light": "Hell",
     "dark": "Dunkel",
     "system": "System"
+  },
+  "Locale": {
+    "aria": "Sprache",
+    "names": {
+      "en": "Englisch",
+      "es": "Spanisch",
+      "de": "Deutsch"
+    }
   },
   "Easter": {
     "kickerToast": "Genau die richtige Ecke. Neugier ist die halbe Ingenieursarbeit.",
@@ -270,7 +281,7 @@
       "title": "Antonio Lisboa",
       "bioLine1": "Ich bin <strong>Fullstack-Entwickler</strong> und bin derzeit <lead>Tech Lead</lead> und <scrum>Scrum Master</scrum> bei <vittahub>Vittahub</vittahub>, einem Healthcare-Marketplace in Brasilien — React, Next.js, TypeScript, Node.js und PostgreSQL mit wiederkehrenden Lieferungen.",
       "bioLine1Mobile": "Ich bin <strong>Fullstack-Entwickler</strong>, <lead>Tech Lead</lead> und <scrum>Scrum Master</scrum> bei <vittahub>Vittahub</vittahub> — Healthcare-Marketplace in Brasilien.",
-      "bioLine2": "Ich habe einen <strong>B.Sc. in Informatik</strong> von der <ufc>Universidade Federal do Ceará (UFC)</ufc>, mit Fokus auf <focus>Usability, Accessibility und Performance</focus>. Sieh dir meine <projects>Projekte</projects> oder mein <github>GitHub</github> an.",
+      "bioLine2": "Ich habe einen <degree>B.Sc. in Informatik</degree> von der <ufc>Universidade Federal do Ceará (UFC)</ufc>, mit Fokus auf <focus>Usability, Accessibility und Performance</focus>. Sieh dir meine <projects>Projekte</projects> oder mein <github>GitHub</github> an.",
       "summary": "Fullstack-Engineer (React/Next.js, TypeScript, Node.js, SQL) mit technischer Leitung bei Vittahub und Projekten in Healthcare, öffentlichem Sektor und Edtech. Fokus auf Usability, Accessibility, Performance und Qualität.",
       "siteUrl": "https://antoniolisboa.site",
       "siteLabel": "antoniolisboa.site",

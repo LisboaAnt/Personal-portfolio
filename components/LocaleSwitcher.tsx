@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useTransition } from "react";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
@@ -9,10 +9,10 @@ import styles from "./locale-switcher.module.css";
 
 type Locale = (typeof routing.locales)[number];
 
-const localeOptions: { locale: Locale; name: string; flag: string }[] = [
-  { locale: "en", name: "English", flag: "/img/FlagUS.svg" },
-  { locale: "es", name: "Español", flag: "/img/FlagSpain.svg" },
-  { locale: "de", name: "Deutsch", flag: "/img/FlagGermany.svg" },
+const localeOptions: { locale: Locale; flag: string }[] = [
+  { locale: "en", flag: "/img/FlagUS.svg" },
+  { locale: "es", flag: "/img/FlagSpain.svg" },
+  { locale: "de", flag: "/img/FlagGermany.svg" },
 ];
 
 function Flag({
@@ -40,12 +40,16 @@ function Flag({
 function DesktopSwitcher({
   locale,
   onChange,
+  languageAria,
+  localeName,
 }: {
   locale: Locale;
   onChange: (next: Locale) => void;
+  languageAria: string;
+  localeName: (code: Locale) => string;
 }) {
   const [showOptions, setShowOptions] = useState(false);
-  const [hovered, setHovered] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<Locale | null>(null);
 
   const current = localeOptions.find((o) => o.locale === locale);
   const others = localeOptions.filter((o) => o.locale !== locale);
@@ -59,7 +63,7 @@ function DesktopSwitcher({
         setHovered(null);
       }}
       role="group"
-      aria-label="Language"
+      aria-label={languageAria}
     >
       <div className={styles.main}>
         {current ? (
@@ -67,7 +71,7 @@ function DesktopSwitcher({
             type="button"
             className={styles.option}
             onClick={() => setShowOptions((v) => !v)}
-            aria-label={current.name}
+            aria-label={localeName(current.locale)}
             aria-expanded={showOptions}
           >
             <Flag src={current.flag} className={styles.mainImage} width={29} height={19} />
@@ -85,14 +89,14 @@ function DesktopSwitcher({
               onChange(option.locale);
               setShowOptions(false);
             }}
-            onMouseEnter={() => setHovered(option.name)}
+            onMouseEnter={() => setHovered(option.locale)}
             onMouseLeave={() => setHovered(null)}
-            aria-label={option.name}
+            aria-label={localeName(option.locale)}
           >
             <Flag src={option.flag} className={styles.optionImage} width={26} height={17} />
-            {hovered === option.name ? (
+            {hovered === option.locale ? (
               <div className={styles.tooltip}>
-                <span>{option.name}</span>
+                <span>{localeName(option.locale)}</span>
               </div>
             ) : null}
           </button>
@@ -105,9 +109,13 @@ function DesktopSwitcher({
 function MobileSwitcher({
   locale,
   onChange,
+  languageAria,
+  localeName,
 }: {
   locale: Locale;
   onChange: (next: Locale) => void;
+  languageAria: string;
+  localeName: (code: Locale) => string;
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -139,7 +147,7 @@ function MobileSwitcher({
         type="button"
         className={`${styles.mobileTrigger} ${open ? styles.mobileTriggerOpen : ""}`}
         onClick={() => setOpen((v) => !v)}
-        aria-label="Language"
+        aria-label={languageAria}
         aria-expanded={open}
         aria-haspopup="listbox"
       >
@@ -159,7 +167,7 @@ function MobileSwitcher({
       </button>
 
       {open ? (
-        <ul className={styles.dropdown} role="listbox" aria-label="Language">
+        <ul className={styles.dropdown} role="listbox" aria-label={languageAria}>
           {localeOptions.map((option) => (
             <li key={option.locale} role="presentation">
               <button
@@ -175,7 +183,7 @@ function MobileSwitcher({
                 }}
               >
                 <Flag src={option.flag} className={styles.dropdownFlag} width={26} height={17} />
-                <span>{option.name}</span>
+                <span>{localeName(option.locale)}</span>
               </button>
             </li>
           ))}
@@ -187,9 +195,12 @@ function MobileSwitcher({
 
 export function LocaleSwitcher() {
   const locale = useLocale() as Locale;
+  const t = useTranslations("Locale");
   const router = useRouter();
   const pathname = usePathname();
   const [, startTransition] = useTransition();
+
+  const localeName = (code: Locale) => t(`names.${code}`);
 
   const changeLocale = (next: Locale) => {
     if (next === locale) return;
@@ -200,8 +211,18 @@ export function LocaleSwitcher() {
 
   return (
     <>
-      <DesktopSwitcher locale={locale} onChange={changeLocale} />
-      <MobileSwitcher locale={locale} onChange={changeLocale} />
+      <DesktopSwitcher
+        locale={locale}
+        onChange={changeLocale}
+        languageAria={t("aria")}
+        localeName={localeName}
+      />
+      <MobileSwitcher
+        locale={locale}
+        onChange={changeLocale}
+        languageAria={t("aria")}
+        localeName={localeName}
+      />
     </>
   );
 }

@@ -165,6 +165,7 @@ function ExperienceCard({
           : "experience-card--moment p-3 sm:p-3.5",
       ].join(" ")}
     >
+      <span aria-hidden className="experience-card__texture" />
       <span
         aria-hidden
         className={[
@@ -311,6 +312,7 @@ export function ExperienceTimeline({ items }: Props) {
   const t = useTranslations("Home.experience");
   const reduced = useReducedMotion();
   const setFocusRoom = useWorldStore((s) => s.setFocusRoom);
+  const storeJobId = useWorldExperienceStore((s) => s.activeJobId);
   const setActiveJob = useWorldExperienceStore((s) => s.setActiveJob);
   const setActiveStage = useWorldExperienceStore((s) => s.setActiveStage);
   const storeStageIndex = useWorldExperienceStore((s) => s.activeStageIndex);
@@ -321,6 +323,12 @@ export function ExperienceTimeline({ items }: Props) {
   }, [items]);
 
   const [activeId, setActiveId] = useState(initialId);
+
+  useEffect(() => {
+    if (items.some((item) => item.id === storeJobId)) {
+      setActiveId(storeJobId);
+    }
+  }, [items, storeJobId]);
   const active = items.find((item) => item.id === activeId) ?? items[0];
   const stages = useMemo(() => (active ? resolveStages(active) : []), [active]);
   const stageIndex =

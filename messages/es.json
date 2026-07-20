@@ -51,6 +51,9 @@
     "panelInactive": "Modo clásico — sin canvas WebGL.",
     "demoLink": "Demo aislada",
     "loader": "Cargando {percent}%",
+    "backgroundViewHide": "Ocultar texto — ver solo el fondo 3D",
+    "backgroundViewShow": "Mostrar texto e interfaz",
+    "backgroundViewAria": "Alternar vista solo del fondo 3D",
     "hud": {
       "aria": "Coordenadas y rendimiento de la cámara 3D",
       "expand": "Expandir panel de depuración",
@@ -88,6 +91,14 @@
     "light": "Claro",
     "dark": "Oscuro",
     "system": "Sistema"
+  },
+  "Locale": {
+    "aria": "Idioma",
+    "names": {
+      "en": "Inglés",
+      "es": "Español",
+      "de": "Alemán"
+    }
   },
   "Easter": {
     "kickerToast": "Encontraste el rincón adecuado. La curiosidad es la mitad del trabajo de ingeniería.",
@@ -270,7 +281,7 @@
       "title": "Antonio Lisboa",
       "bioLine1": "Soy <strong>desarrollador full stack</strong> y actualmente actúo como <lead>Tech Lead</lead> y <scrum>Scrum Master</scrum> en <vittahub>Vittahub</vittahub>, un marketplace de salud en Brasil — React, Next.js, TypeScript, Node.js y PostgreSQL con entregas recurrentes.",
       "bioLine1Mobile": "Soy <strong>desarrollador full stack</strong>, <lead>Tech Lead</lead> y <scrum>Scrum Master</scrum> en <vittahub>Vittahub</vittahub>, marketplace de salud en Brasil.",
-      "bioLine2": "Tengo <strong>licenciatura en Ciencias de la Computación</strong> por la <ufc>Universidad Federal de Ceará (UFC)</ufc>, con foco en <focus>usabilidad, accesibilidad y rendimiento</focus>. Mira mis <projects>proyectos</projects> o mi <github>GitHub</github>.",
+      "bioLine2": "Tengo <degree>licenciatura en Ciencias de la Computación</degree> por la <ufc>Universidad Federal de Ceará (UFC)</ufc>, con foco en <focus>usabilidad, accesibilidad y rendimiento</focus>. Mira mis <projects>proyectos</projects> o mi <github>GitHub</github>.",
       "summary": "Ingeniero fullstack (React/Next.js, TypeScript, Node.js, SQL) con liderazgo técnico en Vittahub y entregas en salud, sector público y edtech. Foco en usabilidad, accesibilidad, rendimiento y calidad.",
       "siteUrl": "https://antoniolisboa.site",
       "siteLabel": "antoniolisboa.site",

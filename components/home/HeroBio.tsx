@@ -1,10 +1,10 @@
 import { HeroBioMotion } from "@/components/home/HeroBioMotion";
-import { HeroBioServer } from "@/components/home/HeroBioServer";
+import { HeroBioContent } from "@/components/home/HeroBioContent";
 
-export async function HeroBio() {
+export function HeroBio() {
   return (
     <HeroBioMotion>
-      <HeroBioServer />
+      <HeroBioContent />
     </HeroBioMotion>
   );
 }

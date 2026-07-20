@@ -12,9 +12,7 @@ import { WorldShiftMouseMode } from "./WorldShiftMouseMode";
 import { WebGLErrorBoundary } from "./WebGLErrorBoundary";
 import { WorldCanvas } from "./WorldCanvas";
 import { WorldFocusManager } from "./WorldFocusManager";
-import { WorldPosterCaptureButton } from "./WorldPosterCaptureButton";
 import { WorldMobileWallpaperScroll } from "./WorldMobileWallpaperScroll";
-import { isWorldPosterCaptureEnabled } from "@/world/world-poster-capture";
 import {
   isWorldWallpaperEnabled,
   WORLD_WALLPAPER_HTML_CLASS,
@@ -126,9 +124,6 @@ export function WorldShell({ children }: Props) {
         {mountWorldCanvas ? <WorldCanvas className="fixed inset-0 z-0" scene="site" /> : null}
         {!isSpikeDemo && isBlenderWorldScene() ? <WorldShiftMouseMode /> : null}
         <WorldFocusManager />
-        {worldReady && !isSpikeDemo && isBlenderWorldScene() && isWorldPosterCaptureEnabled() ? (
-          <WorldPosterCaptureButton />
-        ) : null}
         {children}
       </WebGLErrorBoundary>
     </>

@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Camada opcional: animações leves na bio já renderizada no servidor (HeroBioServer).
+ * Camada opcional: animações leves na bio (HeroBioContent).
  * Não altera textos — só entrada suave se animações não estiverem desligadas.
  */
 import { motion, useReducedMotion } from "framer-motion";
