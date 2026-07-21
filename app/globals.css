@@ -1131,8 +1131,8 @@ html.world-cv-scroll .experience-section .experience-panel {
   button:where([type="button"]):not(:disabled):not(.site-chip-btn):not(.site-panel-btn):not(
     [class*="rounded-full"]
   ):not([aria-hidden]):not(.education-zone):not(.education-diploma-strip__slide):not(
-    .skills-metro__tile
-  ) {
+    .education-diploma-strip__hit
+  ):not(.education-diploma-strip__doc):not(.skills-metro__tile) {
   cursor: pointer;
   border-radius: 0.65rem;
   border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
@@ -1146,7 +1146,9 @@ html.world-cv-scroll .experience-section .experience-panel {
 .world-overlay
   button:where([type="button"]):not(:disabled):not(.site-chip-btn):not(.site-panel-btn):not(
     [class*="rounded-full"]
-  ):not(.education-zone):not(.education-diploma-strip__slide):not(.skills-metro__tile):hover {
+  ):not(.education-zone):not(.education-diploma-strip__slide):not(
+    .education-diploma-strip__hit
+  ):not(.education-diploma-strip__doc):not(.skills-metro__tile):hover {
   border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
   background: color-mix(in srgb, var(--accent-soft) 42%, transparent);
 }
@@ -1249,11 +1251,11 @@ html.world-cv-scroll .experience-section .experience-panel {
 }
 
 .education-diploma-strip__slide {
+  position: relative;
   flex-shrink: 0;
   scroll-snap-align: start;
   margin: 0;
   padding: 0.2rem;
-  cursor: pointer;
   border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 62%, var(--exp-parchment-edge));
   border-radius: 0.45rem;
   background: var(--exp-btn-surface);
@@ -1266,6 +1268,33 @@ html.world-cv-scroll .experience-section .experience-panel {
     box-shadow 0.22s ease;
 }
 
+.education-diploma-strip__hit {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: inherit;
+  color: inherit;
+}
+
+.education-diploma-strip__hit:focus-visible {
+  outline: none;
+}
+
+.education-diploma-strip__slide:has(.education-diploma-strip__hit:hover),
+.education-diploma-strip__slide:has(.education-diploma-strip__hit:focus-visible) {
+  border-color: color-mix(in srgb, var(--exp-gold) 48%, var(--exp-parchment-edge));
+  background: var(--exp-btn-surface-hover);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold) 14%, transparent),
+    0 4px 12px -6px rgba(0, 0, 0, 0.45);
+}
+
 .education-diploma-strip__slide:hover,
 .education-diploma-strip__slide:focus-visible {
   border-color: color-mix(in srgb, var(--exp-gold) 48%, var(--exp-parchment-edge));
@@ -1276,7 +1305,26 @@ html.world-cv-scroll .experience-section .experience-panel {
   outline: none;
 }
 
+.education-diploma-strip__slide--active {
+  border-color: color-mix(in srgb, var(--exp-gold) 78%, var(--exp-parchment-edge));
+  background: color-mix(in srgb, var(--exp-gold) 16%, var(--exp-btn-surface));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--exp-gold-bright) 28%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--exp-gold) 35%, transparent),
+    0 6px 16px -8px color-mix(in srgb, var(--exp-gold) 40%, transparent);
+}
+
+.education-diploma-strip__slide--active .education-diploma-strip__frame {
+  border-color: color-mix(in srgb, var(--exp-gold) 55%, transparent);
+  filter: brightness(1.08) saturate(1.06);
+}
+
+.education-diploma-strip__slide--active .education-diploma-strip__caption {
+  color: var(--exp-gold-bright);
+}
+
 .education-diploma-strip__frame {
+  position: relative;
   aspect-ratio: 16 / 9;
   height: 2.5rem;
   width: calc(2.5rem * 16 / 9);
@@ -1284,6 +1332,42 @@ html.world-cv-scroll .experience-section .experience-panel {
   border-radius: 0.3rem;
   border: 1px solid color-mix(in srgb, var(--exp-gold-dim) 40%, transparent);
   background: var(--exp-parchment);
+}
+
+.education-diploma-strip__doc {
+  position: absolute;
+  top: 0.28rem;
+  right: 0.28rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0.28rem;
+  background: #000 !important;
+  background-color: #000 !important;
+  color: #fff !important;
+  opacity: 1 !important;
+  box-shadow: none;
+  cursor: pointer;
+  transition: none;
+}
+
+.education-diploma-strip__doc:hover,
+.education-diploma-strip__doc:focus-visible,
+.education-diploma-strip__doc:active {
+  background: #000 !important;
+  background-color: #000 !important;
+  color: #fff !important;
+  opacity: 1 !important;
+  border: none;
+  outline: none;
+  transform: none;
+  filter: none;
 }
 
 .education-diploma-strip__caption {
@@ -1498,7 +1582,6 @@ html.world-cv-scroll .experience-section .experience-panel {
   }
 }
 
-/* Cards = iluminação do experience-job-btn--active */
 .education-zones {
   position: relative;
 }
@@ -1510,117 +1593,24 @@ html.world-cv-scroll .experience-section .experience-panel {
   appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
-  border: 1px solid color-mix(in srgb, var(--exp-gold) 62%, var(--exp-parchment-edge));
+  border: 1px solid transparent;
   border-radius: 0.65rem;
-  background: var(--exp-card-surface);
+  background: transparent;
   background-clip: border-box;
-  box-shadow: 0 4px 14px -8px color-mix(in srgb, var(--exp-gold) 18%, transparent);
-  transition:
-    border-color 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: none;
 }
 
-.education-zone::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background-image: url("/texture/fancy_pattern.png");
-  background-repeat: repeat;
-  background-size: 300px auto;
-  background-position: center;
-  opacity: 0.44;
-  mix-blend-mode: overlay;
-  filter: brightness(1.18) contrast(1.06);
-  pointer-events: none;
-  z-index: 1;
-  transition:
-    opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.42s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
+.education-zone::before,
 .education-zone::after {
-  content: "";
-  position: absolute;
-  inset: auto;
-  width: 175%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 0;
-  mix-blend-mode: screen;
-  filter: blur(3px);
-  background: radial-gradient(
-    circle closest-side,
-    color-mix(in srgb, var(--exp-gold-bright) 30%, transparent) 0%,
-    color-mix(in srgb, var(--exp-gold) 34%, transparent) 14%,
-    color-mix(in srgb, var(--exp-gold) 14%, transparent) 32%,
-    color-mix(in srgb, var(--exp-gold) 4%, transparent) 48%,
-    transparent 72%
-  );
-  transition:
-    transform 0.52s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.52s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.education-zone > * {
-  position: relative;
-  z-index: 2;
+  content: none;
+  display: none;
 }
 
 .education-zone:hover,
 .education-zone:focus-visible {
-  border-color: color-mix(in srgb, var(--exp-gold) 78%, var(--exp-parchment-edge));
-  box-shadow: 0 6px 18px -6px color-mix(in srgb, var(--exp-gold) 32%, transparent);
+  border-color: transparent;
+  box-shadow: none;
   outline: none;
-}
-
-/* 1º card — luz circular a partir do centro da borda esquerda */
-.education-zones > :nth-child(1) .education-zone::after {
-  left: 0;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0);
-}
-
-.education-zones > :nth-child(1) .education-zone:hover::after,
-.education-zones > :nth-child(1) .education-zone:focus-visible::after {
-  opacity: 0.95;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* 2º card — luz circular a partir do centro da borda inferior */
-.education-zones > :nth-child(2) .education-zone::after {
-  left: 50%;
-  bottom: 0;
-  top: auto;
-  transform: translate(-50%, 50%) scale(0);
-}
-
-.education-zones > :nth-child(2) .education-zone:hover::after,
-.education-zones > :nth-child(2) .education-zone:focus-visible::after {
-  opacity: 0.95;
-  transform: translate(-50%, 50%) scale(1);
-}
-
-/* 3º card — luz circular a partir do centro da borda direita */
-.education-zones > :nth-child(3) .education-zone::after {
-  right: 0;
-  left: auto;
-  top: 50%;
-  transform: translate(50%, -50%) scale(0);
-}
-
-.education-zones > :nth-child(3) .education-zone:hover::after,
-.education-zones > :nth-child(3) .education-zone:focus-visible::after {
-  opacity: 0.95;
-  transform: translate(50%, -50%) scale(1);
-}
-
-.education-zone:hover::before,
-.education-zone:focus-visible::before {
-  opacity: 0.54;
-  filter: brightness(1.24) contrast(1.08);
 }
 
 .education-zone__period {
@@ -1633,68 +1623,15 @@ html.world-cv-scroll .experience-section .experience-panel {
   font-weight: 400;
   color: var(--exp-ink);
   text-wrap: balance;
-  transition: color 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .education-zone__institution {
   color: var(--exp-ink-muted);
 }
 
-.education-zone:hover .education-zone__title,
-.education-zone:focus-visible .education-zone__title {
-  color: var(--exp-gold-bright);
-}
-
 .education-zone > :last-child::after {
-  content: "";
-  display: block;
-  margin: 0.5rem auto 0;
-  height: 1px;
-  width: 1.5rem;
-  background: color-mix(in srgb, var(--exp-gold-dim) 70%, transparent);
-  transition:
-    width 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    background 0.42s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.education-zone:hover > :last-child::after,
-.education-zone:focus-visible > :last-child::after {
-  width: 2.75rem;
-  background: color-mix(in srgb, var(--exp-gold) 80%, transparent);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .education-zone::after {
-    filter: none;
-    transition: opacity 0.15s ease;
-  }
-
-  .education-zones > :nth-child(1) .education-zone::after {
-    transform: translate(-50%, -50%) scale(0.88);
-  }
-
-  .education-zones > :nth-child(2) .education-zone::after {
-    transform: translate(-50%, 50%) scale(0.88);
-  }
-
-  .education-zones > :nth-child(3) .education-zone::after {
-    transform: translate(50%, -50%) scale(0.88);
-  }
-
-  .education-zones > :nth-child(1) .education-zone:hover::after,
-  .education-zones > :nth-child(1) .education-zone:focus-visible::after {
-    transform: translate(-50%, -50%) scale(0.88);
-  }
-
-  .education-zones > :nth-child(2) .education-zone:hover::after,
-  .education-zones > :nth-child(2) .education-zone:focus-visible::after {
-    transform: translate(-50%, 50%) scale(0.88);
-  }
-
-  .education-zones > :nth-child(3) .education-zone:hover::after,
-  .education-zones > :nth-child(3) .education-zone:focus-visible::after {
-    transform: translate(50%, -50%) scale(0.88);
-  }
+  content: none;
+  display: none;
 }
 
 .education-zone--featured .education-zone__title {
@@ -1713,6 +1650,70 @@ html.world-cv-scroll .experience-section .experience-panel {
   content: none;
 }
 
+/* Desktop: cards e texto totalmente transparentes (overlay clicável) */
+@media (min-width: 640px) {
+  .education-zone,
+  .education-zone--featured {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: transparent;
+  }
+
+  .education-zone__period,
+  .education-zone__title,
+  .education-zone__institution,
+  .education-zone__meta {
+    color: transparent;
+    text-shadow: none;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Zoom diploma: só o card activo — altura moderada, centrado */
+  .education-zones--zoomed {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    width: 100%;
+    max-width: 64rem;
+    flex: 1 1 0;
+    min-height: 0;
+    height: auto;
+  }
+
+  .education-zones--zoomed .education-zones__cell--solo {
+    width: min(100%, 48rem);
+    max-width: 48rem;
+    height: clamp(20rem, 52vh, 34rem);
+    max-height: 34rem;
+    flex: 0 0 auto;
+    display: flex;
+  }
+
+  /* Solo zoom: transparente, tamanho validado */
+  .education-zones--zoomed .education-zones__cell--solo .education-zone {
+    width: 100%;
+    height: 100%;
+    flex: none;
+    justify-content: center;
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    color: transparent !important;
+  }
+
+  .education-zones--zoomed .education-zones__cell--solo .education-zone__period,
+  .education-zones--zoomed .education-zones__cell--solo .education-zone__title,
+  .education-zones--zoomed .education-zones__cell--solo .education-zone__institution,
+  .education-zones--zoomed .education-zones__cell--solo .education-zone__meta {
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: none;
+  }
+}
+
 /* Formação — mobile: lista vertical legível, alvos grandes */
 @media (max-width: 639px) {
   .education-section #edu-heading {
@@ -1723,17 +1724,82 @@ html.world-cv-scroll .experience-section .experience-panel {
   .education-zones {
     gap: 0.7rem;
     padding-inline: 0.1rem;
+    margin-bottom: 0.35rem;
   }
 
   .education-zone {
     min-height: 4.75rem;
     border-radius: 0.85rem;
-    background: var(--exp-card-surface);
+    border: 1px solid color-mix(in srgb, #3d5a80 45%, #1a2333) !important;
+    background:
+      repeating-linear-gradient(
+        -3deg,
+        transparent,
+        transparent 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 4px
+      ),
+      linear-gradient(175deg, #1a2333 0%, #121a28 50%, #0e141f 100%) !important;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #6b8caf 12%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, #0a0f18 50%, transparent),
+      0 10px 28px -14px rgba(0, 0, 0, 0.65) !important;
+    color: var(--exp-ink);
+  }
+
+  .education-zone::before {
+    content: "";
+    display: block;
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background-image: url("/texture/fancy_pattern.png");
+    background-repeat: repeat;
+    background-size: 300px auto;
+    background-position: center;
+    opacity: 0.28;
+    mix-blend-mode: overlay;
+    filter: brightness(1.12) contrast(1.04);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .education-zone > * {
+    position: relative;
+    z-index: 2;
   }
 
   .education-zone--featured {
-    border-color: color-mix(in srgb, var(--exp-gold) 78%, var(--exp-parchment-edge));
-    box-shadow: 0 8px 22px -10px color-mix(in srgb, var(--exp-gold) 28%, transparent);
+    border-color: color-mix(in srgb, #5a7aa0 50%, #1a2333);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #6b8caf 14%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, #0a0f18 50%, transparent),
+      0 10px 28px -12px rgba(0, 0, 0, 0.7);
+  }
+
+  .education-zone:hover,
+  .education-zone:focus-visible {
+    border-color: color-mix(in srgb, #5a7aa0 55%, #1a2333);
+    box-shadow: 0 8px 22px -10px rgba(0, 0, 0, 0.55);
+    outline: none;
+  }
+
+  .education-zone__period,
+  .education-zone__title,
+  .education-zone__institution {
+    -webkit-text-fill-color: unset;
+  }
+
+  .education-zone__period {
+    color: var(--exp-gold-bright);
+  }
+
+  .education-zone__title {
+    color: var(--exp-ink);
+  }
+
+  .education-zone__institution {
+    color: var(--exp-ink-muted);
   }
 
   .education-zone--featured .education-zone__title {
@@ -1753,13 +1819,8 @@ html.world-cv-scroll .experience-section .experience-panel {
     text-wrap: pretty;
   }
 
-  .education-zone > :last-child::after {
-    margin: 0.55rem 0 0;
-    width: 2rem;
-  }
-
   .education-diploma-strip {
-    margin-top: 1.1rem;
+    margin-top: 1.85rem;
     margin-bottom: 0.5rem;
     padding: 0.45rem 0.5rem;
     gap: 0.3rem;
@@ -1988,6 +2049,137 @@ html.world-cv-scroll .cv-world-document .education-section > .education-section_
   padding-bottom: 0.35rem;
 }
 
+/* Desktop: cards crescem até à faixa de diplomas, sem empurrá-la */
+@media (min-width: 640px) {
+  html.world-cv-scroll .cv-world-document .education-section > .education-section__inner {
+    min-height: 0;
+    flex: 1 1 0;
+    height: 100%;
+  }
+
+  html.world-cv-scroll
+    .cv-world-document
+    .education-section:has(.education-zones--zoomed)
+    > .education-section__inner {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0;
+    height: 100%;
+  }
+
+  html.world-cv-scroll .cv-world-document .education-section #edu-heading {
+    flex-shrink: 0;
+  }
+
+  html.world-cv-scroll .cv-world-document .education-section .education-zones {
+    flex: 1 1 0;
+    min-height: 0;
+    width: 100%;
+    align-self: stretch;
+    align-items: stretch;
+    margin-bottom: 0.75rem;
+  }
+
+  html.world-cv-scroll .cv-world-document .education-section .education-zones--zoomed {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch !important;
+    flex: 1 1 0;
+    min-height: 0;
+    height: auto;
+    width: 100% !important;
+    max-width: 64rem;
+    margin-inline: auto;
+  }
+
+  html.world-cv-scroll .cv-world-document .education-section .education-zones__cell {
+    display: flex;
+    min-height: 0;
+    height: 100%;
+  }
+
+  html.world-cv-scroll
+    .cv-world-document
+    .education-section
+    .education-zones--zoomed
+    .education-zones__cell--solo {
+    width: min(100%, 48rem);
+    max-width: 48rem;
+    height: clamp(20rem, 52vh, 34rem);
+    max-height: 34rem;
+    flex: 0 0 auto;
+    align-self: center;
+  }
+
+  html.world-cv-scroll .cv-world-document .education-section .education-zone {
+    height: 100%;
+    min-height: 0;
+    justify-content: center;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: transparent;
+  }
+
+  html.world-cv-scroll .cv-world-document .education-section .education-zone__period,
+  html.world-cv-scroll .cv-world-document .education-section .education-zone__title,
+  html.world-cv-scroll .cv-world-document .education-section .education-zone__institution,
+  html.world-cv-scroll .cv-world-document .education-section .education-zone__meta {
+    color: transparent;
+    text-shadow: none;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Solo zoom: transparente, tamanho validado */
+  html.world-cv-scroll
+    .cv-world-document
+    .education-section
+    .education-zones--zoomed
+    .education-zones__cell--solo
+    .education-zone {
+    width: 100%;
+    height: 100% !important;
+    flex: none !important;
+    min-height: 0;
+    justify-content: center;
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    color: transparent !important;
+  }
+
+  html.world-cv-scroll
+    .cv-world-document
+    .education-section
+    .education-zones--zoomed
+    .education-zones__cell--solo
+    .education-zone__period,
+  html.world-cv-scroll
+    .cv-world-document
+    .education-section
+    .education-zones--zoomed
+    .education-zones__cell--solo
+    .education-zone__title,
+  html.world-cv-scroll
+    .cv-world-document
+    .education-section
+    .education-zones--zoomed
+    .education-zones__cell--solo
+    .education-zone__institution,
+  html.world-cv-scroll
+    .cv-world-document
+    .education-section
+    .education-zones--zoomed
+    .education-zones__cell--solo
+    .education-zone__meta {
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+}
+
 @media (min-width: 1024px) {
   html.world-cv-scroll .cv-world-document .education-section > .education-section__inner {
     min-height: 0;
@@ -2001,6 +2193,7 @@ html.world-cv-scroll .cv-world-document .education-section .education-diploma-st
   max-width: 64rem;
   align-self: stretch;
   margin-inline: 0;
+  margin-top: 0;
   margin-bottom: 0;
 }
 
@@ -3396,7 +3589,6 @@ main#content > details {
   .experience-section .experience-card,
   .experience-section .experience-card--overview,
   .experience-section .experience-card--moment,
-  .education-section .education-zone,
   .education-modal__panel,
   .education-modal__scroll,
   .education-modal__topic,
@@ -3445,8 +3637,22 @@ main#content > details {
     box-shadow: 0 10px 28px -14px rgba(0, 0, 0, 0.65) !important;
   }
 
-  .education-section .education-zone {
-    box-shadow: 0 10px 28px -14px rgba(0, 0, 0, 0.65) !important;
+  .education-section .education-zone,
+  .education-section .education-zone--featured {
+    background:
+      repeating-linear-gradient(
+        -3deg,
+        transparent,
+        transparent 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 4px
+      ),
+      linear-gradient(175deg, #1a2333 0%, #121a28 50%, #0e141f 100%) !important;
+    border: 1px solid color-mix(in srgb, #3d5a80 45%, #1a2333) !important;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #6b8caf 12%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, #0a0f18 50%, transparent),
+      0 10px 28px -14px rgba(0, 0, 0, 0.65) !important;
   }
 
   .education-section .education-zone--featured {
@@ -3455,18 +3661,19 @@ main#content > details {
         -3deg,
         transparent,
         transparent 3px,
-        color-mix(in srgb, #243552 20%, transparent) 3px,
-        color-mix(in srgb, #243552 20%, transparent) 4px
+        color-mix(in srgb, #1a2740 18%, transparent) 3px,
+        color-mix(in srgb, #1a2740 18%, transparent) 4px
       ),
-      linear-gradient(
-        168deg,
-        #243044 0%,
-        #152032 55%,
-        #0e1520 100%
-      ) !important;
+      linear-gradient(175deg, #1a2333 0%, #121a28 50%, #0e141f 100%) !important;
+    border-color: color-mix(in srgb, #5a7aa0 55%, #1a2333) !important;
+  }
+
+  .education-section .education-zones {
+    margin-bottom: 0.25rem;
   }
 
   .education-section .education-diploma-strip {
+    margin-top: 1.85rem !important;
     background:
       repeating-linear-gradient(
         -3deg,
@@ -3557,20 +3764,12 @@ main#content > details {
     color: #8fa3b8 !important;
   }
 
-  .education-section .education-zone::after {
-    mix-blend-mode: screen;
-    background: radial-gradient(
-      circle closest-side,
-      color-mix(in srgb, #a8c4e0 28%, transparent) 0%,
-      color-mix(in srgb, #6b8caf 30%, transparent) 14%,
-      color-mix(in srgb, #6b8caf 12%, transparent) 32%,
-      color-mix(in srgb, #6b8caf 3%, transparent) 48%,
-      transparent 72%
-    );
+  .education-section .education-zone:hover,
+  .education-section .education-zone:focus-visible {
+    border-color: color-mix(in srgb, #5a7aa0 55%, #1a2333) !important;
+    box-shadow: 0 8px 22px -10px rgba(0, 0, 0, 0.55) !important;
   }
 
-  .education-section .education-zone:hover,
-  .education-section .education-zone:focus-visible,
   .contact-section .contact-seal:hover,
   .contact-section .contact-seal:focus-visible {
     border-color: color-mix(in srgb, #5a7aa0 55%, #1a2333) !important;

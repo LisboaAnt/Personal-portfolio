@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useAnimationPaused } from "@/hooks/useAnimationPaused";
+import { useWorldEducationStore } from "@/stores/world-education-store";
 
 export type EducationDiploma = {
   id: string;
@@ -12,7 +13,15 @@ export type EducationDiploma = {
   caption?: string;
   /** Caminho em `public/` — ex.: `/diplomas/ufc-cs.jpg` */
   image: string;
+  /** Imagem alternativa no estado «zoom» (desktop). */
+  imageActive?: string;
   alt: string;
+  /**
+   * Desktop: clique no card move a câmara (toggle).
+   * Só estes cards mostram o ícone de documento (abre o modal).
+   * Sem isto, o clique abre só o modal (diplomas futuros sem zoom 3D).
+   */
+  cameraZoom?: boolean;
 };
 
 type Props = {
@@ -20,8 +29,11 @@ type Props = {
   prevLabel: string;
   nextLabel: string;
   closeLabel: string;
+  openDocumentLabel: string;
   items: EducationDiploma[];
 };
+
+const DESKTOP_MQ = "(min-width: 640px)";
 
 function CarouselArrow({ direction }: { direction: "prev" | "next" }) {
   return (
@@ -65,11 +77,31 @@ function ModalArrow({ direction }: { direction: "prev" | "next" }) {
   );
 }
 
+function DocumentIcon() {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 20 20"
+      fill="none"
+      className="h-3 w-3"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M6 2.75h5.25L14.5 6v11.25H6V2.75Z" />
+      <path d="M11.25 2.75V6H14.5" />
+      <path d="M8 9.5h4.5M8 12h4.5M8 14.5h3" />
+    </svg>
+  );
+}
+
 export function EducationDiplomaCarousel({
   title,
   prevLabel,
   nextLabel,
   closeLabel,
+  openDocumentLabel,
   items,
 }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -78,9 +110,17 @@ export function EducationDiplomaCarousel({
   const [brokenImages, setBrokenImages] = useState<Set<string>>(() => new Set());
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const activeCardId = useWorldEducationStore((s) => s.activeCardId);
+  const toggleActiveCard = useWorldEducationStore((s) => s.toggleActiveCard);
 
   useEffect(() => {
     setMounted(true);
+    const mq = window.matchMedia(DESKTOP_MQ);
+    const sync = () => setIsDesktop(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
   }, []);
 
   const scrollBySlide = useCallback(
@@ -115,6 +155,21 @@ export function EducationDiplomaCarousel({
   }, [items.length]);
 
   const closeModal = useCallback(() => setOpenIndex(null), []);
+
+  const openDocument = useCallback((index: number) => {
+    setOpenIndex(index);
+  }, []);
+
+  const handleDiplomaClick = useCallback(
+    (diploma: EducationDiploma, index: number) => {
+      if (isDesktop && diploma.cameraZoom) {
+        toggleActiveCard(diploma.id);
+        return;
+      }
+      setOpenIndex(index);
+    },
+    [isDesktop, toggleActiveCard],
+  );
 
   useEffect(() => {
     if (openIndex == null) return;
@@ -254,43 +309,84 @@ export function EducationDiplomaCarousel({
         <div ref={trackRef} className="education-diploma-strip__track">
           {items.map((diploma, index) => {
             const broken = brokenImages.has(diploma.id);
+            const cameraZoom = Boolean(diploma.cameraZoom);
+            const active = isDesktop && cameraZoom && activeCardId === diploma.id;
+            const thumbSrc =
+              active && diploma.imageActive && !brokenImages.has(`${diploma.id}:active`)
+                ? diploma.imageActive
+                : diploma.image;
             const label = diploma.caption
               ? `${diploma.title} — ${diploma.caption}`
               : diploma.title;
+            const showDocIcon = isDesktop && cameraZoom;
 
             return (
-              <button
+              <div
                 key={diploma.id}
-                type="button"
-                className="education-diploma-strip__slide"
-                title={label}
-                aria-label={label}
-                onClick={() => setOpenIndex(index)}
+                className={[
+                  "education-diploma-strip__slide",
+                  active ? "education-diploma-strip__slide--active" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
               >
-                <div className="education-diploma-strip__frame">
-                  {!broken ? (
-                    <Image
-                      src={diploma.image}
-                      alt={diploma.alt}
-                      width={320}
-                      height={180}
-                      className="h-full w-full object-cover"
-                      onError={() => {
-                        setBrokenImages((prev) => new Set(prev).add(diploma.id));
-                      }}
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center px-2 text-center">
-                      <span className="education-diploma-strip__fallback line-clamp-2 text-[9px] font-medium leading-tight">
-                        {diploma.title}
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <span className="education-diploma-strip__caption line-clamp-1 px-0.5">
-                  {diploma.title}
-                </span>
-              </button>
+                <button
+                  type="button"
+                  className="education-diploma-strip__hit"
+                  title={label}
+                  aria-label={label}
+                  aria-pressed={isDesktop && cameraZoom ? active : undefined}
+                  onClick={() => handleDiplomaClick(diploma, index)}
+                >
+                  <div className="education-diploma-strip__frame">
+                    {!broken ? (
+                      <Image
+                        key={thumbSrc}
+                        src={thumbSrc}
+                        alt={diploma.alt}
+                        width={320}
+                        height={180}
+                        className="h-full w-full object-cover"
+                        onError={() => {
+                          setBrokenImages((prev) => {
+                            const next = new Set(prev);
+                            if (active && diploma.imageActive) {
+                              next.add(`${diploma.id}:active`);
+                            } else {
+                              next.add(diploma.id);
+                            }
+                            return next;
+                          });
+                        }}
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center px-2 text-center">
+                        <span className="education-diploma-strip__fallback line-clamp-2 text-[9px] font-medium leading-tight">
+                          {diploma.title}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <span className="education-diploma-strip__caption line-clamp-1 px-0.5">
+                    {diploma.title}
+                  </span>
+                </button>
+
+                {showDocIcon ? (
+                  <button
+                    type="button"
+                    className="education-diploma-strip__doc"
+                    aria-label={`${openDocumentLabel}: ${diploma.title}`}
+                    title={openDocumentLabel}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openDocument(index);
+                    }}
+                  >
+                    <DocumentIcon />
+                  </button>
+                ) : null}
+              </div>
             );
           })}
         </div>

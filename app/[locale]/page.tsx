@@ -66,6 +66,7 @@ export default async function HomePage({ params }: Props) {
             prevLabel={t("education.diplomas.prev")}
             nextLabel={t("education.diplomas.next")}
             closeLabel={t("education.close")}
+            openDocumentLabel={t("education.diplomas.openDocument")}
             items={educationDiplomas}
           />
         </div>

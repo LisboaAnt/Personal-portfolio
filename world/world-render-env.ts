@@ -1,5 +1,8 @@
 import type { WorldQuality } from "@/hooks/useWorldQuality";
 import {
+  WORLD_EDUCATION_DPR_BOOST_STEP,
+  WORLD_EDUCATION_DPR_MAX,
+  WORLD_EDUCATION_QUALITY_BOOST_MAX,
   WORLD_ENV_MAP_RESOLUTION_HIGH,
   WORLD_ENV_MAP_RESOLUTION_LOW,
   WORLD_IDLE_DPR_HIGH,
@@ -14,15 +17,27 @@ function parseEnvFloat(raw: string | undefined, fallback: number): number {
   return Number.isFinite(n) ? n : fallback;
 }
 
-/** DPR do canvas 3D; overrides via `NEXT_PUBLIC_WORLD_DPR_*`. */
-export function getWorldCanvasDpr(quality: WorldQuality): number | [number, number] {
+/**
+ * DPR do canvas 3D; overrides via `NEXT_PUBLIC_WORLD_DPR_*`.
+ * `educationBoost` (0…MAX) só deve ser > 0 na secção Education em desktop.
+ */
+export function getWorldCanvasDpr(
+  quality: WorldQuality,
+  educationBoost = 0,
+): number | [number, number] {
   if (quality === "low") {
     return parseEnvFloat(process.env.NEXT_PUBLIC_WORLD_DPR_IDLE, WORLD_IDLE_DPR_LOW);
   }
 
   const min = parseEnvFloat(process.env.NEXT_PUBLIC_WORLD_DPR_MIN, WORLD_IDLE_DPR_HIGH[0]);
-  const max = parseEnvFloat(process.env.NEXT_PUBLIC_WORLD_DPR_MAX, WORLD_IDLE_DPR_HIGH[1]);
-  return [Math.min(min, max), Math.max(min, max)] as [number, number];
+  const baseMax = parseEnvFloat(process.env.NEXT_PUBLIC_WORLD_DPR_MAX, WORLD_IDLE_DPR_HIGH[1]);
+  const boost = Math.max(0, Math.min(WORLD_EDUCATION_QUALITY_BOOST_MAX, Math.round(educationBoost)));
+  const boostedMax = Math.min(
+    WORLD_EDUCATION_DPR_MAX,
+    baseMax + boost * WORLD_EDUCATION_DPR_BOOST_STEP,
+  );
+  const max = Math.max(min, boostedMax);
+  return [Math.min(min, max), max] as [number, number];
 }
 
 function parseEnvInt(raw: string | undefined, fallback: number): number {

@@ -8,6 +8,8 @@ export type WorldPerfSnapshot = {
   drawCalls: number;
   geometries: number;
   textures: number;
+  /** Monotonic sample id — muda a cada medição de FPS (mesmo valor de fps). */
+  sampleAt: number;
 };
 
 type WorldPerfState = WorldPerfSnapshot & {
@@ -22,6 +24,7 @@ const INITIAL: WorldPerfSnapshot = {
   drawCalls: 0,
   geometries: 0,
   textures: 0,
+  sampleAt: 0,
 };
 
 export const useWorldPerfStore = create<WorldPerfState>((set) => ({

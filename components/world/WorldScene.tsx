@@ -73,12 +73,8 @@ export function WorldScene() {
         <>
           <WorldBlenderCamera />
           <WorldFreeCameraControls />
-          {showDebugHud ? (
-            <>
-              <WorldCameraDebugSync />
-              <WorldPerfSync />
-            </>
-          ) : null}
+          <WorldPerfSync />
+          {showDebugHud ? <WorldCameraDebugSync /> : null}
         </>
       ) : (
         <CameraRig

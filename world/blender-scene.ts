@@ -1,8 +1,8 @@
 import { isCvSectionId } from "./scroll-rooms";
 import type { CvSectionId } from "./types";
 
-/** Ficheiro único exportado do Blender → `public/world/blender.glb` */
-export const BLENDER_SCENE_URL = "/world/blender.glb";
+/** Ficheiro único exportado do Blender → `public/world/blender1.glb` */
+export const BLENDER_SCENE_URL = "/world/blender1.glb";
 
 /**
  * Empty no Blender com este prefixo (ex.: `hotspot_profile`).

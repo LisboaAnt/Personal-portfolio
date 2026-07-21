@@ -17,7 +17,7 @@ export function WorldBlenderDemandInvalidate() {
 
   useFrame(() => {
     if (paused) return;
-    if (isTraveling || animationsEnabled || focusRoomId === "experience") {
+    if (isTraveling || animationsEnabled || focusRoomId === "experience" || focusRoomId === "education") {
       invalidate();
     }
   });

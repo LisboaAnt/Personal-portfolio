@@ -35,12 +35,12 @@ export const CV_SECTION_LIGHTING_MODIFIERS: Record<CvSectionId, CvSectionLightin
     directionalTint: "#fde68a",
   },
   education: {
-    envMul: 2.2,
-    ambientMul: 1.85,
-    directionalMul: 1.65,
-    toneExposureMul: 1.75,
-    ambientTint: "#fffbeb",
-    directionalTint: "#fde68a",
+    envMul: 1.35,
+    ambientMul: 1.15,
+    directionalMul: 1.1,
+    toneExposureMul: 1.15,
+    ambientTint: "#f5f0e6",
+    directionalTint: "#efe6d4",
   },
   skills: {
     envMul: 2.2,

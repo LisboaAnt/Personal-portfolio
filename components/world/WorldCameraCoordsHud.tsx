@@ -13,11 +13,13 @@ import {
   WORLD_TRIANGLE_BUDGET,
 } from "@/stores/world-perf-store";
 import { useWorldStore } from "@/stores/world-store";
+import { useWorldEducationQualityStore } from "@/stores/world-education-quality-store";
 import {
   WORLD_CAMERA_MOVE_SPEED_DEFAULT,
   WORLD_CAMERA_MOVE_SPEED_MAX,
   WORLD_CAMERA_MOVE_SPEED_MIN,
   WORLD_CAMERA_MOVE_SPEED_STEP,
+  WORLD_EDUCATION_QUALITY_BOOST_MAX,
 } from "@/world/constants";
 
 const HUD_MINIMIZED_KEY = "portfolio-hud-minimized";
@@ -44,13 +46,18 @@ export function WorldCameraCoordsHud() {
   const hydrateMoveSpeed = useWorldCameraInputStore((s) => s.hydrateMoveSpeed);
   const hydrateFreeCamera = useWorldCameraInputStore((s) => s.hydrateFreeCamera);
   const focusRoomId = useWorldStore((s) => s.focusRoomId);
+  const educationBoost = useWorldEducationQualityStore((s) => s.boost);
   const quality = useWorldQuality();
   const { fps, frameMs, triangles, drawCalls, geometries, textures } = useWorldPerfStore();
   const [minimized, setMinimized] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   const qualityLabel =
-    qualityLevel(quality) === "high" ? t("qualityHigh") : t("qualityLow");
+    qualityLevel(quality) === "high"
+      ? educationBoost > 0
+        ? `${t("qualityHigh")}+${educationBoost}/${WORLD_EDUCATION_QUALITY_BOOST_MAX}`
+        : t("qualityHigh")
+      : t("qualityLow");
 
   useEffect(() => {
     try {

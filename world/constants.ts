@@ -44,6 +44,29 @@ export const WORLD_IDLE_DPR_HIGH: [number, number] = [0.75, 1];
 export const WORLD_IDLE_DPR_LOW = 0.75;
 
 /**
+ * Boost de qualidade na secção Education (desktop).
+ * Qualidade base na vista geral; após zoom num diploma, se FPS ≥ limiar sobe
+ * até WORLD_EDUCATION_QUALITY_BOOST_MAX. Cada nível +DPR até WORLD_EDUCATION_DPR_MAX.
+ */
+export const WORLD_EDUCATION_FPS_BOOST_THRESHOLD = 40;
+/** FPS abaixo deste valor → desce um nível de boost (só com zoom activo). */
+export const WORLD_EDUCATION_FPS_DOWNGRADE_THRESHOLD = 32;
+/** Níveis de boost além da qualidade base (0 = base, 2 = máximo). */
+export const WORLD_EDUCATION_QUALITY_BOOST_MAX = 2;
+/** Incremento de DPR máx. por nível de boost. */
+export const WORLD_EDUCATION_DPR_BOOST_STEP = 0.25;
+/** Teto absoluto de DPR no boost Education. */
+export const WORLD_EDUCATION_DPR_MAX = 1.5;
+/** Samples de FPS após o zoom estabilizar antes de decidir subir. */
+export const WORLD_EDUCATION_ZOOM_FPS_SAMPLES = 2;
+/** Samples consecutivos baixos antes de descer. */
+export const WORLD_EDUCATION_FPS_SAMPLE_STREAK = 3;
+/** Samples a ignorar após mudar o boost (estabilizar). */
+export const WORLD_EDUCATION_BOOST_COOLDOWN_SAMPLES = 2;
+/** 1º sample após a viagem da câmara (descartar — frame de settle). */
+export const WORLD_EDUCATION_ZOOM_SETTLE_SAMPLES = 1;
+
+/**
  * Raio (unidades Blender) para culling de meshes fora da secção activa.
  * `Infinity` = desligado por defeito — o cenário tem elementos de fundo/céu
  * a 400–600 unidades de secções como Formação; um raio pequeno escondia-os

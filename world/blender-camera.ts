@@ -52,35 +52,35 @@ export const CV_SCROLL_SECTION_ORDER: CvSectionId[] = [
   "contact",
 ];
 
-/** Pose da secção Formação (scroll). */
+/** Pose da secção Formação (scroll / desktop). */
 export const EDUCATION_CAMERA: CameraPose = {
-  position: [-222.263, 147.931, 123.719],
-  target: [-302.126, 143.253, 123.583],
+  position: [-225.013, 153.77, 123.81],
+  target: [-303.966, 140.874, 123.632],
   fov: 42,
 };
 
-/** Formação — bacharelado expandido. */
+/** Formação — bacharelado (barra de diplomas / zoom). */
 export const EDUCATION_BACHELOR_CAMERA: CameraPose = {
-  position: [-219.628, 150.663, 123.631],
-  target: [-299.393, 156.796, 123.628],
+  position: [-248.249, 151.689, 123.975],
+  target: [-328.232, 153.327, 123.535],
   fov: 42,
 };
 
 export const EDUCATION_BACHELOR_CARD_ID = "ufc-cs";
 
-/** Formação — mentoria em empreendedorismo expandida. */
+/** Formação — mentoria em empreendedorismo (barra de diplomas / zoom). */
 export const EDUCATION_MENTOR_CAMERA: CameraPose = {
-  position: [-221.053, 149.516, 112.795],
-  target: [-301.053, 149.543, 112.703],
+  position: [-247.701, 149.114, 115.866],
+  target: [-325.429, 145.13, 97.363],
   fov: 42,
 };
 
 export const EDUCATION_MENTOR_CARD_ID = "ufc-mentor";
 
-/** Formação — técnico em redes (SENAI) expandido. */
+/** Formação — técnico em redes (SENAI) (barra de diplomas / zoom). */
 export const EDUCATION_SENAI_CAMERA: CameraPose = {
-  position: [-221.073, 149.516, 135.06],
-  target: [-300.991, 153.128, 134.806],
+  position: [-247.394, 150.338, 131.805],
+  target: [-324.072, 149.547, 154.606],
   fov: 42,
 };
 

@@ -440,27 +440,31 @@
         "title": "Diplome",
         "prev": "Vorheriges Diplom",
         "next": "Nächstes Diplom",
+        "openDocument": "Diplomdokument öffnen",
         "items": [
           {
             "id": "senai",
             "title": "Techniker Computernetzwerke",
             "caption": "SENAI Rondônia",
             "image": "/diplomas/senaidiploma.jpeg",
-            "alt": "Techniker-Diplom SENAI Rondônia"
+            "alt": "Techniker-Diplom SENAI Rondônia",
+            "cameraZoom": true
           },
           {
             "id": "ufc-cs",
             "title": "B.Sc. Informatik",
             "caption": "Universidade Federal do Ceará",
             "image": "/diplomas/diplomaUfc.png",
-            "alt": "Bachelor-Diplom Informatik — UFC"
+            "alt": "Bachelor-Diplom Informatik — UFC",
+            "cameraZoom": true
           },
           {
             "id": "ufc-mentor",
             "title": "Mentoring Entrepreneurship",
             "caption": "Universidade Federal do Ceará",
             "image": "/diplomas/empreendeufc.png",
-            "alt": "Zertifikat Entrepreneurship-Mentoring — UFC"
+            "alt": "Zertifikat Entrepreneurship-Mentoring — UFC",
+            "cameraZoom": true
           }
         ]
       },

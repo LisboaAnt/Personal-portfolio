@@ -46,6 +46,7 @@ export function WorldPerfSync() {
       drawCalls: render.calls,
       geometries: memory.geometries,
       textures: memory.textures,
+      sampleAt: now,
     });
   });
 

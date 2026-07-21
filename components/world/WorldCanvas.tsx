@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useThree } from "@react-three/fiber";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { SpikeScene } from "./SpikeScene";
 import { WorldGlbLoader } from "./WorldGlbLoader";
@@ -25,6 +25,8 @@ import { isWorldPosterCaptureEnabled } from "@/world/world-poster-capture";
 import { isWorldWallpaperEnabled } from "@/world/world-wallpaper";
 import { useWorldPosterStore } from "@/stores/world-poster-store";
 import { useWorldCameraTravelStore } from "@/stores/world-camera-travel-store";
+import { WorldEducationQualityBoost } from "./WorldEducationQualityBoost";
+import { WorldDprFlashGuard } from "./WorldDprFlashGuard";
 
 type Props = {
   className?: string;
@@ -79,7 +81,8 @@ export function WorldCanvas({ className, scene = "site" }: Props) {
   const paused = useWorldPaused();
   const blenderScene = scene === "site" && isBlenderWorldScene();
   const frameloop = paused ? "never" : "demand";
-  const canvasDpr = getWorldCanvasDpr(quality);
+  // Base sem boost — o boost aplica-se em WorldDprFlashGuard (layout + render sync).
+  const canvasDpr = useMemo(() => getWorldCanvasDpr(quality, 0), [quality]);
   const posterCapture = blenderScene && isWorldPosterCaptureEnabled();
   const wallpaperActive =
     blenderScene && isWorldWallpaperEnabled() && useWorldPosterStore((s) => !s.sceneReady);
@@ -89,6 +92,7 @@ export function WorldCanvas({ className, scene = "site" }: Props) {
       className={`${className ?? "absolute inset-0"} ${blenderScene ? "world-canvas-orbit pointer-events-auto" : ""}`}
       aria-hidden
     >
+      <WorldEducationQualityBoost />
       <Canvas
         camera={{
           position: blenderScene ? BLENDER_VIEW_POSITION : [0, 5, 14],
@@ -113,6 +117,7 @@ export function WorldCanvas({ className, scene = "site" }: Props) {
         }}
         style={{ width: "100%", height: "100%" }}
       >
+        {blenderScene ? <WorldDprFlashGuard /> : null}
         <Suspense fallback={<SceneFallback />}>
           {scene === "spike" ? <SpikeScene /> : <WorldScene />}
         </Suspense>

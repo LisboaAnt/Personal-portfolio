@@ -50,10 +50,12 @@ type Props = {
 export function EducationGrid({ items }: Props) {
   const ordered = useMemo(() => sortEducationItems(items), [items]);
   const t = useTranslations("Home.education");
+  const activeCardId = useWorldEducationStore((s) => s.activeCardId);
   const setActiveCard = useWorldEducationStore((s) => s.setActiveCard);
   const [openId, setOpenId] = useState<string | null>(null);
 
   const openItem = ordered.find((edu) => edu.id === openId) ?? null;
+  const zoomed = Boolean(activeCardId);
 
   const handleOpen = (id: string) => {
     setOpenId(id);
@@ -67,12 +69,31 @@ export function EducationGrid({ items }: Props) {
 
   return (
     <>
-      <div className="education-zones mx-auto grid w-full max-w-5xl grid-cols-1 items-stretch gap-2.5 sm:grid-cols-3 sm:items-start sm:gap-2">
+      <div
+        className={[
+          "education-zones mx-auto grid w-full max-w-5xl grid-cols-1 items-stretch gap-2.5 sm:grid-cols-3 sm:items-stretch sm:gap-2",
+          zoomed ? "education-zones--zoomed" : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        data-edu-zoom={activeCardId ?? undefined}
+      >
         {ordered.map((edu) => {
+          if (zoomed && activeCardId !== edu.id) return null;
+
           const featured = edu.id === EDUCATION_BACHELOR_CARD_ID;
+          const solo = zoomed && activeCardId === edu.id;
 
           return (
-            <div key={edu.id} className="min-w-0">
+            <div
+              key={edu.id}
+              className={[
+                "education-zones__cell min-w-0",
+                solo ? "education-zones__cell--solo" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
               <button
                 type="button"
                 onClick={() => handleOpen(edu.id)}

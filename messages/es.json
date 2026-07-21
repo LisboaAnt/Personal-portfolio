@@ -440,27 +440,31 @@
         "title": "Diplomas",
         "prev": "Diploma anterior",
         "next": "Diploma siguiente",
+        "openDocument": "Abrir documento del diploma",
         "items": [
           {
             "id": "senai",
             "title": "Técnico en Redes",
             "caption": "SENAI Rondônia",
             "image": "/diplomas/senaidiploma.jpeg",
-            "alt": "Diploma técnico SENAI Rondônia"
+            "alt": "Diploma técnico SENAI Rondônia",
+            "cameraZoom": true
           },
           {
             "id": "ufc-cs",
             "title": "Grado en Computación",
             "caption": "Universidad Federal de Ceará",
             "image": "/diplomas/diplomaUfc.png",
-            "alt": "Diploma de grado en Ciencias de la Computación — UFC"
+            "alt": "Diploma de grado en Ciencias de la Computación — UFC",
+            "cameraZoom": true
           },
           {
             "id": "ufc-mentor",
             "title": "Mentoría en emprendimiento",
             "caption": "Universidad Federal de Ceará",
             "image": "/diplomas/empreendeufc.png",
-            "alt": "Certificado de mentoría en emprendimiento — UFC"
+            "alt": "Certificado de mentoría en emprendimiento — UFC",
+            "cameraZoom": true
           }
         ]
       },
